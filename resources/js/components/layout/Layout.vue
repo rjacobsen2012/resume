@@ -116,7 +116,7 @@
                         let blob = new Blob([response.data], {type:'application/*'})
                         let link = document.createElement('a')
                         link.href = window.URL.createObjectURL(blob)
-                        link.download = 'richard_jacobsen_resume.pdf'
+                        link.download = 'richard_jacobsen_resume_2020.pdf'
                         link.click()
                     })
             },
@@ -127,7 +127,7 @@
                         let blob = new Blob([response.data], {type:'application/*'})
                         let link = document.createElement('a')
                         link.href = window.URL.createObjectURL(blob)
-                        link.download = 'richard_jacobsen_resume.docx'
+                        link.download = 'richard_jacobsen_resume_2020.docx'
                         link.click()
                     })
             },
