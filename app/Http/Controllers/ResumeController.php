@@ -35,8 +35,8 @@ class ResumeController extends Controller
      */
     public function downloadResumeWord()
     {
-        $file = public_path('files/rjacobsen_resume_word_2020.pdf');
+        $file = public_path('files/rjacobsen_resume_word_2020.docx');
         $headers = ['Content-Type' => 'application/pdf'];
-        return response()->download($file, 'rjacobsen_resume_word_2020.pdf', $headers);
+        return response()->download($file, 'rjacobsen_resume_word_2020.docx', $headers);
     }
 }
