@@ -61,9 +61,11 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
+        // @codeCoverageIgnoreStart
         auth()->user()->tokens->each(function (Token $token, $key) {
             $token->delete();
         });
+        // @codeCoverageIgnoreEnd
 
         auth()->logout();
 

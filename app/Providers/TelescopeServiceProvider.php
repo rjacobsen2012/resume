@@ -7,6 +7,11 @@ use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
 
+/**
+ * Class TelescopeServiceProvider
+ * @package App\Providers
+ * @codeCoverageIgnore
+ */
 class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 {
     /**

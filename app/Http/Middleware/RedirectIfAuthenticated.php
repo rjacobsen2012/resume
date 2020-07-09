@@ -6,6 +6,11 @@ use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class RedirectIfAuthenticated
+ * @package App\Http\Middleware
+ * @codeCoverageIgnore
+ */
 class RedirectIfAuthenticated
 {
     /**

@@ -23,6 +23,7 @@ use Illuminate\Support\Collection;
  * @property Collection|ResumeSkill[] resumeSkills
  * @property Collection|ResumeExperience[] resumeExperiences
  * @property Collection|ResumeWorkExample[] resumeWorkExamples
+ * @property Collection|ResumeEducation[] resumeEducations
  */
 class ResumeUser extends Model
 {
@@ -52,5 +53,13 @@ class ResumeUser extends Model
     public function resumeWorkExamples()
     {
         return $this->hasMany(ResumeWorkExample::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function resumeEducations()
+    {
+        return $this->hasMany(ResumeEducation::class);
     }
 }

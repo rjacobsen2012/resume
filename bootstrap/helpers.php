@@ -72,7 +72,12 @@ if (! function_exists('resumeUser')) {
         $resumeUser = $email ? ResumeUser::where('email', $email)->first() : null;
         return $resumeUser ?
             new ResumeUserResource(
-                $resumeUser->loadMissing(['resumeSkills', 'resumeExperiences', 'resumeWorkExamples'])
+                $resumeUser->loadMissing([
+                    'resumeSkills',
+                    'resumeExperiences',
+                    'resumeWorkExamples',
+                    'resumeEducations'
+                ])
             ) :
             null;
     }

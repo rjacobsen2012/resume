@@ -3,7 +3,6 @@
 namespace Tests\Acceptance;
 
 use App\Models\User;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Tests\TestCase;
 
 class ResumeControllerTest extends TestCase

@@ -28,6 +28,7 @@ class ResumeUserResource extends JsonResource
             'skills' => ResumeSkillResource::collection($resumeUser->resumeSkills),
             'experiences' => ResumeExperienceResource::collection($resumeUser->resumeExperiences),
             'workExamples' => ResumeWorkExampleResource::collection($resumeUser->resumeWorkExamples),
+            'educations' => ResumeEducationResource::collection($resumeUser->resumeEducations),
             'gravatar' => 'https://secure.gravatar.com/avatar/' . md5($resumeUser->email) . '?size=56',
             'github_profile' => $resumeUser->github_profile,
             'linked_in_profile' => $resumeUser->linked_in_profile,

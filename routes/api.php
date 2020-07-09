@@ -24,5 +24,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'v1', 'namespace' => 'Api'
     Route::resource('resume-user.resume-skill', 'ResumeSkillController');
     Route::resource('resume-user.resume-experience', 'ResumeExperienceController');
     Route::resource('resume-user.resume-work-example', 'ResumeWorkExampleController');
+    Route::resource('resume-user.resume-education', 'ResumeEducationController');
 
 });

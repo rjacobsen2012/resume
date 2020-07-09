@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateResumeExperienceRequest extends FormRequest
+class UpdateResumeEducationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,13 @@ class CreateResumeExperienceRequest extends FormRequest
     public function rules()
     {
         return [
-            'company_name' => 'required|string',
-            'title' => 'required|string',
-            'city' => 'required|string',
-            'state' => 'required|string',
-            'started_at' => 'required|date',
-            'ended_at' => 'nullable|date',
-            'present' => 'nullable|integer',
-            'description' => 'required|string',
+            'school' => 'string',
+            'city' => 'string',
+            'state' => 'string',
+            'degree' => 'nullable|string',
+            'started_at' => 'date',
+            'ended_at' => 'date',
+            'description' => 'string',
         ];
     }
 }

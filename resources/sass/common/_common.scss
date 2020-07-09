@@ -38,6 +38,11 @@ body, html {
         border-radius: 0.4rem;
         padding-left: 0.4rem;
         padding-right: 0.4rem;
+
+        @include media-breakpoint-down(xs) {
+            border-radius: 0.2rem;
+            padding: 0 0.2rem;
+        }
     }
 
     .icon-visible {
@@ -117,11 +122,28 @@ body, html {
     .resume-title {
         font-size: $xl-text;
         font-weight: 400;
+
+        @include media-breakpoint-down(xs) {
+            font-size: $normal-text;
+        }
     }
 
     .resume-profile {
         font-size: $medium-text;
         font-weight: 400;
+
+        @include media-breakpoint-down(xs) {
+            font-size: $small-text;
+        }
+    }
+
+    .resume-education {
+        font-size: $medium-text;
+        font-weight: 400;
+
+        @include media-breakpoint-down(xs) {
+            font-size: $small-text;
+        }
     }
 
     .profile {
@@ -136,6 +158,10 @@ body, html {
             padding: 0.1rem 0.4rem 0.2rem;
             margin-right: 0.8rem;
             margin-bottom: 0.8rem;
+
+            @include media-breakpoint-down(xs) {
+                font-size: $xs-text;
+            }
         }
     }
 
@@ -146,11 +172,49 @@ body, html {
             padding: 0.1rem 0.4rem 0.2rem;
             margin-right: 0.8rem;
             margin-bottom: 0.8rem;
+
+            @include media-breakpoint-down(xs) {
+                font-size: $xs-text;
+            }
         }
     }
 
     .experiences {
         font-size: $small-text;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .experience {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+            width: 90%;
+
+            @include media-breakpoint-down(xs) {
+                font-size: $xs-text;
+            }
+        }
+    }
+
+    .educations {
+        font-size: $small-text;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .education {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+            width: 90%;
+
+            @include media-breakpoint-down(xs) {
+                font-size: $xs-text;
+            }
+        }
     }
 }
 
@@ -316,6 +380,38 @@ blockquote {
             padding-left: 1rem;
 
             .resume-experience {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+    }
+
+    .resume-educations-holder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        .resume-education-field {
+            width: 80%;
+
+            .card {
+                width: 100%;
+            }
+        }
+
+        .title {
+            font-weight: 400;
+            font-size: $large-text;
+        }
+
+        .resume-educations {
+            display: flex;
+            flex-direction: column;
+            padding-left: 1rem;
+
+            .resume-education {
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;

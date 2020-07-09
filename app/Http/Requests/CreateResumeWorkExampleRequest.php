@@ -24,8 +24,8 @@ class CreateResumeWorkExampleRequest extends FormRequest
     public function rules()
     {
         return [
-            'url' => 'string',
-            'title' => 'string',
+            'url' => 'required|string',
+            'title' => 'required|string',
         ];
     }
 }

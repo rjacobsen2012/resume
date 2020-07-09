@@ -9,21 +9,21 @@
                 </div>
             </b-navbar-brand>
 
-            <b-navbar-nav class="ml-auto notifications">
-                <b-nav-item class="pointer squared" @click="setColorScheme"><font-awesome-icon icon="adjust"/></b-nav-item>
-                <b-nav-item class="pointer squared ml-1" :href="getResumeUserProperty('github_profile', '#')"><font-awesome-icon :icon="['fab', 'github-alt']"/><span class="icon-visible pl-2">{{ getResumeUserProperty('github_profile', '') }}</span></b-nav-item>
-                <b-nav-item class="pointer squared ml-1" href="mailto:rjacobsen2009@gmail.com"><font-awesome-icon icon="envelope"/><span class="icon-visible pl-2">{{ getResumeUserProperty('email', '') }}</span></b-nav-item>
-                <b-nav-item class="pointer squared ml-1" href="tel:8127862814"><font-awesome-icon icon="phone-square"/><span class="icon-visible pl-2">{{ getResumeUserProperty('phone', '') }}</span></b-nav-item>
-                <b-nav-item class="pointer squared ml-1" @click="downloadResume"><font-awesome-icon icon="file-pdf"/></b-nav-item>
-                <b-nav-item v-if="!loggedIn && !pageEquals('login')" href="/login" class="pointer squared ml-1"><font-awesome-icon icon="key"/></b-nav-item>
-                <b-nav-item v-if="loggedIn" @click.prevent="logout" class="pointer squared ml-1"><font-awesome-icon icon="sign-out-alt"/></b-nav-item>
-                <b-nav-item v-if="!loggedIn && pageEquals('login')" href="/" class="pointer squared ml-1"><font-awesome-icon icon="home"/></b-nav-item>
+            <b-navbar-nav class="ml-auto notifications pr-2">
+                <b-nav-item class="pointer squared" title="Brightness Control" @click="setColorScheme"><font-awesome-icon icon="adjust"/></b-nav-item>
+                <b-nav-item class="pointer squared ml-1" title="Github Profile" :href="getResumeUserProperty('github_profile', '#')"><font-awesome-icon :icon="['fab', 'github-alt']"/><span class="icon-visible pl-2">{{ getResumeUserProperty('github_profile', '') }}</span></b-nav-item>
+                <b-nav-item class="pointer squared ml-1" title="Email" href="mailto:rjacobsen2009@gmail.com"><font-awesome-icon icon="envelope"/><span class="icon-visible pl-2">{{ getResumeUserProperty('email', '') }}</span></b-nav-item>
+                <b-nav-item :class="[`pointer`, `squared`, `ml-1`, textColorSchemeValue]" title="Call" href="tel:8127862814"><font-awesome-icon icon="phone-square"/><span class="icon-visible pl-2">{{ getResumeUserProperty('phone', '') }}</span></b-nav-item>
+                <b-nav-item class="pointer squared ml-1" title="Download Resume" @click="downloadResume"><font-awesome-icon icon="file-pdf"/></b-nav-item>
+                <b-nav-item v-if="!loggedIn && !pageEquals('login')" title="Login" href="/login" class="pointer squared ml-1"><font-awesome-icon icon="key"/></b-nav-item>
+                <b-nav-item v-if="loggedIn" @click.prevent="logout" title="Logout" class="pointer squared ml-1"><font-awesome-icon icon="sign-out-alt"/></b-nav-item>
+                <b-nav-item v-if="!loggedIn && pageEquals('login')" title="Home" href="/" class="pointer squared ml-1"><font-awesome-icon icon="home"/></b-nav-item>
             </b-navbar-nav>
         </b-navbar>
 
         <div class="layout-box">
             <div class="content w-full" :style="contentStyles">
-                <slot v-bind:bgColorValue="bgColorValue" v-bind:textColorValue="textColorValue"/>
+                <slot v-bind:bgColorValue="bgColorValue" v-bind:textColorValue="textColorValue" v-bind:textColorSchemeValue="textColorSchemeValue"/>
             </div>
         </div>
         <loading-overlay :visible="isloading" :opacity="0.3"/>
@@ -67,6 +67,7 @@
                 lightColorScheme: true,
                 bgColorValue: 'light',
                 textColorValue: 'dark',
+                textColorSchemeValue: 'text-dark',
                 bgColorSchemeValue: 'light-layout',
                 // notifications: [],
                 // notificationInterval: null,
@@ -103,6 +104,7 @@
                 this.lightColorScheme = !this.lightColorScheme
                 this.bgColorValue = this.lightColorScheme ? 'light' : 'dark'
                 this.textColorValue = this.lightColorScheme ? 'dark' : 'light'
+                this.textColorSchemeValue = this.lightColorScheme ? 'text-dark' : 'text-light'
                 this.bgColorSchemeValue = this.lightColorScheme ? 'light-layout' : 'dark-layout'
             },
 

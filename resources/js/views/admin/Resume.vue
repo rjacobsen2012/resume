@@ -83,7 +83,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div><div v-if="loadedResumeUser !== null" class="resume-work-examples-holder mt-4">
+                    </div>
+                    <div v-if="loadedResumeUser !== null" class="resume-work-examples-holder mt-4">
                         <span class="title">Work Examples</span>
                         <div class="resume-work-examples-field pt-2">
                             <div v-if="loadedResumeUser" class="resume-work-examples">
@@ -105,6 +106,91 @@
                                         <b-form-input id="new-work-example-url" name="new-work-example-url" type="text" size="sm" v-model.trim="newWorkExampleForm.url" placeholder="Url"/>
                                     </b-input-group>
                                     <b-button variant="primary" size="sm" class="ml-2" @click="addWorkExample"><font-awesome-icon icon="plus"/></b-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="loadedResumeUser !== null" class="resume-educations-holder mt-4">
+                        <span class="title">Education</span>
+                        <div class="resume-education-field pt-2">
+                            <div v-if="loadedResumeUser" class="resume-educations">
+                                <div v-for="education in educations" :key="education.id" class="resume-education pt-2">
+                                    <b-card :bg-variant="slotProps.bgColorValue" :text-variant="slotProps.textColorValue" :border-variant="slotProps.bgColorValue">
+                                        <b-input-group size="sm" prepend="School" :model="`education-school-${education.id}`">
+                                            <b-form-input :id="`education-school-${education.id}`" :name="`education-school-${education.id}`" type="text" size="sm" v-model.trim="education.school"/>
+                                        </b-input-group>
+                                        <b-input-group size="sm" prepend="Degree" :model="`education-degree-${education.id}`" class="mt-2">
+                                            <b-form-input :id="`education-degree-${education.id}`" :name="`education-degree-${education.id}`" type="text" size="sm" v-model.trim="education.degree"/>
+                                        </b-input-group>
+                                        <b-input-group size="sm" prepend="City" :model="`education-city-${education.id}`" class="mt-2">
+                                            <b-form-input :id="`education-city-${education.id}`" :name="`education-city-${education.id}`" type="text" size="sm" v-model.trim="education.city"/>
+                                        </b-input-group>
+                                        <b-input-group size="sm" prepend="State" :model="`education-state-${education.id}`" class="mt-2">
+                                            <b-form-input :id="`education-state-${education.id}`" :name="`education-state-${education.id}`" type="text" size="sm" v-model.trim="education.state"/>
+                                        </b-input-group>
+                                        <b-input-group size="sm" prepend="Start Date" class="datepicker-date mt-2" :model="`education-start-date-${education.id}`">
+                                            <datetime
+                                                type="date"
+                                                v-model="education.started_at"
+                                                format="MMM, y"
+                                                :input-id="`education-start-date-${education.id}`"
+                                                :input-class="['form-control', 'form-control-sm', 'date-field']"
+                                            />
+                                        </b-input-group>
+                                        <b-input-group size="sm" prepend="End Date" class="datepicker-date mt-2" :model="`education-end-date-${education.id}`">
+                                            <datetime
+                                                type="date"
+                                                v-model="education.ended_at"
+                                                :disable="education.present"
+                                                format="MMM, y"
+                                                :input-id="`education-end-date-${education.id}`"
+                                                :input-class="['form-control', 'form-control-sm', 'date-field']"
+                                            />
+                                        </b-input-group>
+                                        <b-input-group size="sm" prepend="Description" :model="`education-description-${education.id}`" class="mt-2 mb-2">
+                                            <b-form-textarea rows="3" max-rows="10" :id="`education-description-${education.id}`" :name="`education-description-${education.id}`" type="text" size="sm" v-model.trim="education.description"/>
+                                        </b-input-group>
+                                        <b-button variant="primary" size="sm" class="ml-2" @click="updateEducation(education.id)"><font-awesome-icon icon="save"/></b-button>
+                                        <b-button variant="danger" size="sm" class="ml-2" @click="deleteEducation(education.id)"><font-awesome-icon icon="times"/></b-button>
+                                    </b-card>
+                                </div>
+                                <div class="resume-education pt-2">
+                                    <b-card :bg-variant="slotProps.bgColorValue" :text-variant="slotProps.textColorValue" :border-variant="slotProps.bgColorValue">
+                                        <b-input-group size="sm" prepend="School" :model="`new-education-school`">
+                                            <b-form-input :id="`new-education-school`" :name="`new-education-school`" type="text" size="sm" v-model.trim="newEducationForm.school"/>
+                                        </b-input-group>
+                                        <b-input-group size="sm" prepend="Degree" :model="`new-education-degree`" class="mt-2">
+                                            <b-form-input :id="`new-education-degree`" :name="`new-education-degree`" type="text" size="sm" v-model.trim="newEducationForm.degree"/>
+                                        </b-input-group>
+                                        <b-input-group size="sm" prepend="City" :model="`new-education-city`" class="mt-2">
+                                            <b-form-input :id="`new-education-city`" :name="`new-education-city`" type="text" size="sm" v-model.trim="newEducationForm.city"/>
+                                        </b-input-group>
+                                        <b-input-group size="sm" prepend="State" :model="`new-education-state`" class="mt-2">
+                                            <b-form-input :id="`new-education-state`" :name="`new-education-state`" type="text" size="sm" v-model.trim="newEducationForm.state"/>
+                                        </b-input-group>
+                                        <b-input-group size="sm" prepend="Start Date" class="datepicker-date mt-2" :model="`new-education-start-date`">
+                                            <datetime
+                                                type="date"
+                                                v-model="newEducationForm.started_at"
+                                                format="MMM, y"
+                                                :input-id="`new-education-start-date`"
+                                                :input-class="['form-control', 'form-control-sm', 'date-field']"
+                                            />
+                                        </b-input-group>
+                                        <b-input-group size="sm" prepend="End Date" class="datepicker-date mt-2" :model="`new-education-end-date`">
+                                            <datetime
+                                                type="date"
+                                                v-model="newEducationForm.ended_at"
+                                                format="MMM, y"
+                                                :input-id="`new-education-end-date`"
+                                                :input-class="['form-control', 'form-control-sm', 'date-field']"
+                                            />
+                                        </b-input-group>
+                                        <b-input-group size="sm" prepend="Description" :model="`new-education-description`" class="mt-2">
+                                            <b-form-textarea rows="3" max-rows="10" :id="`new-education-description`" :name="`new-education-description`" type="text" size="sm" v-model.trim="newEducationForm.description"/>
+                                        </b-input-group>
+                                        <b-button variant="primary" size="sm" class="mt-2" @click="addEducation"><font-awesome-icon icon="plus"/></b-button>
+                                    </b-card>
                                 </div>
                             </div>
                         </div>
@@ -225,7 +311,6 @@
         created() {
             this.loadedResumeUser = this.$resumeUser
             this.refreshResumeUser(this.$resumeUser)
-            console.log(this.loadedResumeUser)
         },
 
         data() {
@@ -241,6 +326,7 @@
                 },
                 resumeSkills: [],
                 resumeExperiences: [],
+                resumeEducations: [],
                 newSkillForm: {
                     name: null,
                     years: 0,
@@ -256,12 +342,22 @@
                     present: false,
                     description: null,
                 },
+                newEducationForm: {
+                    school: null,
+                    degree: null,
+                    city: null,
+                    state: null,
+                    started_at: null,
+                    ended_at: null,
+                    description: null,
+                },
                 newWorkExampleForm: {
                     url: null,
                     title: null,
                 },
                 skills: [],
                 experiences: [],
+                educations: [],
                 workExamples: [],
                 loadedResumeUser: null,
                 validationErrors: {},
@@ -279,8 +375,9 @@
                 this.resumeUserForm.linked_in_profile = this.loadedResumeUser ? this.loadedResumeUser.linked_in_profile : null
                 this.resumeUserForm.id = this.loadedResumeUser ? this.loadedResumeUser.id : null
                 this.loadSkills()
-                this.loadExperience()
+                this.loadExperiences()
                 this.loadWorkExamples()
+                this.loadEducations()
             },
 
             loadSkills() {
@@ -301,7 +398,7 @@
                 }
             },
 
-            loadExperience() {
+            loadExperiences() {
                 if (this.loadedResumeUser) {
 
                     this.experiences = []
@@ -312,6 +409,24 @@
                             const thisExperience = this.loadedResumeUser.experiences[i]
                             if (typeof thisExperience !== "undefined") {
                                 this.experiences.push(thisExperience)
+                            }
+                        }
+                    }
+
+                }
+            },
+
+            loadEducations() {
+                if (this.loadedResumeUser) {
+
+                    this.educations = []
+
+                    if (this.loadedResumeUser.educations.length > 0) {
+
+                        for (let i = 0; i < this.loadedResumeUser.educations.length; i++) {
+                            const thisEducation = this.loadedResumeUser.educations[i]
+                            if (typeof thisEducation !== "undefined") {
+                                this.educations.push(thisEducation)
                             }
                         }
                     }
@@ -508,6 +623,65 @@
                     .finally(() => {})
             },
 
+            addEducation() {
+                const resumeEducation = {
+                    school: this.newEducationForm.school,
+                    degree: this.newEducationForm.degree,
+                    city: this.newEducationForm.city,
+                    state: this.newEducationForm.state,
+                    started_at: this.newEducationForm.started_at,
+                    ended_at: this.newEducationForm.ended_at,
+                    description: this.newEducationForm.description,
+                }
+
+                this.axios
+                    .post(
+                        this.route('api.v1.resume-user.resume-education.store', [this.loadedResumeUser.id]),
+                        resumeEducation,
+                        {
+                            headers: this.tokenHeader()
+                        }
+                    )
+                    .then(this.handleCreateResumeEducationSuccess)
+                    .catch(error => {
+                        this.validationErrors = this.$addLaravelErrors(error.response)
+                    })
+                    .finally(() => {})
+            },
+
+            updateEducation(id) {
+                const resumeEducation = this.educations.filter(education => { return education.id === id})[0]
+
+                this.axios
+                    .put(
+                        this.route('api.v1.resume-user.resume-education.update', [this.loadedResumeUser.id, resumeEducation.id]),
+                        resumeEducation,
+                        {
+                            headers: this.tokenHeader()
+                        }
+                    )
+                    .then(this.handleUpdateResumeEducationSuccess)
+                    .catch(error => {
+                        this.validationErrors = this.$addLaravelErrors(error.response)
+                    })
+                    .finally(() => {})
+            },
+
+            deleteEducation(id) {
+                this.axios
+                    .delete(
+                        this.route('api.v1.resume-user.resume-education.destroy', [this.loadedResumeUser.id, id]),
+                        {
+                            headers: this.tokenHeader()
+                        }
+                    )
+                    .then(this.handleDeleteResumeEducationSuccess)
+                    .catch(error => {
+                        this.validationErrors = this.$addLaravelErrors(error.response)
+                    })
+                    .finally(() => {})
+            },
+
             updateResumeUser() {
                 this.validationErrors = {}
                 const resumeUser = {
@@ -651,6 +825,33 @@
                 this.loadedResumeUser = response.data.resumeUser
                 this.refreshResumeUser(response.data.resumeUser)
                 this.$toasted.success("The resume experience was deleted successfully")
+            },
+
+            handleCreateResumeEducationSuccess(response) {
+                this.newEducationForm = {
+                    school: null,
+                    degree: null,
+                    city: null,
+                    state: null,
+                    started_at: null,
+                    ended_at: null,
+                    description: null,
+                }
+                this.loadedResumeUser = response.data.resumeUser
+                this.refreshResumeUser(response.data.resumeUser)
+                this.$toasted.success("The resume education was added successfully")
+            },
+
+            handleUpdateResumeEducationSuccess(response) {
+                this.loadedResumeUser = response.data.resumeUser
+                this.refreshResumeUser(response.data.resumeUser)
+                this.$toasted.success("The resume education was updated successfully")
+            },
+
+            handleDeleteResumeEducationSuccess(response) {
+                this.loadedResumeUser = response.data.resumeUser
+                this.refreshResumeUser(response.data.resumeUser)
+                this.$toasted.success("The resume education was deleted successfully")
             },
         },
     }

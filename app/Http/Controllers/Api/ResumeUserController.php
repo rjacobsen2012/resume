@@ -26,7 +26,7 @@ class ResumeUserController extends Controller
         $githubProfile = $request->get('github_profile');
         $linkedinProfile = $request->get('linked_in_profile');
 
-        $resumeUser = auth()->user()->resumeUser;
+        $resumeUser = auth()->user()->resumeUser()->first();
 
         if ($resumeUser) {
             $resumeUser->update([
@@ -38,7 +38,7 @@ class ResumeUserController extends Controller
                 'linked_in_profile' => $linkedinProfile,
             ]);
         } else {
-            $resumeUser = auth()->user()->resumeUser()->create([
+            $resumeUser = ResumeUser::create([
                 'name' => $name,
                 'email' => $email,
                 'profile' => $profile,

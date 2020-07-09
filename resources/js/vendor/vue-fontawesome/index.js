@@ -29,6 +29,8 @@ import {
     faCalendarMinus,
     faCaretDown,
     faCaretLeft,
+    faCaretRight,
+    faExternalLinkAlt,
 }     from '@fortawesome/free-solid-svg-icons'
 
 import {FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText} from '@fortawesome/vue-fontawesome'
@@ -60,6 +62,8 @@ library.add(
     faCalendarMinus,
     faCaretDown,
     faCaretLeft,
+    faCaretRight,
+    faExternalLinkAlt,
 )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
