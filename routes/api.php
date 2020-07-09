@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['middleware' => 'auth:api', 'prefix' => 'v1', 'namespace' => 'Api', 'as' => 'api.v1.'], function () {
+
+    Route::resource('resume-user', 'ResumeUserController');
+    Route::resource('resume-user.resume-skill', 'ResumeSkillController');
+    Route::resource('resume-user.resume-experience', 'ResumeExperienceController');
+    Route::resource('resume-user.resume-work-example', 'ResumeWorkExampleController');
+
+});

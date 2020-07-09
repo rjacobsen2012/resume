@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'GuestController@index')->name('guest');
+
+Route::get('resume-user/download-resume', 'ResumeController@downloadResume')->name('resume-user.download-resume');
+
+Auth::routes();
+
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::resource('resume', 'ResumeController')->only(['index']);
+
+    Route::get('/home', function () {
+        return redirect()->to(route('resume.index'));
+    });
+
 });
