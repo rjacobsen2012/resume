@@ -124,7 +124,7 @@ body, html {
         font-weight: 400;
 
         @include media-breakpoint-down(xs) {
-            font-size: $normal-text;
+            font-size: $large-text;
         }
     }
 
@@ -133,7 +133,7 @@ body, html {
         font-weight: 400;
 
         @include media-breakpoint-down(xs) {
-            font-size: $small-text;
+            font-size: $normal-text;
         }
     }
 
@@ -142,7 +142,7 @@ body, html {
         font-weight: 400;
 
         @include media-breakpoint-down(xs) {
-            font-size: $small-text;
+            font-size: $normal-text;
         }
     }
 
@@ -158,10 +158,6 @@ body, html {
             padding: 0.1rem 0.4rem 0.2rem;
             margin-right: 0.8rem;
             margin-bottom: 0.8rem;
-
-            @include media-breakpoint-down(xs) {
-                font-size: $xs-text;
-            }
         }
     }
 
@@ -172,10 +168,6 @@ body, html {
             padding: 0.1rem 0.4rem 0.2rem;
             margin-right: 0.8rem;
             margin-bottom: 0.8rem;
-
-            @include media-breakpoint-down(xs) {
-                font-size: $xs-text;
-            }
         }
     }
 
@@ -191,10 +183,6 @@ body, html {
             justify-content: flex-start;
             flex-wrap: nowrap;
             width: 90%;
-
-            @include media-breakpoint-down(xs) {
-                font-size: $xs-text;
-            }
         }
     }
 
@@ -210,10 +198,6 @@ body, html {
             justify-content: flex-start;
             flex-wrap: nowrap;
             width: 90%;
-
-            @include media-breakpoint-down(xs) {
-                font-size: $xs-text;
-            }
         }
     }
 }
