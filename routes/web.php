@@ -17,6 +17,8 @@ Route::get('/', 'GuestController@index')->name('guest');
 
 Route::get('resume-user/download-resume', 'ResumeController@downloadResume')->name('resume-user.download-resume');
 
+Route::get('resume-user/download-resume-word', 'ResumeController@downloadResumeWord')->name('resume-user.download-resume-word');
+
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {

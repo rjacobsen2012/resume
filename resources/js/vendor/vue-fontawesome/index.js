@@ -31,6 +31,7 @@ import {
     faCaretLeft,
     faCaretRight,
     faExternalLinkAlt,
+    faFileWord,
 }     from '@fortawesome/free-solid-svg-icons'
 
 import {FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText} from '@fortawesome/vue-fontawesome'
@@ -64,6 +65,7 @@ library.add(
     faCaretLeft,
     faCaretRight,
     faExternalLinkAlt,
+    faFileWord,
 )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
