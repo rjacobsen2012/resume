@@ -56,30 +56,58 @@
                         <span class="title">Skills</span>
                         <div class="resume-field pt-2">
                             <div v-if="loadedResumeUser" class="resume-skills">
-                                <div v-for="skill in skills" :key="skill.id" class="resume-skill pt-2">
-                                    <b-input-group size="sm" prepend="Skill" :model="`skill-name-${skill.id}`">
-                                        <b-form-input :id="`skill-name-${skill.id}`" :name="`skill-name-${skill.id}`" type="text" size="sm" v-model.trim="skill.name"/>
-                                    </b-input-group>
-                                    <b-input-group size="sm" prepend="Years" :model="`skill-years-${skill.id}`" class="ml-2">
-                                        <b-form-input :id="`skill-years-${skill.id}`" :name="`skill-years-${skill.id}`" type="number" size="sm" v-model="skill.years"/>
-                                    </b-input-group>
-                                    <b-input-group size="sm" prepend="Months" :model="`skill-months-${skill.id}`" class="ml-2">
-                                        <b-form-input :id="`skill-months-${skill.id}`" :name="`skill-months-${skill.id}`" type="number" size="sm" v-model="skill.months"/>
-                                    </b-input-group>
-                                    <b-button variant="primary" size="sm" class="ml-2" @click="updateSkill(skill.id)"><font-awesome-icon icon="save"/></b-button>
-                                    <b-button variant="danger" size="sm" class="ml-2" @click="deleteSkill(skill.id)"><font-awesome-icon icon="times"/></b-button>
+                                <div class="resume-skill">
+                                    <div class="titles">
+                                        <span class="text-center">Skill</span>
+                                        <span class="text-center">Years</span>
+                                        <span class="text-center">Months</span>
+                                    </div>
+                                    <div class="buttons"></div>
                                 </div>
-                                <div class="resume-skill pt-2">
-                                    <b-input-group size="sm" prepend="Skill" model="newskill.name">
-                                        <b-form-input id="new-skill-name" name="new-skill-name" type="text" size="sm" v-model.trim="newSkillForm.name" placeholder="New Skill"/>
-                                    </b-input-group>
-                                    <b-input-group size="sm" prepend="Years" model="newskill.years" class="ml-2">
-                                        <b-form-input id="new-skill-years" name="new-skill-years" type="number" size="sm" v-model="newSkillForm.years" placeholder="0"/>
-                                    </b-input-group>
-                                    <b-input-group size="sm" prepend="Months" model="newskill.months" class="ml-2">
-                                        <b-form-input id="new-skill-months" name="new-skill-months" type="number" size="sm" v-model="newSkillForm.months" placeholder="0"/>
-                                    </b-input-group>
-                                    <b-button variant="primary" size="sm" class="ml-2" @click="addSkill"><font-awesome-icon icon="plus"/></b-button>
+                                <div v-for="skill in skills" :key="skill.id" class="pt-2 resume-skill">
+                                    <div class="content-row">
+                                        <b-input-group size="sm" :model="`skill-name-${skill.id}`">
+                                            <b-form-input :id="`skill-name-${skill.id}`" :name="`skill-name-${skill.id}`" type="text" size="sm" v-model.trim="skill.name"/>
+                                        </b-input-group>
+                                    </div>
+                                    <div class="content-row">
+                                        <b-input-group size="sm" :model="`skill-years-${skill.id}`">
+                                            <b-form-input :id="`skill-years-${skill.id}`" :name="`skill-years-${skill.id}`" type="number" size="sm" v-model="skill.years"/>
+                                        </b-input-group>
+                                    </div>
+                                    <div class="content-row">
+                                        <b-input-group size="sm" :model="`skill-months-${skill.id}`">
+                                            <b-form-input :id="`skill-months-${skill.id}`" :name="`skill-months-${skill.id}`" type="number" size="sm" v-model="skill.months"/>
+                                        </b-input-group>
+                                    </div>
+                                    <div class="content-row">
+                                        <b-btn-toolbar>
+                                            <b-button-group size="sm">
+                                                <b-button variant="primary" size="sm" @click="updateSkill(skill.id)"><font-awesome-icon icon="save"/></b-button>
+                                                <b-button variant="danger" size="sm" @click="deleteSkill(skill.id)"><font-awesome-icon icon="times"/></b-button>
+                                            </b-button-group>
+                                        </b-btn-toolbar>
+                                    </div>
+                                </div>
+                                <div class="pt-2 resume-skill">
+                                    <div class="content-row">
+                                        <b-input-group size="sm" model="newskill.name">
+                                            <b-form-input id="new-skill-name" name="new-skill-name" type="text" size="sm" v-model.trim="newSkillForm.name" placeholder="New Skill"/>
+                                        </b-input-group>
+                                    </div>
+                                    <div class="content-row">
+                                        <b-input-group size="sm" model="newskill.years">
+                                            <b-form-input id="new-skill-years" name="new-skill-years" type="number" size="sm" v-model="newSkillForm.years" placeholder="0"/>
+                                        </b-input-group>
+                                    </div>
+                                    <div class="content-row">
+                                        <b-input-group size="sm" model="newskill.months">
+                                            <b-form-input id="new-skill-months" name="new-skill-months" type="number" size="sm" v-model="newSkillForm.months" placeholder="0"/>
+                                        </b-input-group>
+                                    </div>
+                                    <div class="content-row">
+                                        <b-button variant="primary" size="sm" @click="addSkill"><font-awesome-icon icon="plus"/></b-button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -88,24 +116,47 @@
                         <span class="title">Work Examples</span>
                         <div class="resume-work-examples-field pt-2">
                             <div v-if="loadedResumeUser" class="resume-work-examples">
+                                <div class="resume-work-example">
+                                    <div class="titles">
+                                        <span class="text-center">Title</span>
+                                        <span class="text-center">Url</span>
+                                    </div>
+                                    <div class="buttons"></div>
+                                </div>
                                 <div v-for="workExample in workExamples" :key="workExample.id" class="resume-work-example pt-2">
-                                    <b-input-group size="sm" prepend="Title" :model="`work-example-name-${workExample.id}`">
-                                        <b-form-input :id="`work-example-name-${workExample.id}`" :name="`work-example-name-${workExample.id}`" type="text" size="sm" v-model.trim="workExample.title"/>
-                                    </b-input-group>
-                                    <b-input-group size="sm" prepend="Url" :model="`work-example-years-${workExample.id}`" class="ml-2">
-                                        <b-form-input :id="`work-example-years-${workExample.id}`" :name="`work-example-years-${workExample.id}`" type="text" size="sm" v-model="workExample.url"/>
-                                    </b-input-group>
-                                    <b-button variant="primary" size="sm" class="ml-2" @click="updateWorkExample(workExample.id)"><font-awesome-icon icon="save"/></b-button>
-                                    <b-button variant="danger" size="sm" class="ml-2" @click="deleteWorkExample(workExample.id)"><font-awesome-icon icon="times"/></b-button>
+                                    <div class="content-row">
+                                        <b-input-group size="sm" :model="`work-example-name-${workExample.id}`">
+                                            <b-form-input :id="`work-example-name-${workExample.id}`" :name="`work-example-name-${workExample.id}`" type="text" size="sm" v-model.trim="workExample.title"/>
+                                        </b-input-group>
+                                    </div>
+                                    <div class="content-row">
+                                        <b-input-group size="sm" :model="`work-example-years-${workExample.id}`">
+                                            <b-form-input :id="`work-example-years-${workExample.id}`" :name="`work-example-years-${workExample.id}`" type="text" size="sm" v-model="workExample.url"/>
+                                        </b-input-group>
+                                    </div>
+                                    <div class="content-row">
+                                        <b-btn-toolbar>
+                                            <b-button-group size="sm">
+                                                <b-button variant="primary" size="sm" @click="updateWorkExample(workExample.id)"><font-awesome-icon icon="save"/></b-button>
+                                                <b-button variant="danger" size="sm" @click="deleteWorkExample(workExample.id)"><font-awesome-icon icon="times"/></b-button>
+                                            </b-button-group>
+                                        </b-btn-toolbar>
+                                    </div>
                                 </div>
                                 <div class="resume-work-example pt-2">
-                                    <b-input-group size="sm" prepend="Title" model="newWorkExampleForm.title">
-                                        <b-form-input id="new-work-example-title" name="new-work-example-title" type="text" size="sm" v-model.trim="newWorkExampleForm.title" placeholder="Title"/>
-                                    </b-input-group>
-                                    <b-input-group size="sm" prepend="Url" model="newWorkExampleForm.url" class="ml-2">
-                                        <b-form-input id="new-work-example-url" name="new-work-example-url" type="text" size="sm" v-model.trim="newWorkExampleForm.url" placeholder="Url"/>
-                                    </b-input-group>
-                                    <b-button variant="primary" size="sm" class="ml-2" @click="addWorkExample"><font-awesome-icon icon="plus"/></b-button>
+                                    <div class="content-row">
+                                        <b-input-group size="sm" model="newWorkExampleForm.title">
+                                            <b-form-input id="new-work-example-title" name="new-work-example-title" type="text" size="sm" v-model.trim="newWorkExampleForm.title" placeholder="Title"/>
+                                        </b-input-group>
+                                    </div>
+                                    <div class="content-row">
+                                        <b-input-group size="sm" model="newWorkExampleForm.url">
+                                            <b-form-input id="new-work-example-url" name="new-work-example-url" type="text" size="sm" v-model.trim="newWorkExampleForm.url" placeholder="Url"/>
+                                        </b-input-group>
+                                    </div>
+                                    <div class="content-row">
+                                        <b-button variant="primary" size="sm" @click="addWorkExample"><font-awesome-icon icon="plus"/></b-button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

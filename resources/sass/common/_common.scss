@@ -251,6 +251,19 @@ blockquote {
 .resume-form {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    width: 80%;
+
+    @include media-breakpoint-down(xs) {
+        font-size: $small-text;
+        width: 100%;
+
+        .form-control {
+            font-size: $small-text !important;
+        }
+    }
 
     .error {
         border: 2px solid $red;
@@ -260,25 +273,23 @@ blockquote {
         display: flex;
         flex-direction: row;
         align-items: center;
+        width: 100%;
 
         .resume-label {
-            width: 10rem;
+            width: 12rem;
             text-align: end;
         }
 
         .resume-input {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             width: 100%;
+            justify-content: flex-start;
             align-items: center;
             padding-left: 1rem;
-
-            .form-control {
-                width: 50%;
-            }
+            flex-grow: 1;
 
             .validation-error {
-                width: 50%;
                 color: $danger;
                 padding-left: 1rem;
                 font-style: italic;
@@ -292,21 +303,52 @@ blockquote {
         display: flex;
         flex-direction: column;
         align-items: center;
+        align-content: center;
+        justify-content: center;
 
         .title {
             font-weight: 400;
             font-size: $large-text;
         }
 
-        .resume-skills {
+        .resume-field {
             display: flex;
-            flex-direction: column;
-            padding-left: 1rem;
+            flex-direction: row;
+            justify-content: center;
 
-            .resume-skill {
+            .resume-skills {
                 display: flex;
-                flex-direction: row;
-                justify-content: space-between;
+                flex-direction: column;
+                justify-content: flex-start;
+
+                .resume-skill {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+
+                    .content-row {
+                        padding-left: 0.2rem;
+                    }
+
+                    .titles {
+                        display: flex;
+                        flex-direction: row;
+                        flex-grow: 1;
+
+                        span {
+                            width: 33%;
+                            padding-left: 0.3rem;
+                        }
+                    }
+
+                    .buttons {
+                        width: 10%;
+
+                        @include media-breakpoint-down(xs) {
+                            width: 16%;
+                        }
+                    }
+                }
             }
         }
     }
@@ -315,6 +357,8 @@ blockquote {
         display: flex;
         flex-direction: column;
         align-items: center;
+        align-content: center;
+        justify-content: center;
         width: 100%;
 
         .resume-work-examples-field {
@@ -326,15 +370,45 @@ blockquote {
             font-size: $large-text;
         }
 
-        .resume-work-examples {
+        .resume-work-examples-field {
             display: flex;
-            flex-direction: column;
-            padding-left: 1rem;
+            flex-direction: row;
+            justify-content: center;
+            width: 100%;
 
-            .resume-work-example {
+            .resume-work-examples {
                 display: flex;
-                flex-direction: row;
-                justify-content: space-between;
+                flex-direction: column;
+                justify-content: flex-start;
+
+                .resume-work-example {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+
+                    .content-row {
+                        padding-left: 0.2rem;
+                    }
+
+                    .titles {
+                        display: flex;
+                        flex-direction: row;
+                        flex-grow: 1;
+
+                        span {
+                            width: 50%;
+                            padding-left: 0.3rem;
+                        }
+                    }
+
+                    .buttons {
+                        width: 10%;
+
+                        @include media-breakpoint-down(xs) {
+                            width: 16%;
+                        }
+                    }
+                }
             }
         }
     }
@@ -347,6 +421,10 @@ blockquote {
 
         .resume-experience-field {
             width: 80%;
+
+            @include media-breakpoint-down(xs) {
+                width: 100%;
+            }
 
             .card {
                 width: 100%;
@@ -361,7 +439,6 @@ blockquote {
         .resume-experiences {
             display: flex;
             flex-direction: column;
-            padding-left: 1rem;
 
             .resume-experience {
                 display: flex;
@@ -380,6 +457,10 @@ blockquote {
         .resume-education-field {
             width: 80%;
 
+            @include media-breakpoint-down(xs) {
+                width: 100%;
+            }
+
             .card {
                 width: 100%;
             }
@@ -393,7 +474,6 @@ blockquote {
         .resume-educations {
             display: flex;
             flex-direction: column;
-            padding-left: 1rem;
 
             .resume-education {
                 display: flex;
