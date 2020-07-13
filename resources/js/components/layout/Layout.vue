@@ -10,15 +10,15 @@
             </b-navbar-brand>
 
             <b-navbar-nav class="ml-auto notifications pr-2">
-                <b-nav-item class="pointer squared" title="Brightness Control" @click="setColorScheme"><font-awesome-icon icon="adjust"/></b-nav-item>
-                <b-nav-item class="pointer squared ml-1" title="Github Profile" :href="getResumeUserProperty('github_profile', '#')"><font-awesome-icon :icon="['fab', 'github-alt']"/><span class="icon-visible pl-2">{{ getResumeUserProperty('github_profile', '') }}</span></b-nav-item>
-                <b-nav-item class="pointer squared ml-1" title="Email" href="mailto:rjacobsen2009@gmail.com"><font-awesome-icon icon="envelope"/><span class="icon-visible pl-2">{{ getResumeUserProperty('email', '') }}</span></b-nav-item>
-                <b-nav-item :class="[`pointer`, `squared`, `ml-1`, textColorSchemeValue]" title="Call" href="tel:8127862814"><font-awesome-icon icon="phone-square"/><span class="icon-visible pl-2">{{ getResumeUserProperty('phone', '') }}</span></b-nav-item>
-                <b-nav-item class="pointer squared ml-1" title="Download Resume Pdf" @click="downloadResume"><font-awesome-icon icon="file-pdf"/></b-nav-item>
-                <b-nav-item class="pointer squared ml-1" title="Download Resume Word" @click="downloadResumeWord"><font-awesome-icon icon="file-word"/></b-nav-item>
-                <b-nav-item v-if="!loggedIn && !pageEquals('login')" title="Login" href="/login" class="pointer squared ml-1"><font-awesome-icon icon="key"/></b-nav-item>
-                <b-nav-item v-if="loggedIn" @click.prevent="logout" title="Logout" class="pointer squared ml-1"><font-awesome-icon icon="sign-out-alt"/></b-nav-item>
-                <b-nav-item v-if="!loggedIn && pageEquals('login')" title="Home" href="/" class="pointer squared ml-1"><font-awesome-icon icon="home"/></b-nav-item>
+                <b-nav-item class="pointer squared"  v-b-tooltip.hover.bottomleft="bgColorValue === 'light' ? 'Use Dark Theme' : 'Use Light Theme'" @click="setColorScheme"><font-awesome-icon icon="adjust"/></b-nav-item>
+                <b-nav-item class="pointer squared ml-1" v-b-tooltip.hover.bottomleft="'Github Profile'" :href="getResumeUserProperty('github_profile', '#')"><font-awesome-icon :icon="['fab', 'github-alt']"/><span class="icon-visible pl-2">{{ getResumeUserProperty('github_profile', '') }}</span></b-nav-item>
+                <b-nav-item class="pointer squared ml-1" title="Email" v-b-tooltip.hover.bottomleft="'rjacobsen2009@gmail.com'" href="mailto:rjacobsen2009@gmail.com"><font-awesome-icon icon="envelope"/><span class="icon-visible pl-2">{{ getResumeUserProperty('email', '') }}</span></b-nav-item>
+                <b-nav-item :class="[`pointer`, `squared`, `ml-1`, textColorSchemeValue]" v-b-tooltip.hover.bottomleft="'Phone: 812-786-2814'" href="tel:8127862814"><font-awesome-icon icon="phone-square"/><span class="icon-visible pl-2">{{ getResumeUserProperty('phone', '') }}</span></b-nav-item>
+                <b-nav-item class="pointer squared ml-1" v-b-tooltip.hover.bottomleft="'PDF Resume'" @click="downloadResume"><font-awesome-icon icon="file-pdf"/></b-nav-item>
+                <b-nav-item class="pointer squared ml-1" v-b-tooltip.hover.bottomleft="'Word Resume'" @click="downloadResumeWord"><font-awesome-icon icon="file-word"/></b-nav-item>
+                <b-nav-item v-if="!loggedIn && !pageEquals('login')" v-b-tooltip.hover.bottomleft="'Login'" href="/login" class="pointer squared ml-1"><font-awesome-icon icon="key"/></b-nav-item>
+                <b-nav-item v-if="loggedIn" @click.prevent="logout" v-b-tooltip.hover.bottomleft="'Logout'" class="pointer squared ml-1"><font-awesome-icon icon="sign-out-alt"/></b-nav-item>
+                <b-nav-item v-if="!loggedIn && pageEquals('login')" v-b-tooltip.hover.bottomleft="'Home'" href="/" class="pointer squared ml-1"><font-awesome-icon icon="home"/></b-nav-item>
             </b-navbar-nav>
         </b-navbar>
 

@@ -661,10 +661,12 @@ blockquote {
     padding: 0 !important;
 }
 
-
-
 .app-logo-text {
     font-size: $normal-text;
     padding-top: 0.3rem;
     padding-left: 0.4rem;
+}
+
+.custom-tooltip {
+    text-wrap: none;
 }
