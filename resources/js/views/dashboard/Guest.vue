@@ -56,7 +56,7 @@
                 return this.$moment(experience.started_at).format("MMM YYYY") + ' - ' + this.$moment(experience.ended_at).format("MMM YYYY")
             },
             getDescription(experience) {
-                const parts = experience.description.split('-')
+                const parts = experience.description.split('- ')
                 let description = ''
 
                 for (let i = 0; i < parts.length; i++) {
