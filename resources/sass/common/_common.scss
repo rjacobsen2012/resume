@@ -128,6 +128,15 @@ body, html {
         }
     }
 
+    .resume-contact {
+        font-size: $small-text;
+        font-weight: 400;
+
+        @include media-breakpoint-down(xs) {
+            font-size: $small-text;
+        }
+    }
+
     .resume-profile {
         font-size: $medium-text;
         font-weight: 400;

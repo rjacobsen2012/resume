@@ -2,15 +2,32 @@
     <layout title="Welcome">
         <template v-slot:default="slotProps">
             <div class="resume-title pl-4 pt-3">{{ getResumeUserProperty('name', 'Unknown') }}</div>
+            <div class="resume-contact info work-examples pl-4">
+                <b-link :href="`mailto:${getResumeUserProperty('email')}`" title="Email" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>{{ getResumeUserProperty('email') }}</strong><span class="pl-2"><font-awesome-icon icon="envelope"/></span></b-link>
+                <b-link :href="`tel:${getResumeUserProperty('phone')}`" title="Call" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>{{ getResumeUserProperty('phone') }}</strong><span class="pl-2"><font-awesome-icon icon="phone-square"/></span></b-link>
+                <b-link @click="downloadResume" title="PDF Resume" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>pdf resume</strong><span class="pl-2"><font-awesome-icon icon="file-pdf"/></span></b-link>
+                <b-link @click="downloadResumeWord" title="Word Resume" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>word resume</strong><span class="pl-2"><font-awesome-icon icon="file-word"/></span></b-link>
+                <b-link :href="getResumeUserProperty('github_profile', '#')" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>github profile</strong><span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
+                <b-link :href="getResumeUserProperty('linked_in_profile', '#')" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>linkedin profile</strong><span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
+            </div>
             <div class="divider resume-profile"><div class="divider-block ml-4 pl-3 pr-3">PROFILE</div></div>
             <div class="info profile pt-3 pb-0 pl-4">{{ getResumeUserProperty('profile', 'Unknown') }}</div>
             <div class="divider resume-profile"><div class="divider-block ml-4 pl-3 pr-3">SKILLS</div></div>
             <div class="info skills pt-3 pb-0 pl-4">
                 <div v-for="skill in getResumeUserProperty('skills', [])" :key="skill.id" class="skill squared">{{ skill.name }}</div>
             </div>
-            <div class="divider resume-profile"><div class="divider-block ml-4 pl-3 pr-3">WORK EXAMPLES</div></div>
+            <div class="divider resume-profile"><div class="divider-block ml-4 pl-3 pr-3">WEBSITE EXAMPLES</div></div>
             <div class="info work-examples pt-3 pb-0 pl-4">
                 <b-link v-for="example in getResumeUserProperty('workExamples', [])" :key="example.id" :href="example.url" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>{{ example.title }}</strong><span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
+            </div>
+            <div class="divider resume-profile"><div class="divider-block ml-4 pl-3 pr-3">CODE EXAMPLES</div></div>
+            <div class="info work-examples pt-3 pb-0 pl-4">
+                <b-link :href="`${getResumeUserProperty('github_profile')}?tab=repositories`" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>Github Repositories</strong><span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
+                <b-link href="https://github.com/rjacobsen2012/resume" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>Resume:</strong> laravel / vue js<span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
+                <b-link href="https://github.com/rjacobsen2012/flight-test" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>Flight Test:</strong> laravel api<span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
+                <b-link href="https://github.com/rjacobsen2012/yourbalance" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>YourBalance:</strong> laravel / vue js<span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
+                <b-link href="https://github.com/rjacobsen2012/rjacobsen-test" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>Dev Test:</strong> laravel / blade<span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
+                <b-link href="https://github.com/rjacobsen2012/laravel-vagrant" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>Laravel Vagrant:</strong> linux / ubuntu / bash / packagist<span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
             </div>
             <div class="divider resume-education"><div class="divider-block ml-4 pl-3 pr-3">EDUCATION</div></div>
             <div class="info educations pt-3">
@@ -112,6 +129,19 @@
 
                 return defaultValue
             },
+            getResumeField(field, value) {
+                let resumeId = null
+
+                this.$resumeUser.workExamples.forEach((el, index) => {
+                    if (el[field] === value) resumeId = index
+                })
+
+                if (typeof resumeId !== 'undefined') {
+                    return this.$resumeUser.workExamples[resumeId].url
+                }
+
+                return ''
+            }
         },
     }
 </script>

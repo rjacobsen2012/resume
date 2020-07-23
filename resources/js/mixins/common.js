@@ -20,6 +20,30 @@ export default {
             return this.$page.routes[name]
         },
 
+        downloadResume() {
+            this.axios
+                .get(this.route('resume-user.download-resume', []), { responseType: 'arraybuffer' })
+                .then(response => {
+                    let blob = new Blob([response.data], {type:'application/*'})
+                    let link = document.createElement('a')
+                    link.href = window.URL.createObjectURL(blob)
+                    link.download = 'richard_jacobsen_resume_2020.pdf'
+                    link.click()
+                })
+        },
+
+        downloadResumeWord() {
+            this.axios
+                .get(this.route('resume-user.download-resume-word', []), { responseType: 'arraybuffer' })
+                .then(response => {
+                    let blob = new Blob([response.data], {type:'application/*'})
+                    let link = document.createElement('a')
+                    link.href = window.URL.createObjectURL(blob)
+                    link.download = 'richard_jacobsen_resume_2020.docx'
+                    link.click()
+                })
+        },
+
         triggerLoader() {
             this.$bus.$emit('isloading', true)
         },
