@@ -25,9 +25,9 @@ class ResumeController extends Controller
      */
     public function downloadResume()
     {
-        $file = public_path('files/richard_jacobsen_resume_2022.pdf');
+        $file = public_path('files/richard_jacobsen_resume.pdf');
         $headers = ['Content-Type' => 'application/pdf'];
-        return response()->download($file, 'richard_jacobsen_resume_2022.pdf', $headers);
+        return response()->download($file, 'richard_jacobsen_resume.pdf', $headers);
     }
 
     /**
@@ -35,8 +35,8 @@ class ResumeController extends Controller
      */
     public function downloadResumeWord()
     {
-        $file = public_path('files/richard_jacobsen_resume_2022.docx');
+        $file = public_path('files/richard_jacobsen_resume.docx');
         $headers = ['Content-Type' => 'application/pdf'];
-        return response()->download($file, 'richard_jacobsen_resume_2022.docx', $headers);
+        return response()->download($file, 'richard_jacobsen_resume.docx', $headers);
     }
 }
