@@ -24,3 +24,4 @@ config.yaml
 Vagrantfile
 ubuntu*
 package-lock.json
+*.DS_Store
