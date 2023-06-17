@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
                 'first_name' => 'Richard',
                 'last_name' => 'Jacobsen',
                 'email' => 'rjacobsen2009@gmail.com',
-                'password' => bcrypt('secret')
+                'password' => bcrypt(config('database.connections.mysql.password'))
             ]);
         }
 
