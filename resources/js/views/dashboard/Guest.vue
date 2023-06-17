@@ -11,7 +11,9 @@
                 <b-link :href="getResumeUserProperty('linked_in_profile', '#')" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>linkedin profile</strong><span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
             </div>
             <div class="divider resume-profile"><div class="divider-block ml-4 pl-3 pr-3">PROFILE</div></div>
-            <div class="info profile pt-3 pb-0 pl-4">{{ getResumeUserProperty('profile', 'Unknown') }}</div>
+            <div class="info profile pt-3 pb-0 pl-4">
+                <b-link :href="`${getResumeUserProperty('profile', 'Unknown')}`" class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>Resume:</strong> <span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
+            </div>
             <div class="divider resume-profile"><div class="divider-block ml-4 pl-3 pr-3">SKILLS</div></div>
             <div class="info skills pt-3 pb-0 pl-4">
                 <div v-for="skill in getResumeUserProperty('skills', [])" :key="skill.id" class="skill squared">{{ skill.name }}</div>
