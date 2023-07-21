@@ -252,6 +252,11 @@
                             <div v-if="loadedResumeUser" class="resume-experiences">
                                 <div v-for="experience in experiences" :key="experience.id" class="resume-experience pt-2">
                                     <b-card :bg-variant="slotProps.bgColorValue" :text-variant="slotProps.textColorValue" :border-variant="slotProps.bgColorValue">
+                                        <b-input-group size="sm" :model="`experience-hidden-${experience.id}`" class="mt-2">
+                                            <b-form-checkbox :id="`experience-hidden-${experience.id}`" :name="`experience-hidden-${experience.id}`" size="sm" v-model="experience.hidden" switch>
+                                                Hide Employer
+                                            </b-form-checkbox>
+                                        </b-input-group>
                                         <b-input-group size="sm" prepend="Company Name" :model="`experience-company-name-${experience.id}`">
                                             <b-form-input :id="`experience-company-name-${experience.id}`" :name="`experience-company-name-${experience.id}`" type="text" size="sm" v-model.trim="experience.company_name"/>
                                         </b-input-group>
@@ -284,7 +289,7 @@
                                             />
                                         </b-input-group>
                                         <b-input-group size="sm" :model="`new-experience-present-${experience.id}`" class="mt-2">
-                                            <b-form-checkbox :id="`new-experience-present-${experience.id}`" :name="`new-experience-present-${experience.id}`" size="sm" v-model="experience.present">
+                                            <b-form-checkbox :id="`new-experience-present-${experience.id}`" :name="`new-experience-present-${experience.id}`" size="sm" v-model="experience.present" switch>
                                                 Present Employer
                                             </b-form-checkbox>
                                         </b-input-group>
@@ -429,6 +434,7 @@
                 this.loadExperiences()
                 this.loadWorkExamples()
                 this.loadEducations()
+                console.log(this.experiences)
             },
 
             loadSkills() {
@@ -643,6 +649,7 @@
                 const resumeExperience = this.experiences.filter(experience => { return experience.id === id})[0]
                 resumeExperience.present = resumeExperience.present ? 1 : 0
                 resumeExperience.ended_at = resumeExperience.present ? null : resumeExperience.ended_at
+                resumeExperience.hidden = resumeExperience.hidden ? 1 : 0
 
                 this.axios
                     .put(

@@ -29,6 +29,7 @@ class ResumeExperienceResource extends JsonResource
             'ended_at' => $resumeExperience->ended_at,
             'present' => $resumeExperience->present,
             'description' => $resumeExperience->description,
+            'hidden' => $resumeExperience->hidden,
         ];
     }
 }

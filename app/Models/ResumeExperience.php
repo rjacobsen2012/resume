@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use Carbon\Carbon;
-use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon ended_at
  * @property string description
  * @property boolean present
+ * @property boolean $hidden
  * @property ResumeUser resumeUser
  */
 class ResumeExperience extends Model
@@ -34,6 +35,7 @@ class ResumeExperience extends Model
 
     protected $casts = [
         'present' => 'boolean',
+        'hidden' => 'boolean',
     ];
 
     /**
