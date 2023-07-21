@@ -12,30 +12,21 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
  */
 class ResumeController extends Controller
 {
-    /**
-     * @return Response
-     */
-    public function index()
+    public function index(): Response
     {
         return Inertia::render('Admin/Resume', ['resumeUser' => resumeUser()]);
     }
 
-    /**
-     * @return BinaryFileResponse
-     */
-    public function downloadResume()
+    public function downloadResume(): BinaryFileResponse
     {
-        $file = public_path('files/richard_jacobsen_resume.pdf');
+        $file = public_path('files/Current Resume July 2023.pdf');
         $headers = ['Content-Type' => 'application/pdf'];
         return response()->download($file, 'richard_jacobsen_resume.pdf', $headers);
     }
 
-    /**
-     * @return BinaryFileResponse
-     */
-    public function downloadResumeWord()
+    public function downloadResumeWord(): BinaryFileResponse
     {
-        $file = public_path('files/richard_jacobsen_resume.docx');
+        $file = public_path('files/Current Resume July 2023.docx');
         $headers = ['Content-Type' => 'application/pdf'];
         return response()->download($file, 'richard_jacobsen_resume.docx', $headers);
     }

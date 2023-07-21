@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ResumeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'GuestController@index')->name('guest');
 
-Route::get('resume-user/download-resume', 'ResumeController@downloadResume')->name('resume-user.download-resume');
+Route::get('resume-user/download-resume', [ResumeController::class, 'downloadResume'])->name('resume-user.download-resume');
 
-Route::get('resume-user/download-resume-word', 'ResumeController@downloadResumeWord')->name('resume-user.download-resume-word');
+Route::get('resume-user/download-resume-word', [ResumeController::class, 'downloadResumeWord'])->name('resume-user.download-resume-word');
 
 Auth::routes();
 
