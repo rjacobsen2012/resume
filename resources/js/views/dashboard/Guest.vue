@@ -40,7 +40,7 @@
             </div>
             <div class="divider resume-profile"><div class="divider-block ml-4 pl-3 pr-3">EXPERIENCE</div></div>
             <div class="info experiences pt-3 pb-3">
-                <div v-for="experience in getResumeUserProperty('experiences', [])" :key="experience.id" class="experience pl-4">
+                <div v-for="experience in getResumeExperience()" :key="experience.id" class="experience pl-4">
                     <span @click="toggleExperience(experience.id)" class="pointer pb-2"><span class="pr-2"><font-awesome-icon v-if="isExperienceVisible(experience.id)" icon="caret-down"/><font-awesome-icon v-else icon="caret-right"/></span><strong>{{ experience.company_name }}</strong><span class="pl-2 pr-2">-</span>{{ experience.title }}<span class="pl-2 pr-2">-</span>{{ experience.city }}, {{ experience.state }}<span class="pl-2 pr-2"><font-awesome-icon icon="calendar-minus"/></span>{{ getDate(experience) }}</span>
                     <ul v-show="isExperienceVisible(experience.id)" v-html="getDescription(experience)" class="pt-2 pb-2"></ul>
                 </div>
@@ -130,6 +130,10 @@
                 }
 
                 return defaultValue
+            },
+            getResumeExperience() {
+                const resumeExperiences = this.getResumeUserProperty('experiences', [])
+                return resumeExperiences.filter(experience => { return !experience.hidden})
             },
             getResumeField(field, value) {
                 let resumeId = null

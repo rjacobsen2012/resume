@@ -61,7 +61,8 @@ class ResumeExperienceController extends Controller
             'ended_at' => !$request->get('present') ?
                 ($request->get('ended_at') ? Carbon::parse($request->get('ended_at')) : null) : null,
             'present' => $request->get('present'),
-            'description' => filter_var($request->get('description'), FILTER_SANITIZE_STRING)
+            'description' => filter_var($request->get('description'), FILTER_SANITIZE_STRING),
+            'hidden' => $request->get('hidden'),
         ]);
 
         $resumeUser->refresh();
