@@ -10,10 +10,6 @@
                 <b-link :href="getResumeUserProperty('github_profile', '#')" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>github profile</strong><span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
                 <b-link :href="getResumeUserProperty('linked_in_profile', '#')" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>linkedin profile</strong><span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
             </div>
-            <div class="divider resume-profile"><div class="divider-block ml-4 pl-3 pr-3">PROFILE</div></div>
-            <div class="info profile pt-3 pb-0 pl-4">
-                <b-link :href="`${getResumeUserProperty('profile', 'Unknown')}`" class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>Resume:</strong> <span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
-            </div>
             <div class="divider resume-profile"><div class="divider-block ml-4 pl-3 pr-3">SKILLS</div></div>
             <div class="info skills pt-3 pb-0 pl-4">
                 <div v-for="skill in getResumeUserProperty('skills', [])" :key="skill.id" class="skill squared">{{ skill.name }}</div>
@@ -21,15 +17,6 @@
             <div class="divider resume-profile"><div class="divider-block ml-4 pl-3 pr-3">WEBSITE EXAMPLES</div></div>
             <div class="info work-examples pt-3 pb-0 pl-4">
                 <b-link v-for="example in getResumeUserProperty('workExamples', [])" :key="example.id" :href="example.url" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>{{ example.title }}</strong><span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
-            </div>
-            <div class="divider resume-profile"><div class="divider-block ml-4 pl-3 pr-3">CODE EXAMPLES</div></div>
-            <div class="info work-examples pt-3 pb-0 pl-4">
-                <b-link :href="`${getResumeUserProperty('github_profile')}?tab=repositories`" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>Github Repositories</strong><span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
-                <b-link href="https://github.com/rjacobsen2012/resume" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>Resume:</strong> laravel / vue js<span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
-                <b-link href="https://github.com/rjacobsen2012/flight-test-v2" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>Flight Test:</strong> laravel api<span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
-                <b-link href="https://github.com/rjacobsen2012/yourbalance" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>YourBalance:</strong> laravel / vue js<span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
-                <b-link href="https://github.com/rjacobsen2012/rjacobsen-test" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>Dev Test:</strong> laravel / blade<span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
-                <b-link href="https://github.com/rjacobsen2012/laravel-vagrant" target="_blank" :class="[slotProps.textColorSchemeValue, `work-example`, `squared`]"><strong>Laravel Vagrant:</strong> linux / ubuntu / bash / packagist<span class="pl-2"><font-awesome-icon icon="external-link-alt"/></span></b-link>
             </div>
             <div class="divider resume-education"><div class="divider-block ml-4 pl-3 pr-3">EDUCATION</div></div>
             <div class="info educations pt-3">
