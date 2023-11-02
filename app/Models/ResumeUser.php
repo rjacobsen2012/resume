@@ -44,7 +44,7 @@ class ResumeUser extends Model
      */
     public function resumeExperiences()
     {
-        return $this->hasMany(ResumeExperience::class);
+        return $this->hasMany(ResumeExperience::class)->orderBy('started_at', 'desc');
     }
 
     /**
