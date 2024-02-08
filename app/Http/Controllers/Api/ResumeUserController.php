@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateResumeUserRequest;
 use App\Http\Resources\ResumeUserResource;
 use App\Models\ResumeUser;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 
 class ResumeUserController extends Controller
 {
@@ -19,6 +20,12 @@ class ResumeUserController extends Controller
      */
     public function store(CreateResumeUserRequest $request)
     {
+        if ($file = $request->file('resume')) {
+            $extension = $file->getClientOriginalExtension();
+            $resumeName = config('resume.file') . '.' . $extension;
+            $request->file('resume')->storeAs('public', $resumeName);
+        }
+
         $name = $request->get('name');
         $email = $request->get('email');
         $profile = $request->get('profile');
@@ -63,6 +70,11 @@ class ResumeUserController extends Controller
      */
     public function update(UpdateResumeUserRequest $request, ResumeUser $resumeUser)
     {
+        if ($request->file('resume')) {
+            $resumeName = 'user-resume.docx';
+            $request->file('resume')->storeAs('public', $resumeName);
+        }
+
         $name = $request->get('name');
         $email = $request->get('email');
         $profile = $request->get('profile');

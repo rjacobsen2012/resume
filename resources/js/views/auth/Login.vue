@@ -65,10 +65,11 @@
             },
 
             handleSuccess(response) {
+                console.log(response);
                 if (response.data.success) {
                     this.token = response.data.access_token
                     localStorage.setItem('access_token', this.token)
-                    window.location = this.route('resume.index');
+                    window.location = '/';
                 } else {
                     this.$toasted.error("Unable to log in")
                 }

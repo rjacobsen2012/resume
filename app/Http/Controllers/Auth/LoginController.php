@@ -8,7 +8,6 @@ use App\Utilities\Passport\Login;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 use Inertia\Response;
 use Laravel\Passport\Token;
 

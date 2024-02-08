@@ -45,6 +45,20 @@
                             <div v-show="fieldError('linked_in_profile')" class="validation-error">{{ fieldError('linked_in_profile') }}</div>
                         </div>
                     </div>
+
+                    <div class="resume-field pt-2 align-content-end">
+                        <div class="resume-label">Resume File:</div>
+                        <div class="resume-input">
+                            <b-form-file
+                                v-model="resumeUserForm.resume"
+                                :state="Boolean(resumeUserForm.resume)"
+                                placeholder="Choose a resume or drop it here..."
+                                drop-placeholder="Drop resume here..."
+                            ></b-form-file>
+                            <div class="mt-0">Selected file: {{ resumeUserForm.resume ? resumeUserForm.resume.name : '' }}</div>
+                        </div>
+                    </div>
+
                     <div class="resume-field pt-2">
                         <div class="resume-label"></div>
                         <div class="resume-input">
@@ -52,6 +66,7 @@
                             <b-button v-else @click="updateResumeUser" size="sm" variant="primary">Update Resume</b-button>
                         </div>
                     </div>
+
                     <div v-if="loadedResumeUser !== null" class="resume-skills-holder mt-4">
                         <span class="title">Skills</span>
                         <div class="resume-field pt-2">
@@ -379,6 +394,7 @@
                     linked_in_profile: null,
                     github_profile: null,
                     phone: null,
+                    resume: null,
                 },
                 resumeSkills: [],
                 resumeExperiences: [],
@@ -426,6 +442,7 @@
                 this.resumeUserForm.name = this.loadedResumeUser ? this.loadedResumeUser.name : this.$user.first_name + ' ' + this.$user.last_name
                 this.resumeUserForm.email = this.loadedResumeUser ? this.loadedResumeUser.email : this.$user.email
                 this.resumeUserForm.profile = this.loadedResumeUser ? this.loadedResumeUser.profile : null
+                this.resumeUserForm.resume = this.loadedResumeUser ? this.loadedResumeUser.resume : null
                 this.resumeUserForm.phone = this.loadedResumeUser ? this.loadedResumeUser.phone : null
                 this.resumeUserForm.github_profile = this.loadedResumeUser ? this.loadedResumeUser.github_profile : null
                 this.resumeUserForm.linked_in_profile = this.loadedResumeUser ? this.loadedResumeUser.linked_in_profile : null
@@ -741,24 +758,27 @@
             },
 
             updateResumeUser() {
-                this.validationErrors = {}
-                const resumeUser = {
-                    name: this.resumeUserForm.name,
-                    email: this.resumeUserForm.email,
-                    profile: this.resumeUserForm.profile,
-                    phone: this.resumeUserForm.phone,
-                    github_profile: this.resumeUserForm.github_profile,
-                    linked_in_profile: this.resumeUserForm.linked_in_profile,
-                }
+                this.validationErrors = {};
 
-                this.$bus.$emit('isloading', true)
+                const formData = new FormData();
+                formData.append('_method', 'PATCH');
+                formData.append('name', this.resumeUserForm.name);
+                formData.append('email', this.resumeUserForm.email);
+                formData.append('profile', this.resumeUserForm.profile);
+                formData.append('phone', this.resumeUserForm.phone);
+                formData.append('github_profile', this.resumeUserForm.github_profile);
+                formData.append('linked_in_profile', this.resumeUserForm.linked_in_profile);
+                formData.append('resume', this.resumeUserForm.resume);
+
+                this.$bus.$emit('isloading', true);
 
                 this.axios
                     .post(
-                        this.route('api.v1.resume-user.update', [resumeUser.id]),
-                        resumeUser,
+                        this.route('api.v1.resume-user.update', [this.resumeUserForm.id]),
+                        formData,
                         {
-                            headers: this.tokenHeader()
+                            headers: this.tokenHeader(),
+                            'Content-Type': 'multipart/form-data'
                         }
                     )
                     .then(this.handleUpdateResumeUserSuccess)
@@ -771,22 +791,24 @@
             },
 
             createResumeUser() {
-                this.validationErrors = {}
-                const resumeUser = {
-                    name: this.resumeUserForm.name,
-                    email: this.resumeUserForm.email,
-                    profile: this.resumeUserForm.profile,
-                    phone: this.resumeUserForm.phone,
-                    github_profile: this.resumeUserForm.github_profile,
-                    linked_in_profile: this.resumeUserForm.linked_in_profile,
-                }
+                this.validationErrors = {};
+
+                const formData = new FormData();
+                formData.append('name', this.resumeUserForm.name);
+                formData.append('email', this.resumeUserForm.email);
+                formData.append('profile', this.resumeUserForm.profile);
+                formData.append('phone', this.resumeUserForm.phone);
+                formData.append('github_profile', this.resumeUserForm.github_profile);
+                formData.append('linked_in_profile', this.resumeUserForm.linked_in_profile);
+                formData.append('resume', this.resumeUserForm.resume);
 
                 this.axios
                     .post(
                         this.route('api.v1.resume-user.store', []),
-                        resumeUser,
+                        formData,
                         {
-                            headers: this.tokenHeader()
+                            headers: this.tokenHeader(),
+                            'Content-Type': 'multipart/form-data'
                         }
                     )
                     .then(this.handleCreateResumeUserSuccess)
