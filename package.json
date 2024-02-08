@@ -42,7 +42,6 @@
         "luxon": "^1.24.1",
         "moment": "^2.26.0",
         "moment-timezone": "^0.5.31",
-        "node-sass": "^4.14.1",
         "numeral": "^2.0.6",
         "underscore": "^1.10.2",
         "vee-validate": "^2.2.15",
