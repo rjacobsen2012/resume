@@ -62,7 +62,7 @@ class AppServiceProvider extends ServiceProvider
             });
         });
 
-        Inertia::share('resume_email', 'rjacobsen2009@gmail.com');
+        Inertia::share('resume_email', 'rjacobsen2024@gmail.com');
     }
 
     protected function gravatar()
