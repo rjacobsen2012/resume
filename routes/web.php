@@ -1,5 +1,14 @@
 <?php
 
+use App\Http\Controllers\EducationController;
+use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResumeController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SkillController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,12 +33,38 @@ Route::get('/', function () {
     ]);
 });
 
+Route::resource('resume', ResumeController::class)
+    ->only(['index', 'show', 'create']);
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::resource('home', HomeController::class)->only('index');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::resource('resume', ResumeController::class)
+        ->only(['edit', 'create', 'store', 'update']);
+
+    Route::resource('resume.skill', SkillController::class)
+        ->only(['store', 'update', 'destroy']);
+
+    Route::resource('resume.education', EducationController::class)
+        ->only(['store', 'update', 'destroy']);
+
+    Route::resource('resume.experience', ExperienceController::class)
+        ->only(['store', 'update', 'destroy']);
+
+    Route::get('users', [UserController::class, 'data'])->name('user.data');
+    Route::put('user/{user}/update-roles', [UserController::class, 'updateUserRoles'])->name('user.update-roles');
+    Route::resource('user', UserController::class);
+
+    Route::get('roles', [RoleController::class, 'data'])->name('role.data');
+    Route::resource('role', RoleController::class);
+
+    Route::get('permissions', [PermissionController::class, 'data'])->name('permission.data');
+    Route::resource('permission', PermissionController::class);
 });

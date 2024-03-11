@@ -5,6 +5,12 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import moment from "moment/moment.js";
+import ToastPlugin from "vue-toast-notification";
+import 'vue-toast-notification/dist/theme-bootstrap.css';
+import PrimeVue from "primevue/config";
+import ConfirmationService from "primevue/confirmationservice";
+import 'primevue/resources/themes/aura-light-green/theme.css';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -15,6 +21,10 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(moment)
+            .use(ToastPlugin)
+            .use(PrimeVue)
+            .use(ConfirmationService)
             .mount(el);
     },
     progress: {
