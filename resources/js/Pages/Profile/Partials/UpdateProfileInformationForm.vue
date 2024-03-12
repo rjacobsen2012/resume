@@ -129,7 +129,7 @@ const clearPhotoFileInput = () => {
                 <InputError :message="form.errors.photo" class="mt-2" />
             </div>
 
-            <!-- Name -->
+            <!-- First Name -->
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel for="first_name" value="First Name" />
                 <TextInput
@@ -143,7 +143,7 @@ const clearPhotoFileInput = () => {
                 <InputError :message="form.errors.first_name" class="mt-2" />
             </div>
 
-            <!-- Name -->
+            <!-- Last Name -->
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel for="last_name" value="Last Name" />
                 <TextInput

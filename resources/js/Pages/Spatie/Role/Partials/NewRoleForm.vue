@@ -30,12 +30,8 @@ const createRole = () => {
     form.post(route('role.store'), {
         errorBag: 'createRole',
         preserveScroll: true,
-        onSuccess: (response) => {
-            success(response.props.status)
-        },
-        onError: (response) => {
-            error(response[Object.keys(response)[0]])
-        },
+        onSuccess: (response) => success(response.props.status),
+        onError: (response) => errors(response[Object.keys(response)[0]]),
     })
 }
 
@@ -44,7 +40,7 @@ const success = (status) => {
     $toast.success(status)
 }
 
-const error = (status) => {
+const errors = (status) => {
     const $toast = useToast();
     $toast.error(status);
 }
@@ -97,7 +93,7 @@ const error = (status) => {
                 Cancel
             </CustomButton>
 
-            <PrimaryButton :class="[form.processing ? 'opacity-25' : '', 'ms-2']" classes="btn-primary" :disabled="form.processing">
+            <PrimaryButton :class="[form.processing ? 'opacity-25' : '', 'ms-2']" class="btn-primary" :disabled="form.processing">
                 Create
             </PrimaryButton>
         </template>

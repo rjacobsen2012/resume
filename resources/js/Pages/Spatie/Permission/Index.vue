@@ -92,7 +92,7 @@ const pageLinks = [
 </script>
 
 <template>
-    <AppLayout title="Dashboard" :links="pageLinks">
+    <AppLayout title="Permissions" :links="pageLinks">
         <template #right-links>
             <CustomButton type="button"
                           class="btn-success"
@@ -117,8 +117,8 @@ const pageLinks = [
                         <Column field="permission_id">
                             <template #body="{ data }">
                                 <div class="flex items-center justify-end gap-2">
-                                    <CustomButton type="button" classes="btn-primary" @click="editPermission(data.id)">Edit</CustomButton>
-                                    <CustomButton v-if="! data.has_users && ! data.belongs_to_role" type="button" classes="btn-danger" @click="confirmDelete(data.id)">Delete</CustomButton>
+                                    <CustomButton type="button" class="btn-primary" @click="editPermission(data.id)">Edit</CustomButton>
+                                    <CustomButton v-if="! data.has_users && ! data.belongs_to_role" type="button" class="btn-danger" @click="confirmDelete(data.id)">Delete</CustomButton>
                                 </div>
                             </template>
                         </Column>

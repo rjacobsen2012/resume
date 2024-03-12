@@ -23,7 +23,7 @@ return new class extends Migration
                 $table->dateTime('ended_at')->default(null)->nullable();
                 $table->boolean('present')->default(0);
                 $table->longText('description');
-                $table->boolean('hidden')->default(false);
+                $table->boolean('is_hidden')->default(false);
                 $table->timestamps();
             });
         }

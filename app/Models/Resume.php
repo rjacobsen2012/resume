@@ -54,8 +54,8 @@ use Illuminate\Support\Carbon;
  * @property-read string|null $word
  * @property-read string|null $word_link
  * @method static Builder|Resume byValue(string $value)
- * @property int $hidden
- * @method static Builder|Resume whereHidden($value)
+ * @property int $is_hidden
+ * @method static Builder|Resume whereIsHidden($value)
  * @method static Builder|Resume notHidden()
  * @property-read string $bg_color
  * @mixin Eloquent
@@ -80,6 +80,10 @@ class Resume extends Model
         'experiences',
         'educations',
         'examples',
+    ];
+
+    protected $casts = [
+        'is_hidden' => 'boolean',
     ];
 
     public function user(): BelongsTo
@@ -142,12 +146,12 @@ class Resume extends Model
 
     public function scopeNotHidden(Builder $query): void
     {
-        $query->where('hidden', '=', false);
+        $query->where('is_hidden', '=', false);
     }
 
     public function accessible(User $user): bool
     {
-        return $this->user->id === $user->id || ! $this->hidden;
+        return $this->user->id === $user->id || ! $this->is_hidden;
     }
 
     public function getBgColorAttribute(): string

@@ -99,7 +99,7 @@ const error = (status) => {
                 Cancel
             </CustomButton>
 
-            <PrimaryButton :class="[form.processing ? 'opacity-25' : '', 'ms-2']" classes="btn-primary" :disabled="form.processing">
+            <PrimaryButton :class="[form.processing ? 'opacity-25' : '', 'ms-2']" class="btn-primary" :disabled="form.processing">
                 Save
             </PrimaryButton>
         </template>

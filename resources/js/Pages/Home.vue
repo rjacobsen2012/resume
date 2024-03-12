@@ -49,7 +49,8 @@ function getBgColor() {
 </script>
 
 <template>
-    <AppLayout title="Dashboard">
+    <AppLayout title="Home">
+        {{ $page.props.auth.user }}
         <div class="flex flex-row justify-content-center flex-wrap gap-4 p-5">
             <div v-for="resume in resumes" :key="resume.id">
                 <ResumeTileCard :resume="resume"></ResumeTileCard>
@@ -64,7 +65,7 @@ function getBgColor() {
 
 <!--        <div class="py-12">-->
 <!--            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">-->
-<!--                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">-->
+<!--                <div class="bg-dark dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">-->
 <!--                    <Welcome />-->
 <!--                </div>-->
 <!--            </div>-->

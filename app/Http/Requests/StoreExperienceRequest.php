@@ -23,7 +23,7 @@ class StoreExperienceRequest extends FormRequest
             'ended_at' => 'required|date|after:started_at',
             'present' => 'boolean|nullable',
             'description' => 'string|nullable',
-            'hidden' => 'boolean|nullable',
+            'is_hidden' => 'boolean|nullable',
         ];
     }
 }

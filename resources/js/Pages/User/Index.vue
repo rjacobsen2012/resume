@@ -92,10 +92,10 @@ const pageLinks = [
 </script>
 
 <template>
-    <AppLayout title="Dashboard" :links="pageLinks">
+    <AppLayout title="Users" :links="pageLinks">
         <template #right-links>
             <CustomButton type="button"
-                          class="btn-success"
+                          class="btn btn-success"
                           @click="newUser">
                 Add User
             </CustomButton>
@@ -118,8 +118,8 @@ const pageLinks = [
                         <Column field="user_id">
                             <template #body="{ data }">
                                 <div class="flex items-center justify-end gap-2">
-                                    <CustomButton type="button" classes="btn-primary" @click="editUser(data.id)">Edit</CustomButton>
-                                    <CustomButton type="button" classes="btn-danger" @click="confirmDelete(data.id)">Delete</CustomButton>
+                                    <CustomButton type="button" class="btn btn-primary" @click="editUser(data.id)">Edit</CustomButton>
+                                    <CustomButton type="button" class="btn btn-danger" @click="confirmDelete(data.id)">Delete</CustomButton>
                                 </div>
                             </template>
                         </Column>

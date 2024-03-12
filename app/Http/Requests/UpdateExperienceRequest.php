@@ -23,7 +23,7 @@ class UpdateExperienceRequest extends FormRequest
             'ended_at' => 'date|after:started_at',
             'present' => 'boolean|nullable',
             'description' => 'string|nullable',
-            'hidden' => 'boolean|nullable',
+            'is_hidden' => 'boolean|nullable',
         ];
     }
 }

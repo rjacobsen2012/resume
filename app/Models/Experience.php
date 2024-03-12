@@ -23,7 +23,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $ended_at
  * @property int $present
  * @property string $description
- * @property int $hidden
+ * @property int $is_hidden
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Resume $resume
@@ -36,7 +36,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Experience whereCreatedAt($value)
  * @method static Builder|Experience whereDescription($value)
  * @method static Builder|Experience whereEndedAt($value)
- * @method static Builder|Experience whereHidden($value)
+ * @method static Builder|Experience whereIsHidden($value)
  * @method static Builder|Experience whereId($value)
  * @method static Builder|Experience wherePresent($value)
  * @method static Builder|Experience whereResumeId($value)
@@ -54,7 +54,7 @@ class Experience extends Model
 
     protected $casts = [
         'present' => 'boolean',
-        'hidden' => 'boolean',
+        'is_hidden' => 'boolean',
         'started_at' => 'date',
         'ended_at' => 'date',
     ];

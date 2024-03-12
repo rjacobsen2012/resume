@@ -2,16 +2,12 @@
 defineProps({
     type: {
         type: String,
-    },
-    classes: {
-        type: String,
-        default: '',
     }
 });
 </script>
 
 <template>
-    <button :type="type" :class="[classes]">
+    <button :type="type">
         <slot />
     </button>
 </template>

@@ -21,7 +21,7 @@ return new class extends Migration
                 $table->string('linked_in_profile');
                 $table->string('github_profile');
                 $table->string('phone');
-                $table->boolean('hidden')->default(false);
+                $table->boolean('is_hidden')->default(false);
                 $table->timestamps();
             });
         }

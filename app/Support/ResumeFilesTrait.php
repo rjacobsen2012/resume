@@ -10,18 +10,18 @@ trait ResumeFilesTrait
 {
     protected function saveResumeFiles(Request $request): void
     {
-        if ($file = $request->file('pdf')) {
+        if ($file = $request->file('pdf_resume')) {
             $extension = $file->getClientOriginalExtension();
             $resumeName = config('resume.file') . '.' . $extension;
             Storage::disk('public')->put($resumeName, file_get_contents($file));
-            Log::info('form file: ' . PHP_EOL . json_encode($file->getClientOriginalExtension()));
+//            Log::info('form file: ' . PHP_EOL . json_encode($file->getClientOriginalExtension()));
         }
 
-        if ($file = $request->file('word')) {
+        if ($file = $request->file('word_resume')) {
             $extension = $file->getClientOriginalExtension();
             $resumeName = config('resume.file') . '.' . $extension;
             Storage::disk('public')->put($resumeName, file_get_contents($file));
-            Log::info('form file: ' . PHP_EOL . json_encode($file->getClientOriginalExtension()));
+//            Log::info('form file: ' . PHP_EOL . json_encode($file->getClientOriginalExtension()));
         }
     }
 }

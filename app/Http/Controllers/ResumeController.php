@@ -6,6 +6,7 @@ use App\Http\Requests\ResumeRequest;
 use App\Models\Resume;
 use App\Rules\ResumeSearch;
 use App\Support\ResumeFilesTrait;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -35,6 +36,9 @@ class ResumeController extends Controller
             return redirect()->to('/resume');
         }
 
+        $resume = Resume::byValue($value)->first();
+        $this->authorize('view', [Resume::class, $resume]);
+
         return Inertia::render('Resume/Show', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -47,8 +51,6 @@ class ResumeController extends Controller
         $this->authorize('update', $resume);
 
         return Inertia::render('Resume/Edit', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
             'resume' => $resume,
         ]);
     }
@@ -84,7 +86,11 @@ class ResumeController extends Controller
         $this->saveResumeFiles($request);
 
         /** @var Resume $resume */
-        $resume = auth()->user()->resume()->create($request->validated());
+        $resume = auth()->user()->resume()->create(Arr::except($request->validated(), [
+            'id',
+            'pdf_resume',
+            'word_resume',
+        ]));
 
         return redirect()->route('resume.edit', [$resume->id]);
     }

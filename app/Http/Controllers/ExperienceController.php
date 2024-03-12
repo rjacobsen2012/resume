@@ -26,7 +26,7 @@ class ExperienceController extends Controller
             'ended_at' => Carbon::parse($request->input('ended_at')),
             'present' => (bool) $request->input('present'),
             'description' => $request->input('description'),
-            'hidden' => (bool) $request->input('hidden'),
+            'is_hidden' => (bool) $request->input('is_hidden'),
         ]);
 
         return response()->json([
@@ -54,7 +54,7 @@ class ExperienceController extends Controller
             'ended_at' => Carbon::parse($request->input('ended_at')),
             'present' => (bool) $request->input('present'),
             'description' => $request->input('description'),
-            'hidden' => (bool) $request->input('hidden'),
+            'is_hidden' => (bool) $request->input('is_hidden'),
         ]);
 
         return response()->json([
