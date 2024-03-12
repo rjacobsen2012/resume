@@ -50,7 +50,6 @@ function getBgColor() {
 
 <template>
     <AppLayout title="Home">
-        {{ $page.props.user.resume }}
         <div class="flex flex-row justify-content-center flex-wrap gap-4 p-5">
             <div v-for="resume in resumes" :key="resume.id">
                 <ResumeTileCard :resume="resume"></ResumeTileCard>

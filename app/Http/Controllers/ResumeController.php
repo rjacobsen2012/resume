@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Cryptos\Decryptors\ResumeEncryptor;
+use App\Cryptos\Encryptors\ResumeDecryptor;
 use App\Http\Requests\ResumeRequest;
+use App\Http\Resources\ResumeResource;
 use App\Models\Resume;
 use App\Rules\ResumeSearch;
 use App\Support\ResumeFilesTrait;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -37,22 +39,22 @@ class ResumeController extends Controller
         }
 
         $resume = Resume::byValue($value)->first();
+        $resume->profile = decrypt($resume->profile);
         $this->authorize('view', [Resume::class, $resume]);
 
         return Inertia::render('Resume/Show', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
-            'resume' => Resume::byValue($value)->first(),
+            'resume' => $resume,
         ]);
     }
 
-    public function edit(Resume $resume)
+    public function edit(Resume $resume, ResumeDecryptor $decryptor)
     {
         $this->authorize('update', $resume);
 
         return Inertia::render('Resume/Edit', [
-            'resume' => $resume,
-            'status' => session('status'),
+            'resume' => $decryptor->decrypt($resume),
         ]);
     }
 
@@ -65,13 +67,13 @@ class ResumeController extends Controller
         ]);
     }
 
-    public function update(ResumeRequest $request, Resume $resume)
+    public function update(ResumeRequest $request, Resume $resume, ResumeEncryptor $encryptor)
     {
         $this->authorize('update', $resume);
 
-        $this->saveResumeFiles($request);
+        $this->saveResumeFiles($request, $resume);
 
-        $resume->fill($request->validated());
+        $resume->fill($encryptor->encrypt($request->validated()));
         $resume->save();
 
         return redirect()
@@ -79,15 +81,32 @@ class ResumeController extends Controller
             ->with('status', 'Resume updated successfully');
     }
 
-    public function store(ResumeRequest $request)
+    public function store(ResumeRequest $request, ResumeEncryptor $encryptor)
     {
         $this->authorize('create', Resume::class);
 
-        $this->saveResumeFiles($request);
-
         /** @var Resume $resume */
-        $resume = auth()->user()->resume()->create($request->validated());
+        $resume = auth()->user()->resume()
+            ->create($encryptor->encrypt($request->validated()));
 
-        return redirect()->route('resume.edit', [$resume->id]);
+        $this->saveResumeFiles($request, $resume);
+
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Resume created successfully');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Resume $resume)
+    {
+        $this->authorize('delete', [Resume::class, $resume]);
+
+        $this->deleteResume($resume);
+
+        return redirect()
+            ->route('home.index')
+            ->with('status', 'Resume deleted successfully');
     }
 }

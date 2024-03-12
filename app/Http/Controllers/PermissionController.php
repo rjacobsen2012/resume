@@ -19,9 +19,7 @@ class PermissionController extends Controller
     {
         $this->authorize('viewAny', Permission::class);
 
-        return Inertia::render('Spatie/Permission/Index', [
-            'status' => session('status'),
-        ]);
+        return Inertia::render('Spatie/Permission/Index');
     }
 
     /**
@@ -57,7 +55,6 @@ class PermissionController extends Controller
 
         return Inertia::render('Spatie/Permission/Edit', [
             'permission' => $permission,
-            'status' => session('status'),
         ]);
     }
 

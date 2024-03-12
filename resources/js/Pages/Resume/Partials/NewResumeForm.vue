@@ -1,6 +1,5 @@
 <script setup>
-import {useToast} from "vue-toast-notification";
-import {useForm} from "@inertiajs/vue3";
+import {useForm, usePage} from "@inertiajs/vue3";
 import FormSection from "@/Components/FormSection.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import ActionMessage from "@/Components/ActionMessage.vue";
@@ -8,50 +7,53 @@ import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Checkbox from "@/Components/Checkbox.vue";
+import InputGroupButton from "@/Components/InputGroupButton.vue";
+import {flashSuccess} from "@/Composables/flash.js";
+import {flashError} from "@/Composables/flash.js";
 
 const props = defineProps({
     user: Object,
 });
 
 const form = useForm({
-    id: null,
     name: props.user.name,
     email: props.user.email,
     profile: null,
     linked_in_profile: null,
     github_profile: null,
     phone: null,
+    pdf_file: 'Click to add pdf resume',
+    word_file: 'Click to add word resume',
     pdf_resume: null,
     word_resume: null,
     is_hidden: null,
+    has_word_resume: false,
+    has_pdf_resume: false,
 });
 
-const submit = () => {
-    form.post(route('resume.store'));
-};
-
-function store() {
+const store = () => {
     form.post(route('resume.store'), {
         errorBag: 'createResume',
         preserveScroll: true,
-        onSuccess: (response) => created(response.props.status),
-        onError: (response) => errors(response[Object.keys(response)[0]]),
+        onSuccess: (response) => flashSuccess(response.props.status),
+        onError: (response) => flashError(response[Object.keys(response)[0]]),
     });
 }
 
-function created(data) {
-    const $toast = useToast();
+const chooseResume = (id) => {
+    document.getElementById(id).click();
+};
 
-    if (data.error) {
-        $toast.error(data.error);
-    } else {
-        $toast.success(data.message);
-    }
+const selectedResume = (file, type) => {
+    form[type + '_resume'] = file;
+    form[type + '_file'] = file.name;
+    form['has_' + type + '_resume'] = true;
 }
 
-function errors(data) {
-    const $toast = useToast();
-    $toast.error(data.message);
+const clearResume = (type) => {
+    form[type + '_resume'] = null;
+    form[type + '_file'] = 'Click to add ' + type + ' resume';
+    form['has_' + type + '_resume'] = false;
 }
 
 </script>
@@ -59,11 +61,11 @@ function errors(data) {
 <template>
     <FormSection @submitted="store">
         <template #title>
-            Resume Information
+            Resume Profile
         </template>
 
         <template #description>
-            Create the initial profile for your resume.
+            Build your resume profile.
         </template>
 
         <template #form>
@@ -145,36 +147,80 @@ function errors(data) {
                 <InputError :message="form.errors.github_profile" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="pdf_resume" value="Pdf Resume" />
-                <input
-                    id="pdf"
-                    ref="form.pdf_resume"
-                    type="file"
-                    v-on:input="form.pdf_resume = $event.target.files[0]"
-                    class="mt-1 block w-full font-medium text-sm text-gray-700 dark:text-gray-300"
-                    accept="application/pdf"
-                />
-                <InputError :message="form.errors.pdf_resume" class="mt-2" />
-            </div>
+<!--            <div class="col-span-6 sm:col-span-4">-->
+<!--                <InputLabel for="pdf_resume" value="Pdf Resume" />-->
+<!--                <input-->
+<!--                    id="pdf"-->
+<!--                    ref="form.pdf_resume"-->
+<!--                    type="file"-->
+<!--                    v-on:input="form.pdf_resume = $event.target.files[0]"-->
+<!--                    class="mt-1 block w-full font-medium text-sm text-gray-700 dark:text-gray-300"-->
+<!--                    accept="application/pdf"-->
+<!--                />-->
+<!--                <InputError :message="form.errors.pdf_resume" class="mt-2" />-->
+<!--            </div>-->
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="word_resume" value="Word Resume" />
-                <input
-                    id="pdf"
-                    ref="form.word_resume"
-                    type="file"
-                    v-on:input="form.word_resume = $event.target.files[0]"
-                    class="mt-1 block w-full font-medium text-sm text-gray-700 dark:text-gray-300"
-                    accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                <input class="d-none"
+                       aria-describedby="file_input_help"
+                       ref="form.pdf_resume"
+                       id="pdf_resume"
+                       v-on:input="selectedResume($event.target.files[0], 'pdf')"
+                       accept="application/pdf"
+                       type="file">
+                <InputLabel for="pdf_file" value="Pdf Resume" />
+                <InputGroupButton
+                    element-id="pdf_file"
+                    v-model="form.pdf_file"
+                    :click-action="chooseResume"
+                    click-param="pdf_resume"
+                    :action="clearResume"
+                    action-param="pdf"
+                    action-label="Remove Pdf Resume"
+                    :empty-check="! form.has_pdf_resume"
                 />
-                <InputError :message="form.errors.word_resume" class="mt-2" />
+                <InputError :message="form.errors.pdf_file" class="mt-2" />
+            </div>
+
+<!--            <div class="col-span-6 sm:col-span-4">-->
+<!--                <InputLabel for="word_resume" value="Word Resume" />-->
+<!--                <input-->
+<!--                    id="pdf"-->
+<!--                    ref="form.word_resume"-->
+<!--                    type="file"-->
+<!--                    v-on:input="form.word_resume = $event.target.files[0]"-->
+<!--                    class="mt-1 block w-full font-medium text-sm text-gray-700 dark:text-gray-300"-->
+<!--                    accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document"-->
+<!--                />-->
+<!--                <InputError :message="form.errors.word_resume" class="mt-2" />-->
+<!--            </div>-->
+
+            <div class="col-span-6 sm:col-span-4">
+                <input class="d-none"
+                       aria-describedby="file_input_help"
+                       ref="form.word_resume"
+                       id="word_resume"
+                       v-on:input="selectedResume($event.target.files[0], 'word')"
+                       accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                       type="file">
+                <InputLabel for="word_file" value="Word Resume" />
+                <InputGroupButton
+                    element-id="word_file"
+                    v-model="form.word_file"
+                    :click-action="chooseResume"
+                    click-param="word_resume"
+                    :action="clearResume"
+                    action-param="word"
+                    action-label="Remove Word Resume"
+                    :empty-check="! form.has_word_resume"
+                />
+                <InputError :message="form.errors.word_file" class="mt-2" />
             </div>
 
             <div class="col-span-6 sm:col-span-4">
                 <label class="flex items-center">
                     <Checkbox v-model:checked="form.is_hidden" name="is_hidden" />
-                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Resume Hidden</span>
+                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Hide Resume <span class="text-xs text-gray-500 italic">(If this is checked, the resume will be hidden from the public)</span></span>
                 </label>
             </div>
         </template>

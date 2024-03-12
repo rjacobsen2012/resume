@@ -19,9 +19,7 @@ class RoleController extends Controller
     {
         $this->authorize('viewAny', Role::class);
 
-        return Inertia::render('Spatie/Role/Index', [
-            'status' => session('status'),
-        ]);
+        return Inertia::render('Spatie/Role/Index');
     }
 
     /**

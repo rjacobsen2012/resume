@@ -7,8 +7,8 @@ import TextInput from "@/Components/TextInput.vue";
 import {router, useForm} from "@inertiajs/vue3";
 import CustomButton from "@/Components/CustomButton.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import ActionMessage from "@/Components/ActionMessage.vue";
-import {useToast} from "vue-toast-notification";
+import {flashSuccess} from "@/Composables/flash.js";
+import {flashError} from "@/Composables/flash.js";
 
 const props = defineProps({
     user: Object,
@@ -33,15 +33,9 @@ const updateUser = () => {
     form.put(route('user.update', [props.user.id]), {
         errorBag: 'updateUser',
         preserveScroll: true,
-        onSuccess: (response) => {
-            success(response.props.status)
-        }
+        onSuccess: (response) => flashSuccess(response.props.status),
+        onError: (response) => flashError(response[Object.keys(response)[0]]),
     })
-}
-
-const success = (status) => {
-    const $toast = useToast();
-    $toast.success(status)
 }
 
 </script>

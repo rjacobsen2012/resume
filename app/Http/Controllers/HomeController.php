@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Cryptos\Encryptors\ResumeDecryptor;
 use App\Models\Resume;
 use Inertia\Inertia;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(ResumeDecryptor $decryptor)
     {
         return Inertia::render('Home', [
-            'resumes' => Resume::notHidden()->orderBy('name')->get(),
+            'resumes' => $decryptor->decryptAll(Resume::notHidden()->orderBy('name')->get()),
         ]);
     }
 }

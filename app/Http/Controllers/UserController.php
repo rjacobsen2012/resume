@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateUserRolesRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Support\DataTable\UsersDatatable;
+use App\Support\ResumeFilesTrait;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ use Inertia\Inertia;
 class UserController extends Controller
 {
     use WithFaker;
+    use ResumeFilesTrait;
 
     /**
      * Display a listing of the resource.
@@ -25,9 +27,7 @@ class UserController extends Controller
     {
         $this->authorize('viewAny', User::class);
 
-        return Inertia::render('User/Index', [
-            'status' => session('status'),
-        ]);
+        return Inertia::render('User/Index');
     }
 
     /**
@@ -71,7 +71,6 @@ class UserController extends Controller
         return Inertia::render('User/Edit', [
             'user' => $user,
             'roles' => Role::all(),
-            'status' => session('status'),
         ]);
     }
 
@@ -126,6 +125,7 @@ class UserController extends Controller
     {
         $this->authorize('delete', [User::class, $user]);
 
+        $this->deleteResume($user->resume);
         $user->delete();
 
         return response()->json([

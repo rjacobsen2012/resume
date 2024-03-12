@@ -1,13 +1,9 @@
 <script setup>
 
 import FormSection from "@/Components/FormSection.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import InputError from "@/Components/InputError.vue";
-import Select from "@/Components/Select.vue";
 import {router, useForm} from "@inertiajs/vue3";
-import CustomButton from "@/Components/CustomButton.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import {useToast} from "vue-toast-notification";
+import {flashSuccess} from "@/Composables/flash.js";
+import {flashError} from "@/Composables/flash.js";
 import {onMounted} from "vue";
 import Checkbox from "@/Components/Checkbox.vue";
 
@@ -44,23 +40,9 @@ const updateUser = () => {
     form.put(route('user.update', [props.user.id]), {
         errorBag: 'updateUser',
         preserveScroll: true,
-        onSuccess: (response) => {
-            success(response.props.status)
-        },
-        onError: (response) => {
-            error(response[Object.keys(response)[0]])
-        },
+        onSuccess: (response) => flashSuccess(response.props.status),
+        onError: (response) => flashError(response[Object.keys(response)[0]]),
     })
-}
-
-const success = (status) => {
-    const $toast = useToast();
-    $toast.success(status)
-}
-
-const error = (status) => {
-    const $toast = useToast();
-    $toast.error(status);
 }
 
 const addRole = (role_id) => {
@@ -77,12 +59,11 @@ const updateFormRoles = (checked, role_id) => {
     }
 
     axios.put(route('user.update-roles', [props.user.id]), {
-        'roles': form.roles
-    }).then((response) => {
-        success(response.data.status)
-    }).catch((response) => {
-        error(response.response.data.message)
-    })
+            'roles': form.roles
+        })
+        .then((response) => flashSuccess(response.data.status))
+        .catch((response) => flashError(response.response.data.message)
+    )
 }
 
 </script>

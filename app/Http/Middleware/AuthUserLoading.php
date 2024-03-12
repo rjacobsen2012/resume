@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Resume;
+use App\Cryptos\Encryptors\ResumeDecryptor;
 use Closure;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -19,7 +19,10 @@ class AuthUserLoading
     {
         if ($user = $request->user()) {
             Inertia::share([
-                'user.resume' => $user->resume,
+                'user.resume' => app(ResumeDecryptor::class)->decrypt($user->resume),
+            ]);
+            Inertia::share([
+                'status' => session('status'),
             ]);
         }
 

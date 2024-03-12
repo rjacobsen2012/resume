@@ -48,7 +48,7 @@ Route::middleware([
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::resource('resume', ResumeController::class)
-        ->only(['edit', 'create', 'store', 'update']);
+        ->only(['edit', 'create', 'store', 'update', 'destroy']);
 
     Route::resource('resume.skill', SkillController::class)
         ->only(['store', 'update', 'destroy']);

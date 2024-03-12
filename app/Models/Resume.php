@@ -58,6 +58,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Resume whereIsHidden($value)
  * @method static Builder|Resume notHidden()
  * @property-read string $bg_color
+ * @property string|null $word_resume
+ * @property string|null $pdf_resume
+ * @method static Builder|Resume wherePdfResume($value)
+ * @method static Builder|Resume whereWordResume($value)
  * @mixin Eloquent
  */
 class Resume extends Model
@@ -113,29 +117,32 @@ class Resume extends Model
 
     public function getPdfAttribute(): ?string
     {
-        $resumeName = config('resume.file');
-        $file = asset("storage/$resumeName.pdf") ?? null;
-        return file_exists(storage_path("app/public/$resumeName.pdf")) ? "$resumeName.pdf" : null;
+        return $this->resumeFile($this->pdf_resume);
     }
 
     public function getPdfLinkAttribute(): ?string
     {
-        $resumeName = config('resume.file');
-        $file = asset("storage/$resumeName.pdf") ?? null;
-        return file_exists(storage_path("app/public/$resumeName.pdf")) ? $file : null;
+        return $this->resumeFile($this->pdf_resume);
+    }
+
+    protected function resumeFile(?string $fileName = null): ?string
+    {
+        if (! $fileName) {
+            return null;
+        }
+
+        $resume = asset("storage/user/$this->user_id/$fileName") ?? null;
+        return $resume && file_exists(public_path($resume)) ? $resume : null;
     }
 
     public function getWordAttribute(): ?string
     {
-        $resumeName = config('resume.file');
-        return file_exists(storage_path("app/public/$resumeName.docx")) ? "$resumeName.docx" : null;
+        return $this->resumeFile($this->word_resume);
     }
 
     public function getWordLinkAttribute(): ?string
     {
-        $resumeName = config('resume.file');
-        $file = asset("storage/$resumeName.docx") ?? null;
-        return file_exists(storage_path("app/public/$resumeName.docx")) ? $file : null;
+        return $this->resumeFile($this->word_resume);
     }
 
     public function scopeByValue(Builder $query, string $value): void
