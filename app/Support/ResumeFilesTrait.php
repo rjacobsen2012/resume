@@ -12,14 +12,14 @@ trait ResumeFilesTrait
     {
         if ($file = $request->file('pdf_resume')) {
             $extension = $file->getClientOriginalExtension();
-            $resumeName = config('resume.file') . '.' . $extension;
+            $resumeName = 'user/' . $request->user()->id . '/' . config('resume.file') . '.' . $extension;
             Storage::disk('public')->put($resumeName, file_get_contents($file));
 //            Log::info('form file: ' . PHP_EOL . json_encode($file->getClientOriginalExtension()));
         }
 
         if ($file = $request->file('word_resume')) {
             $extension = $file->getClientOriginalExtension();
-            $resumeName = config('resume.file') . '.' . $extension;
+            $resumeName = 'user/' . $request->user()->id . '/' . config('resume.file') . '.' . $extension;
             Storage::disk('public')->put($resumeName, file_get_contents($file));
 //            Log::info('form file: ' . PHP_EOL . json_encode($file->getClientOriginalExtension()));
         }

@@ -42,6 +42,9 @@ class ResumeRequest extends FormRequest
                 'string',
                 'unique:resume_skills,name'
             ],
+            'is_hidden' => [
+                'boolean',
+            ],
         ];
     }
 }

@@ -41,7 +41,6 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-    AuthUserLoading::class,
 ])->group(function () {
     Route::resource('home', HomeController::class)->only('index');
 

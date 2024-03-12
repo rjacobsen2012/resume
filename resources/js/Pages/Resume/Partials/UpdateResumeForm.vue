@@ -8,44 +8,41 @@ import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Checkbox from "@/Components/Checkbox.vue";
+import {usePage} from "@inertiajs/vue3";
 
 const props = defineProps({
     user: Object,
 });
 
 const form = useForm({
-    id: null,
-    name: props.user.name,
-    email: props.user.email,
-    profile: null,
-    linked_in_profile: null,
-    github_profile: null,
-    phone: null,
+    _method: 'PUT',
+    name: usePage().props.user.resume.name,
+    email: usePage().props.user.resume.email,
+    profile: usePage().props.user.resume.profile,
+    linked_in_profile: usePage().props.user.resume.linked_in_profile,
+    github_profile: usePage().props.user.resume.github_profile,
+    phone: usePage().props.user.resume.phone,
     pdf_resume: null,
     word_resume: null,
-    is_hidden: null,
+    is_hidden: usePage().props.user.resume.is_hidden,
 });
 
 const submit = () => {
-    form.post(route('resume.store'));
-};
-
-function store() {
-    form.post(route('resume.store'), {
-        errorBag: 'createResume',
+    form.post(route('resume.update', [usePage().props.user.resume.id]), {
+        errorBag: 'updateResume',
         preserveScroll: true,
-        onSuccess: (response) => created(response.props.status),
+        onSuccess: (response) => updated(response.props),
         onError: (response) => errors(response[Object.keys(response)[0]]),
     });
-}
+};
 
-function created(data) {
+function updated(data) {
     const $toast = useToast();
 
     if (data.error) {
         $toast.error(data.error);
     } else {
-        $toast.success(data.message);
+        $toast.success(data.status);
     }
 }
 
@@ -57,13 +54,13 @@ function errors(data) {
 </script>
 
 <template>
-    <FormSection @submitted="store">
+    <FormSection @submitted="submit">
         <template #title>
             Resume Information
         </template>
 
         <template #description>
-            Create the initial profile for your resume.
+            Update and build your resume.
         </template>
 
         <template #form>
@@ -185,7 +182,7 @@ function errors(data) {
             </ActionMessage>
 
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Create
+                Update
             </PrimaryButton>
         </template>
     </FormSection>

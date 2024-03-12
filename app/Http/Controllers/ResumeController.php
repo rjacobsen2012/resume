@@ -52,6 +52,7 @@ class ResumeController extends Controller
 
         return Inertia::render('Resume/Edit', [
             'resume' => $resume,
+            'status' => session('status'),
         ]);
     }
 
@@ -73,10 +74,9 @@ class ResumeController extends Controller
         $resume->fill($request->validated());
         $resume->save();
 
-        return response()->json([
-            'message' => 'Resume updated successfully',
-            'resume' => $resume->refresh(),
-        ]);
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Resume updated successfully');
     }
 
     public function store(ResumeRequest $request)
@@ -86,11 +86,7 @@ class ResumeController extends Controller
         $this->saveResumeFiles($request);
 
         /** @var Resume $resume */
-        $resume = auth()->user()->resume()->create(Arr::except($request->validated(), [
-            'id',
-            'pdf_resume',
-            'word_resume',
-        ]));
+        $resume = auth()->user()->resume()->create($request->validated());
 
         return redirect()->route('resume.edit', [$resume->id]);
     }

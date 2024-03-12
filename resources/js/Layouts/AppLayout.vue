@@ -105,15 +105,15 @@ const logout = () => {
                                     Home
                                 </NavLink>
 
-                                <NavLink v-if="$page.props.auth.user.resume" :href="route('resume.show')" :active="route().current('resume.show')">
+                                <NavLink v-if="$page.props.user.resume" :href="route('resume.show', [$page.props.user.resume.id])" :active="route().current('resume.show')">
                                     View Resume
                                 </NavLink>
 
-                                <NavLink v-if="$page.props.auth.user.resume" :href="route('resume.edit')" :active="route().current('resume.edit')">
+                                <NavLink v-if="$page.props.user.resume" :href="route('resume.edit', [$page.props.user.resume.id])" :active="route().current('resume.edit')">
                                     Edit Resume
                                 </NavLink>
 
-                                <NavLink v-if="! $page.props.auth.user.resume" :href="route('resume.create')" :active="route().current('resume.create')">
+                                <NavLink v-if="! $page.props.user.resume" :href="route('resume.create')" :active="route().current('resume.create')">
                                     Create Resume
                                 </NavLink>
                             </div>
@@ -150,15 +150,15 @@ const logout = () => {
                                             Profile
                                         </DropdownLink>
 
-                                        <DropdownLink v-if="$page.props.auth.user.resume" :href="route('resume.show')" :active="route().current('resume.show')">
+                                        <DropdownLink v-if="$page.props.user.resume" :href="route('resume.show', [$page.props.user.resume.id])" :active="route().current('resume.show')">
                                             View Resume
                                         </DropdownLink>
 
-                                        <DropdownLink v-if="$page.props.auth.user.resume" :href="route('resume.edit')" :active="route().current('resume.edit')">
+                                        <DropdownLink v-if="$page.props.user.resume" :href="route('resume.edit', [$page.props.user.resume.id])" :active="route().current('resume.edit')">
                                             Edit Resume
                                         </DropdownLink>
 
-                                        <DropdownLink v-if="! $page.props.auth.user.resume" :href="route('resume.create')" :active="route().current('resume.create')">
+                                        <DropdownLink v-if="! $page.props.user.resume" :href="route('resume.create')" :active="route().current('resume.create')">
                                             Create Resume
                                         </DropdownLink>
 
@@ -273,15 +273,15 @@ const logout = () => {
                                 Profile
                             </ResponsiveNavLink>
 
-                            <ResponsiveNavLink v-if="$page.props.auth.user.resume" :href="route('resume.show')" :active="route().current('resume.show')">
+                            <ResponsiveNavLink v-if="$page.props.user.resume" :href="route('resume.show', [$page.props.user.resume.id])" :active="route().current('resume.show')">
                                 View Resume
                             </ResponsiveNavLink>
 
-                            <ResponsiveNavLink v-if="$page.props.auth.user.resume" :href="route('resume.edit')" :active="route().current('resume.edit')">
+                            <ResponsiveNavLink v-if="$page.props.user.resume" :href="route('resume.edit', [$page.props.user.resume.id])" :active="route().current('resume.edit')">
                                 Edit Resume
                             </ResponsiveNavLink>
 
-                            <ResponsiveNavLink v-if="! $page.props.auth.user.resume" :href="route('resume.create')" :active="route().current('resume.create')">
+                            <ResponsiveNavLink v-if="! $page.props.user.resume" :href="route('resume.create')" :active="route().current('resume.create')">
                                 Create Resume
                             </ResponsiveNavLink>
 

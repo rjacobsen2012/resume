@@ -31,12 +31,8 @@ const updatePermission = () => {
     form.put(route('permission.update', [props.permission.id]), {
         errorBag: 'updatePermission',
         preserveScroll: true,
-        onSuccess: (response) => {
-            success(response.props.status)
-        },
-        onError: (response) => {
-            error(response[Object.keys(response)[0]])
-        },
+        onSuccess: (response) => success(response.props.status),
+        onError: (response) => error(response[Object.keys(response)[0]]),
     })
 }
 

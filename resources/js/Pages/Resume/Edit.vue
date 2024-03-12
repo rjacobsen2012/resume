@@ -1,6 +1,7 @@
 <script setup>
 
 import AppLayout from "@/Layouts/AppLayout.vue";
+import UpdateResumeForm from "@/Pages/Resume/Partials/UpdateResumeForm.vue";
 
 const props = defineProps({
     resume: [Array, Object],
@@ -16,7 +17,11 @@ const pageLinks = [
 
 <template>
     <AppLayout :title="title" :links="pageLinks">
-        Resume to display here
+        <div>
+            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+                <UpdateResumeForm :user="$page.props.auth.user"/>
+            </div>
+        </div>
     </AppLayout>
 </template>
 
