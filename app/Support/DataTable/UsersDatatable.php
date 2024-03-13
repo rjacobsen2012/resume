@@ -23,7 +23,8 @@ class UsersDatatable
 
     public function __construct(
         protected DataTables $dataTables
-    ) {}
+    ) {
+    }
 
     public function getDataTable(Request $request): JsonResponse
     {
@@ -45,10 +46,10 @@ class UsersDatatable
             ->addColumn('created_at', fn (User $user) => $user->created_at->format('M d, Y h:i:s A'))
             ->addColumn('user_id', fn (User $user) => $user->id)
             ->setRowClass(function (User $user) {
-                return 'row_' . $user->id;
+                return 'row_'.$user->id;
             })
             ->setRowAttr([
-                'data-row-id' => fn (User $user) => $user->id
+                'data-row-id' => fn (User $user) => $user->id,
             ])
             ->rawColumns([
                 'id',

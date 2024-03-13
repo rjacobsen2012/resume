@@ -22,7 +22,8 @@ class RolesDatatable
 
     public function __construct(
         protected DataTables $dataTables
-    ) {}
+    ) {
+    }
 
     public function getDataTable(Request $request): JsonResponse
     {
@@ -42,10 +43,10 @@ class RolesDatatable
             ->addColumn('role_id', fn (Role $role) => $role->id)
             ->addColumn('has_users', fn (Role $role) => $role->has_users)
             ->setRowClass(function (Role $role) {
-                return 'row_' . $role->id;
+                return 'row_'.$role->id;
             })
             ->setRowAttr([
-                'data-row-id' => fn (Role $role) => $role->id
+                'data-row-id' => fn (Role $role) => $role->id,
             ])
             ->rawColumns([
                 'id',

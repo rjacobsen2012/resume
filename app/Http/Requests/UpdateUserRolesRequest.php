@@ -5,9 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Role;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateUserRolesRequest extends FormRequest
 {

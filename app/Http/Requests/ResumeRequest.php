@@ -24,7 +24,7 @@ class ResumeRequest extends FormRequest
                 'string',
                 'email',
                 Rule::unique(Resume::class)
-                    ->ignore($this->route('resume'))
+                    ->ignore($this->route('resume')),
             ],
             'profile' => [
                 'string',
@@ -40,7 +40,7 @@ class ResumeRequest extends FormRequest
             ],
             'new_skill.name' => [
                 'string',
-                'unique:resume_skills,name'
+                'unique:resume_skills,name',
             ],
             'is_hidden' => [
                 'boolean',

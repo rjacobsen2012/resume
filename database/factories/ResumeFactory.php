@@ -20,7 +20,7 @@ class ResumeFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => fn() => User::factory(),
+            'user_id' => fn () => User::factory(),
             'name' => $this->faker->name(),
             'email' => $this->faker->safeEmail(),
             'profile' => $this->faker->url(),

@@ -20,7 +20,7 @@ class ExperienceFactory extends Factory
     public function definition(): array
     {
         return [
-            'resume_id' => fn() => Resume::factory(),
+            'resume_id' => fn () => Resume::factory(),
             'company_name' => $this->faker->company(),
             'title' => $this->faker->title(),
             'city' => 'Louisville',

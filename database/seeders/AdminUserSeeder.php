@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Constant\Permissions;
 use App\Constant\Roles;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -33,7 +32,7 @@ class AdminUserSeeder extends Seeder
                 'first_name' => $firstName,
                 'last_name' => $lastName,
                 'email' => $email,
-                'password' => bcrypt($password)
+                'password' => bcrypt($password),
             ]);
             $adminUser->assignRole('Administrator');
         }

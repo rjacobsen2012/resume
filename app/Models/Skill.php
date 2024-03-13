@@ -23,6 +23,7 @@ use Illuminate\Support\Carbon;
  * @property-read mixed $name
  * @property-read Resume $resume
  * @property-read ResumeSkill $resumeSkill
+ *
  * @method static SkillFactory factory($count = null, $state = [])
  * @method static Builder|Skill newModelQuery()
  * @method static Builder|Skill newQuery()
@@ -34,6 +35,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Skill whereResumeSkillId($value)
  * @method static Builder|Skill whereUpdatedAt($value)
  * @method static Builder|Skill whereYears($value)
+ *
  * @mixin Eloquent
  */
 class Skill extends Model

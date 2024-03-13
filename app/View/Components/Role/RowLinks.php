@@ -9,9 +9,6 @@ use Illuminate\View\Component;
 
 class RowLinks extends Component
 {
-    /**
-     * @param  Role  $role
-     */
     public function __construct(public Role $role)
     {
         //

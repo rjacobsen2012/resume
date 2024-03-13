@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $guard_name
@@ -21,6 +19,7 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $roles_count
  * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
+ *
  * @method static Builder|Permission newModelQuery()
  * @method static Builder|Permission newQuery()
  * @method static Builder|Permission permission($permissions, $without = false)
@@ -33,8 +32,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Permission whereUpdatedAt($value)
  * @method static Builder|Permission withoutPermission($permissions)
  * @method static Builder|Permission withoutRole($roles, $guard = null)
+ *
  * @property-read bool $belongs_to_role
  * @property-read bool $has_users
+ *
  * @mixin Eloquent
  */
 class Permission extends \Spatie\Permission\Models\Permission
@@ -47,8 +48,8 @@ class Permission extends \Spatie\Permission\Models\Permission
     public function getHasUsersAttribute(): bool
     {
         return User::with('permissions')->get()->filter(
-                fn (User $user) => $user->permissions->where('name', $this->name)->toArray()
-            )->count() > 0;
+            fn (User $user) => $user->permissions->where('name', $this->name)->toArray()
+        )->count() > 0;
     }
 
     public function getBelongsToRoleAttribute(): bool

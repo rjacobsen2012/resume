@@ -22,6 +22,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        Gate::before(fn(User $user, $ability) => $user->hasRole('Super Admin'));
+        //        Gate::before(fn(User $user, $ability) => $user->hasRole('Super Admin'));
     }
 }

@@ -22,7 +22,8 @@ class PermissionsDatatable
 
     public function __construct(
         protected DataTables $dataTables
-    ) {}
+    ) {
+    }
 
     public function getDataTable(Request $request): JsonResponse
     {
@@ -42,10 +43,10 @@ class PermissionsDatatable
             ->addColumn('permission_id', fn (Permission $permission) => $permission->id)
             ->addColumn('has_users', fn (Permission $permission) => $permission->has_users)
             ->setRowClass(function (Permission $permission) {
-                return 'row_' . $permission->id;
+                return 'row_'.$permission->id;
             })
             ->setRowAttr([
-                'data-row-id' => fn (Permission $permission) => $permission->id
+                'data-row-id' => fn (Permission $permission) => $permission->id,
             ])
             ->rawColumns([
                 'id',

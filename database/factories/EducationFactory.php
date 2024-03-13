@@ -20,7 +20,7 @@ class EducationFactory extends Factory
     public function definition(): array
     {
         return [
-            'resume_id' => fn() => Resume::factory(),
+            'resume_id' => fn () => Resume::factory(),
             'school' => $this->faker->name(),
             'city' => 'Louisville',
             'state' => 'KY',
