@@ -54,12 +54,15 @@ class Experience extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'present' => 'boolean',
-        'is_hidden' => 'boolean',
-        'started_at' => 'date',
-        'ended_at' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'present' => 'boolean',
+            'is_hidden' => 'boolean',
+            'started_at' => 'date',
+            'ended_at' => 'date',
+        ];
+    }
 
     public function resume(): BelongsTo
     {

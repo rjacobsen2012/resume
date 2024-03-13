@@ -94,9 +94,12 @@ class Resume extends Model
         'examples',
     ];
 
-    protected $casts = [
-        'is_hidden' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'is_hidden' => 'boolean',
+        ];
+    }
 
     public function user(): BelongsTo
     {

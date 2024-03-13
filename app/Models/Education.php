@@ -54,10 +54,13 @@ class Education extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'started_at' => 'date',
-        'ended_at' => 'date',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'started_at' => 'date',
+            'ended_at' => 'date',
+        ];
+    }
 
     public function resume(): BelongsTo
     {
