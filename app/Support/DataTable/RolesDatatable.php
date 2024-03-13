@@ -45,7 +45,7 @@ class RolesDatatable
                 return 'row_' . $role->id;
             })
             ->setRowAttr([
-                'data-row-id' => fn (Role $role) => $role->id
+                'data-row-id' => fn (Role $role) => $role->id,
             ])
             ->rawColumns([
                 'id',

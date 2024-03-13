@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -41,7 +41,7 @@ class Role extends \Spatie\Permission\Models\Role
     public function getHasUsersAttribute(): bool
     {
         return User::with('roles')->get()->filter(
-            fn (User $user) => $user->roles->where('name', $this->name)->toArray()
-        )->count() > 0;
+                fn (User $user) => $user->roles->where('name', $this->name)->toArray()
+            )->count() > 0;
     }
 }

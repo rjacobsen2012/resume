@@ -48,7 +48,7 @@ class UsersDatatable
                 return 'row_' . $user->id;
             })
             ->setRowAttr([
-                'data-row-id' => fn (User $user) => $user->id
+                'data-row-id' => fn (User $user) => $user->id,
             ])
             ->rawColumns([
                 'id',

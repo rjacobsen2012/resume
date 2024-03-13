@@ -45,7 +45,7 @@ class PermissionsDatatable
                 return 'row_' . $permission->id;
             })
             ->setRowAttr([
-                'data-row-id' => fn (Permission $permission) => $permission->id
+                'data-row-id' => fn (Permission $permission) => $permission->id,
             ])
             ->rawColumns([
                 'id',

@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Constant\Roles;
 use Database\Factories\UserFactory;
 use Eloquent;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +14,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Laravel\Cashier\Subscription;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -23,7 +23,7 @@ use Spark\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $first_name
@@ -86,7 +86,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $vat_id
  * @property array $invoice_emails
  * @property string|null $billing_country
- * @property-read Collection<int, \Laravel\Cashier\Subscription> $subscriptions
+ * @property-read Collection<int, Subscription> $subscriptions
  * @property-read int|null $subscriptions_count
  * @method static Builder|User hasExpiredGenericTrial()
  * @method static Builder|User onGenericTrial()

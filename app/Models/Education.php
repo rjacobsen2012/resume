@@ -71,7 +71,7 @@ class Education extends Model
 
     public function getEndedAtAttribute($value)
     {
-        if (!$value) {
+        if (! $value) {
             return $value;
         }
 
