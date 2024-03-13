@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Cryptos\Decryptors\ResumeEncryptor;
-use App\Cryptos\Encryptors\ResumeDecryptor;
+use App\Cryptos\Decryptors\EducationDecryptor;
+use App\Cryptos\Decryptors\ExampleDecryptor;
+use App\Cryptos\Decryptors\ExperienceDecryptor;
+use App\Cryptos\Encryptors\ResumeEncryptor;
+use App\Cryptos\Decryptors\ResumeDecryptor;
 use App\Http\Requests\ResumeRequest;
 use App\Http\Resources\ResumeResource;
 use App\Models\Resume;
@@ -49,12 +52,21 @@ class ResumeController extends Controller
         ]);
     }
 
-    public function edit(Resume $resume, ResumeDecryptor $decryptor)
-    {
+    public function edit(
+        Resume $resume,
+        ResumeDecryptor $decryptor,
+        EducationDecryptor $educationDecryptor,
+        ExperienceDecryptor $experienceDecryptor,
+        ExampleDecryptor $exampleDecryptor,
+    ) {
         $this->authorize('update', $resume);
 
         return Inertia::render('Resume/Edit', [
             'resume' => $decryptor->decrypt($resume),
+            'examples' => $exampleDecryptor->decryptAll($resume->examples),
+            'educations' => $educationDecryptor->decryptAll($resume->educations),
+            'experiences' => $experienceDecryptor->decryptAll($resume->experiences),
+            'skills' => $resume->skills,
         ]);
     }
 
@@ -67,8 +79,11 @@ class ResumeController extends Controller
         ]);
     }
 
-    public function update(ResumeRequest $request, Resume $resume, ResumeEncryptor $encryptor)
-    {
+    public function update(
+        ResumeRequest $request,
+        Resume $resume,
+        ResumeEncryptor $encryptor
+    ) {
         $this->authorize('update', $resume);
 
         $this->saveResumeFiles($request, $resume);

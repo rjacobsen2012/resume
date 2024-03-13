@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\SkillNotExistsOnResume;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -19,10 +20,10 @@ class StoreSkillRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                Rule::notIn($this->route('resume')->skills()->pluck('name')->toArray()),
+                new SkillNotExistsOnResume(),
             ],
-            'years' => 'numeric|nullable',
-            'months' => 'numeric|nullable',
+            'years' => ['required', 'numeric'],
+            'months' => ['required', 'numeric'],
         ];
     }
 }

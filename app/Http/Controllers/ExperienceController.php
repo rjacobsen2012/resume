@@ -2,37 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Cryptos\Encryptors\ExperienceEncryptor;
 use App\Http\Requests\StoreExperienceRequest;
 use App\Http\Requests\UpdateExperienceRequest;
 use App\Models\Experience;
 use App\Models\Resume;
-use Illuminate\Support\Carbon;
 
 class ExperienceController extends Controller
 {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreExperienceRequest $request, Resume $resume)
-    {
+    public function store(
+        StoreExperienceRequest $request,
+        Resume $resume,
+        ExperienceEncryptor $encryptor,
+    ) {
         $this->authorize('create', [Experience::class, $resume]);
 
-        $resume->experiences()->create([
-            'company_name' => $request->input('company_name'),
-            'title' => $request->input('title'),
-            'city' => $request->input('city'),
-            'state' => $request->input('state'),
-            'started_at' => Carbon::parse($request->input('started_at')),
-            'ended_at' => Carbon::parse($request->input('ended_at')),
-            'present' => (bool) $request->input('present'),
-            'description' => $request->input('description'),
-            'is_hidden' => (bool) $request->input('is_hidden'),
-        ]);
+        $resume->experiences()->create($encryptor->encrypt($request->validated()));
 
-        return response()->json([
-            'message' => 'Experience added successfully',
-            'resume' => $resume->refresh(),
-        ]);
+        return back()->with('status', 'Experience added successfully');
     }
 
     /**
@@ -41,26 +31,14 @@ class ExperienceController extends Controller
     public function update(
         UpdateExperienceRequest $request,
         Resume $resume,
-        Experience $experience
+        Experience $experience,
+        ExperienceEncryptor $encryptor
     ) {
         $this->authorize('update', [Experience::class, $resume, $experience]);
 
-        $experience->update([
-            'company_name' => $request->input('company_name'),
-            'title' => $request->input('title'),
-            'city' => $request->input('city'),
-            'state' => $request->input('state'),
-            'started_at' => Carbon::parse($request->input('started_at')),
-            'ended_at' => Carbon::parse($request->input('ended_at')),
-            'present' => (bool) $request->input('present'),
-            'description' => $request->input('description'),
-            'is_hidden' => (bool) $request->input('is_hidden'),
-        ]);
+        $experience->update($encryptor->encrypt($request->validated()));
 
-        return response()->json([
-            'message' => 'Experience updated successfully',
-            'resume' => $resume->refresh(),
-        ]);
+        return back()->with('status', 'Experience updated successfully');
     }
 
     /**
@@ -72,9 +50,6 @@ class ExperienceController extends Controller
 
         $experience->delete();
 
-        return response()->json([
-            'message' => 'Experience deleted successfully',
-            'resume' => $resume->refresh(),
-        ]);
+        return back()->with('status', 'Experience deleted successfully');
     }
 }

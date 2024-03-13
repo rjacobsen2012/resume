@@ -15,13 +15,13 @@ class StoreEducationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'school' => 'string|nullable',
-            'city' => 'string|nullable',
-            'state' => 'string|nullable',
-            'degree' => 'required|string',
-            'started_at' => 'required|date',
-            'ended_at' => 'required|after:started_at',
-            'description' => 'string|nullable',
+            'school' => ['required', 'string'],
+            'city' => ['required', 'string'],
+            'state' => ['required', 'string'],
+            'degree' => ['nullable', 'string'],
+            'started_at' => ['nullable', 'date'],
+            'ended_at' => ['nullable', 'after:started_at'],
+            'description' => ['string'],
         ];
     }
 }

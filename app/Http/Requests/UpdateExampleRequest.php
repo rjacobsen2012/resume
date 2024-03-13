@@ -8,14 +8,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class UpdateExampleRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array|string>
@@ -23,7 +15,8 @@ class UpdateExampleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'url' => ['string', 'max:255'],
+            'title' => ['string', 'max:255'],
         ];
     }
 }

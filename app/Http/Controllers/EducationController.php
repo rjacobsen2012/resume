@@ -2,35 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Cryptos\Encryptors\EducationEncryptor;
 use App\Http\Requests\StoreEducationRequest;
 use App\Http\Requests\UpdateEducationRequest;
 use App\Models\Education;
 use App\Models\Resume;
-use Illuminate\Support\Carbon;
 
 class EducationController extends Controller
 {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEducationRequest $request, Resume $resume)
-    {
+    public function store(
+        StoreEducationRequest $request,
+        Resume $resume,
+        EducationEncryptor $encryptor
+    ) {
         $this->authorize('create', [Education::class, $resume]);
 
-        $resume->educations()->create([
-            'school' => $request->input('school'),
-            'city' => $request->input('city'),
-            'state' => $request->input('state'),
-            'degree' => $request->input('degree'),
-            'started_at' => Carbon::parse($request->input('started_at')),
-            'ended_at' => Carbon::parse($request->input('ended_at')),
-            'description' => $request->input('description'),
-        ]);
+        $resume->educations()->create($encryptor->encrypt($request->validated()));
 
-        return response()->json([
-            'message' => 'Education added successfully',
-            'resume' => $resume->refresh(),
-        ]);
+        return back()->with('status', 'Education added successfully');
     }
 
     /**
@@ -39,24 +31,14 @@ class EducationController extends Controller
     public function update(
         UpdateEducationRequest $request,
         Resume $resume,
-        Education $education
+        Education $education,
+        EducationEncryptor $encryptor
     ) {
         $this->authorize('update', [Education::class, $resume, $education]);
 
-        $education->update([
-            'school' => $request->input('school'),
-            'city' => $request->input('city'),
-            'state' => $request->input('state'),
-            'degree' => $request->input('degree'),
-            'started_at' => Carbon::parse($request->input('started_at')),
-            'ended_at' => Carbon::parse($request->input('ended_at')),
-            'description' => $request->input('description'),
-        ]);
+        $education->update($encryptor->encrypt($request->validated()));
 
-        return response()->json([
-            'message' => 'Education updated successfully',
-            'resume' => $resume->refresh(),
-        ]);
+        return back()->with('status', 'Education updated successfully');
     }
 
     /**
@@ -68,9 +50,6 @@ class EducationController extends Controller
 
         $education->delete();
 
-        return response()->json([
-            'message' => 'Education deleted successfully',
-            'resume' => $resume->refresh(),
-        ]);
+        return back()->with('status', 'Education deleted successfully');
     }
 }

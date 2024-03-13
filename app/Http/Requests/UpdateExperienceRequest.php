@@ -15,15 +15,15 @@ class UpdateExperienceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_name' => 'string|nullable',
-            'title' => 'string|nullable',
-            'city' => 'string|nullable',
-            'state' => 'string|nullable',
-            'started_at' => 'date',
-            'ended_at' => 'date|after:started_at',
-            'present' => 'boolean|nullable',
-            'description' => 'string|nullable',
-            'is_hidden' => 'boolean|nullable',
+            'company_name' => ['string'],
+            'title' => ['string'],
+            'city' => ['string'],
+            'state' => ['string'],
+            'started_at' => ['date', 'nullable'],
+            'ended_at' => ['date', 'after:started_at', 'nullable'],
+            'present' => ['boolean', 'nullable'],
+            'description' => ['string'],
+            'is_hidden' => ['boolean', 'nullable'],
         ];
     }
 }

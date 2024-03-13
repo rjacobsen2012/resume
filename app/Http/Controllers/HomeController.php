@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Cryptos\Encryptors\ResumeDecryptor;
+use App\Cryptos\Decryptors\ResumeDecryptor;
 use App\Models\Resume;
 use Inertia\Inertia;
 

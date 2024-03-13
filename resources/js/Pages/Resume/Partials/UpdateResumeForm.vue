@@ -1,5 +1,5 @@
 <script setup>
-import {router, useForm} from "@inertiajs/vue3";
+import {useForm} from "@inertiajs/vue3";
 import FormSection from "@/Components/FormSection.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import ActionMessage from "@/Components/ActionMessage.vue";
@@ -87,11 +87,11 @@ const deleteResume = () => {
 <template>
     <FormSection @submitted="update">
         <template #title>
-            Resume Profile
+            Profile
         </template>
 
         <template #description>
-            Update your resume profile.
+            Add contact details.
         </template>
 
         <template #form>

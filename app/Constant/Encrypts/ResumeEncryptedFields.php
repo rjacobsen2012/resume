@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Constant;
+namespace App\Constant\Encrypts;
+
+use App\Constant\Constant;
 
 class ResumeEncryptedFields extends Constant
 {

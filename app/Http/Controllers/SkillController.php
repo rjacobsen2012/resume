@@ -29,10 +29,9 @@ class SkillController extends Controller
             'months' => $months,
         ]);
 
-        return response()->json([
-            'message' => 'Skill added successfully',
-            'resume' => $resume->refresh(),
-        ]);
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Skill added successfully');
     }
 
     /**
@@ -52,10 +51,7 @@ class SkillController extends Controller
             'months' => $months,
         ]);
 
-        return response()->json([
-            'message' => 'Skill updated successfully',
-            'resume' => $resume->refresh(),
-        ]);
+        return back()->with('status', 'Skill updated successfully');
     }
 
     /**
@@ -69,9 +65,6 @@ class SkillController extends Controller
 
         $skill->delete();
 
-        return response()->json([
-            'message' => 'Skill deleted successfully',
-            'resume' => $resume->refresh(),
-        ]);
+        return back()->with('status', 'Skill deleted successfully');
     }
 }

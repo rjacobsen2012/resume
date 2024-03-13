@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Cryptos\Encryptors\ResumeDecryptor;
+use App\Cryptos\Decryptors\ResumeDecryptor;
 use Closure;
 use Illuminate\Http\Request;
 use Inertia\Inertia;

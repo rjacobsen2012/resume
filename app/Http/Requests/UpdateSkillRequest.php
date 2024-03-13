@@ -15,8 +15,8 @@ class UpdateSkillRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'years' => 'numeric|nullable',
-            'months' => 'numeric|nullable',
+            'years' => ['numeric'],
+            'months' => ['numeric'],
         ];
     }
 }

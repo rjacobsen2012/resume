@@ -15,13 +15,13 @@ class UpdateEducationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'school' => 'string|nullable',
-            'city' => 'string|nullable',
-            'state' => 'string|nullable',
-            'degree' => 'string',
-            'started_at' => 'date',
-            'ended_at' => 'after:started_at',
-            'description' => 'string|nullable',
+            'school' => ['string'],
+            'city' => ['string'],
+            'state' => ['string'],
+            'degree' => ['string', 'nullable'],
+            'started_at' => ['date', 'nullable'],
+            'ended_at' => ['after:started_at', 'nullable'],
+            'description' => ['string'],
         ];
     }
 }
