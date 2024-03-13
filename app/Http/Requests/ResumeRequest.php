@@ -44,6 +44,7 @@ class ResumeRequest extends FormRequest
             ],
             'is_hidden' => [
                 'boolean',
+                'nullable',
             ],
         ];
     }

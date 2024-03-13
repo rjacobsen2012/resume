@@ -109,7 +109,8 @@ const pageLinks = [
                                paginator
                                :rows="10"
                                :rows-per-page-options="[10, 20, 50]"
-                               table-style="min-width: 50rem">
+                               responsive-layout="stack"
+                    >
                         <Column field="id" sortable header="Id"/>
                         <Column field="name" sortable header="Name"/>
                         <Column field="guard_name" sortable header="Guard"/>

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Cryptos\Decryptors\ResumeDecryptor;
 use App\Http\Requests\StoreSkillRequest;
 use App\Http\Requests\UpdateSkillRequest;
 use App\Models\Resume;
 use App\Models\ResumeSkill;
 use App\Models\Skill;
+use Inertia\Inertia;
 
 class SkillController extends Controller
 {
@@ -51,7 +53,9 @@ class SkillController extends Controller
             'months' => $months,
         ]);
 
-        return back()->with('status', 'Skill updated successfully');
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Skill updated successfully');
     }
 
     /**
@@ -65,6 +69,8 @@ class SkillController extends Controller
 
         $skill->delete();
 
-        return back()->with('status', 'Skill deleted successfully');
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Skill deleted successfully');
     }
 }

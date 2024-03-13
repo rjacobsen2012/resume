@@ -26,11 +26,11 @@ use Illuminate\Support\Carbon;
  * @property string $phone
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Collection<int, Education> $educations
+ * @property Collection<int, Education> $educations
  * @property-read int|null $educations_count
- * @property-read Collection<int, Example> $examples
+ * @property Collection<int, Example> $examples
  * @property-read int|null $examples_count
- * @property-read Collection<int, Experience> $experiences
+ * @property Collection<int, Experience> $experiences
  * @property-read int|null $experiences_count
  * @property-read Collection<int, Skill> $skills
  * @property-read int|null $skills_count

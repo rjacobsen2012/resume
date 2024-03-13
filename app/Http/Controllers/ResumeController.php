@@ -54,18 +54,11 @@ class ResumeController extends Controller
     public function edit(
         Resume $resume,
         ResumeDecryptor $decryptor,
-        EducationDecryptor $educationDecryptor,
-        ExperienceDecryptor $experienceDecryptor,
-        ExampleDecryptor $exampleDecryptor,
     ) {
         $this->authorize('update', $resume);
 
         return Inertia::render('Resume/Edit', [
             'resume' => $decryptor->decrypt($resume),
-            'examples' => $exampleDecryptor->decryptAll($resume->examples),
-            'educations' => $educationDecryptor->decryptAll($resume->educations),
-            'experiences' => $experienceDecryptor->decryptAll($resume->experiences),
-            'skills' => $resume->skills,
         ]);
     }
 
@@ -99,9 +92,12 @@ class ResumeController extends Controller
     {
         $this->authorize('create', Resume::class);
 
+        $validated = $request->validated();
+        $validated['is_hidden'] = (bool) $validated['is_hidden'];
+
         /** @var Resume $resume */
         $resume = auth()->user()->resume()
-            ->create($encryptor->encrypt($request->validated()));
+            ->create($encryptor->encrypt($validated));
 
         $this->saveResumeFiles($request, $resume);
 
