@@ -27,7 +27,7 @@ class ExperienceFactory extends Factory
             'state' => 'KY',
             'started_at' => $start = Carbon::now()->subYears(4),
             'ended_at' => $start->clone()->addYears(4),
-            'description' => $this->faker->sentence,
+            'description' => $this->faker->sentence(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
