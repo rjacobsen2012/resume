@@ -34,6 +34,7 @@ class AuthUserLoading
             Inertia::share([
                 'user.resume' => $resume,
                 'status' => session('status'),
+                'dark_theme' => $user->dark_theme,
             ]);
         }
 

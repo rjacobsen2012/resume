@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import {onMounted, ref, watch} from 'vue';
+import {Head, Link, router, usePage} from '@inertiajs/vue3';
 import ApplicationMark from '@/Components/ApplicationMark.vue';
 import Banner from '@/Components/Banner.vue';
 import Dropdown from '@/Components/Dropdown.vue';
@@ -9,6 +9,7 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import ConfirmDialog from "primevue/confirmdialog";
+import {setTheme} from "@/Composables/themeSwitcher.js";
 
 defineProps({
     title: String,
@@ -18,11 +19,18 @@ defineProps({
     },
 });
 
+const option = ref(usePage().props.dark_theme ? 'dark' : 'light');
 const showingNavigationDropdown = ref(false);
 
 const logout = () => {
     router.post(route('logout'));
 };
+
+watch(option, setTheme);
+
+onMounted(() => {
+    setTheme(option.value);
+});
 </script>
 
 <template>
@@ -31,7 +39,7 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
             <nav class="dark:bg-gray-900 border-b border-gray-100 dark:border-gray-700 shadow">
                 <!-- Primary Navigation Menu -->
                 <div v-if="! $page.props.auth.user" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -326,7 +334,7 @@ const logout = () => {
             </nav>
 
             <!-- Page Heading -->
-            <header v-if="links.length > 0" class="dark:bg-gray-800 shadow">
+            <header v-if="links.length > 0" class="dark:bg-gray-800 bg-gray-200 shadow">
                 <div class="flex justify-between">
                     <div class="flex flex-row justify-content-start items-center">
                         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">

@@ -104,6 +104,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User whereStripeId($value)
  * @method static Builder|User whereTrialEndsAt($value)
  * @method static Builder|User whereVatId($value)
+ * @property bool $dark_theme
+ * @method static Builder|User whereDarkTheme($value)
  * @mixin Eloquent
  */
 class User extends Authenticatable
@@ -126,6 +128,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'dark_theme',
     ];
 
     /**
@@ -149,6 +152,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'dark_theme' => 'boolean',
     ];
 
     /**

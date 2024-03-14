@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Cryptos\Decryptors\EducationDecryptor;
-use App\Cryptos\Decryptors\ExampleDecryptor;
-use App\Cryptos\Decryptors\ExperienceDecryptor;
 use App\Cryptos\Decryptors\ResumeDecryptor;
 use App\Cryptos\Encryptors\ResumeEncryptor;
 use App\Http\Requests\ResumeRequest;
 use App\Models\Resume;
 use App\Rules\ResumeSearch;
 use App\Support\ResumeFilesTrait;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -28,7 +27,7 @@ class ResumeController extends Controller
         ]);
     }
 
-    public function show(string $value)
+    public function show(string $value, ResumeDecryptor $decryptor)
     {
         $validator = Validator::make([
             'value' => $value,
@@ -41,13 +40,12 @@ class ResumeController extends Controller
         }
 
         $resume = Resume::byValue($value)->first();
-        $resume->profile = decrypt($resume->profile);
         $this->authorize('view', [Resume::class, $resume]);
 
         return Inertia::render('Resume/Show', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
-            'resume' => $resume,
+            'resume' => $decryptor->decrypt($resume),
         ]);
     }
 
@@ -121,5 +119,12 @@ class ResumeController extends Controller
         return redirect()
             ->route('home.index')
             ->with('status', 'Resume deleted successfully');
+    }
+
+    public function download(Resume $resume, string $type = 'pdf')
+    {
+        $this->authorize('view', [Resume::class, $resume]);
+
+        return Storage::download($type === 'pdf' ? $resume->pdf : $resume->word, $resume->name);
     }
 }
