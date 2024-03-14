@@ -17,10 +17,12 @@ return new class extends Migration
                 $table->foreignId('user_id')->constrained();
                 $table->string('name');
                 $table->string('email');
-                $table->string('profile');
-                $table->string('linked_in_profile');
-                $table->string('github_profile');
-                $table->string('phone');
+                $table->text('profile');
+                $table->text('linked_in_profile');
+                $table->text('github_profile');
+                $table->text('phone');
+                $table->string('pdf_resume')->nullable();
+                $table->string('word_resume')->nullable();
                 $table->boolean('is_hidden')->default(false);
                 $table->timestamps();
             });

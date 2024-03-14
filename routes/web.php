@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EducationController;
+use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PermissionController;
@@ -57,6 +58,9 @@ Route::middleware([
         ->only(['store', 'update', 'destroy']);
 
     Route::resource('resume.experience', ExperienceController::class)
+        ->only(['store', 'update', 'destroy']);
+
+    Route::resource('resume.example', ExampleController::class)
         ->only(['store', 'update', 'destroy']);
 
     Route::get('users', [UserController::class, 'data'])->name('user.data');

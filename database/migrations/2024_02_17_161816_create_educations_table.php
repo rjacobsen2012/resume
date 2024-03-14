@@ -15,10 +15,10 @@ return new class extends Migration
             Schema::create('educations', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('resume_id')->constrained();
-                $table->string('school');
-                $table->string('city');
-                $table->string('state');
-                $table->string('degree')->nullable();
+                $table->text('school');
+                $table->text('city');
+                $table->text('state');
+                $table->text('degree')->nullable();
                 $table->dateTime('started_at')->default(null)->nullable();
                 $table->dateTime('ended_at')->default(null)->nullable();
                 $table->longText('description');

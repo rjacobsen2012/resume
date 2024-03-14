@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Cryptos\Decryptors\ResumeDecryptor;
 use App\Http\Requests\StoreSkillRequest;
 use App\Http\Requests\UpdateSkillRequest;
 use App\Models\Resume;
 use App\Models\ResumeSkill;
 use App\Models\Skill;
-use Inertia\Inertia;
 
 class SkillController extends Controller
 {
@@ -48,6 +46,7 @@ class SkillController extends Controller
 
         $years = $request->input('years') ?? 0;
         $months = $request->input('months') ?? 0;
+
         $skill->update([
             'years' => $years,
             'months' => $months,

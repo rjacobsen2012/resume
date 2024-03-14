@@ -15,7 +15,8 @@
         "laravel/tinker": "^2.8",
         "spatie/laravel-permission": "^6.4",
         "tightenco/ziggy": "^2.0",
-        "yajra/laravel-datatables": "^10.1"
+        "yajra/laravel-datatables": "^10.1",
+      "ext-pdo": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.0",

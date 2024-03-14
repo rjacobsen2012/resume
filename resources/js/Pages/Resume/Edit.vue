@@ -73,6 +73,13 @@ const newEducationForm = useForm({
     description: '',
 });
 
+const newExampleForm = useForm({
+    id: null,
+    title: '',
+    url: '',
+    resume_id: form.id,
+});
+
 const newSkillForm = useForm({
     id: null,
     name: '',
@@ -121,8 +128,10 @@ const updated = (data) => {
     resetNewExperienceForm();
     resetNewEducationForm();
 
-    if (data.status) {
-        flashSuccess(data.status)
+    let status = data.status ?? data.props.status
+
+    if (status) {
+        flashSuccess(status)
     }
 }
 
@@ -136,27 +145,31 @@ const updated = (data) => {
 
                 <SectionBorder />
             </div>
-            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <EducationsForm :resume="resume"/>
+            <div class="max-w-7xl mx-auto py-1 sm:px-6 lg:px-8">
+                <EducationsForm :new-model="newEducationForm"
+                                :resume="resume"
+                                @updated="updated"/>
+
+                <SectionBorder />
+            </div>
+            <div class="max-w-7xl mx-auto py-1 sm:px-6 lg:px-8">
+                <ExamplesForm :new-model="newExampleForm"
+                              :resume="resume"
+                              @updated="updated"/>
 
                 <SectionBorder />
             </div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <ExamplesForm :resume="resume"/>
+                <ExperiencesForm :new-model="newExperienceForm"
+                                 :resume="resume"
+                                 @updated="updated"/>
 
                 <SectionBorder />
             </div>
-            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <ExperiencesForm :resume="resume"/>
-
-                <SectionBorder />
-            </div>
-            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto py-1 sm:px-6 lg:px-8">
                 <SkillsForm :new-model="newSkillForm"
                             :resume="resume"
                             @updated="updated"/>
-
-                <SectionBorder />
             </div>
         </div>
     </AppLayout>

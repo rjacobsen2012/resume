@@ -15,10 +15,10 @@ return new class extends Migration
             Schema::create('experiences', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('resume_id')->constrained();
-                $table->string('company_name');
-                $table->string('title');
-                $table->string('city');
-                $table->string('state');
+                $table->text('company_name');
+                $table->text('title');
+                $table->text('city');
+                $table->text('state');
                 $table->dateTime('started_at')->default(null)->nullable();
                 $table->dateTime('ended_at')->default(null)->nullable();
                 $table->boolean('present')->default(0);
