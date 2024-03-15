@@ -18,7 +18,7 @@ class ResumePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Resume $resume): bool
+    public function view(?User $user, Resume $resume): bool
     {
         return $resume->accessible($user);
     }

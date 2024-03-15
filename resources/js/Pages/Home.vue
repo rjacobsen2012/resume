@@ -7,53 +7,47 @@ const props = defineProps({
     resumes: [Array, Object]
 });
 
-const colorNumbers = ref([
-    100,
-    200,
-    300,
-    400,
-    500,
-    600,
-])
+const classes = ref([]);
 
-const colorNames = ref([
-    'blue',
-    'amber',
-    'cyan',
-    'emerald',
-    'fuchsia',
-    'green',
-    'indigo',
-    'lime',
-    'orange',
-    'pink',
-    'purple',
-])
+for (let i = 0; i < props.resumes.length; i++) {
+    classes.value.push(getBgColor)
+}
 
-// const getBgColor = () => {
-//     let numbers = colorNumbers.value;
-//     let number = numbers[Math.floor(Math.random()*numbers.length)];
-//     let colors = colorNames.value;
-//     let color = colors[Math.floor(Math.random()*colors.length)];
-//     return 'bg-' + color + '-' + number;
-// }
+const randomStyle = (numbers) => {
+    return Object.entries(numbers)[Math.floor(Math.random()*Object.entries(numbers).length)][1]
+}
 
 function getBgColor() {
-    let numbers = colorNumbers.value;
-    let number = numbers[Math.floor(Math.random()*numbers.length)];
-    let colors = colorNames.value;
-    let color = colors[Math.floor(Math.random()*colors.length)];
-    return 'bg-' + color + '-' + number;
+    return randomStyle(styles.value);
 }
+
+const styles = ref({
+    blue: 'bg-blue-300',
+    amber: 'bg-amber-300',
+    cyan: 'bg-cyan-300',
+    emerald: 'bg-emerald-300',
+    fuchsia: 'bg-fuchsia-300',
+    green: 'bg-green-300',
+    indigo: 'bg-indigo-300',
+    lime: 'bg-lime-300',
+    orange: 'bg-orange-300',
+    pink: 'bg-pink-300',
+    purple: 'bg-purple-300',
+});
 
 </script>
 
 <template>
     <AppLayout title="Home">
         <div class="flex flex-row justify-content-center flex-wrap gap-4 p-5">
-            <div v-for="resume in resumes" :key="resume.id">
-                <ResumeTileCard :resume="resume"></ResumeTileCard>
-            </div>
+            <ResumeTileCard v-for="(resume, index) in resumes"
+                            :key="resume.id"
+                            :resume="resume"
+                            v-bind:class="getBgColor()"
+            />
+<!--            <div v-for="resume in resumes" :key="resume.id">-->
+<!--                <ResumeTileCard :resume="resume"></ResumeTileCard>-->
+<!--            </div>-->
         </div>
 
 <!--        <template #header>-->

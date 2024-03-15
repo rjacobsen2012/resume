@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Cryptos\Encryptors\EducationEncryptor;
 use App\Models\Education;
 use App\Models\Resume;
 use Carbon\Carbon;
@@ -19,7 +20,7 @@ class EducationFactory extends Factory
      */
     public function definition(): array
     {
-        return [
+        return app(EducationEncryptor::class)->encrypt([
             'resume_id' => fn() => Resume::factory(),
             'school' => $this->faker->name(),
             'city' => 'Louisville',
@@ -30,6 +31,6 @@ class EducationFactory extends Factory
             'description' => $this->faker->sentence,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-        ];
+        ]);
     }
 }

@@ -164,9 +164,9 @@ class Resume extends Model
         $query->where('is_hidden', '=', false);
     }
 
-    public function accessible(User $user): bool
+    public function accessible(?User $user): bool
     {
-        return $this->user->id === $user->id || ! $this->is_hidden;
+        return $user?->id === $this->user->id || ! $this->is_hidden;
     }
 
     public function getBgColorAttribute(): string

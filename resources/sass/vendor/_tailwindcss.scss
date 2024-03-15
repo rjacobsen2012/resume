@@ -70,3 +70,16 @@
             bg-gray-100;
     }
 }
+
+.resume-link {
+    @apply
+        bg-blue-300
+        border-2
+        border-blue-200
+        hover:bg-blue-400
+        text-black;
+}
+
+.resume-card-tile {
+    width: 350px;
+}

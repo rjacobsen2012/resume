@@ -34,13 +34,13 @@ Route::get('/', function () {
 Route::resource('resume', ResumeController::class)
     ->only(['index', 'show']);
 
+Route::resource('home', HomeController::class)->only('index');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::resource('home', HomeController::class)->only('index');
-
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 

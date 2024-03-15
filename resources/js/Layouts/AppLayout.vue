@@ -11,6 +11,7 @@ import Breadcrumb from "@/Components/Breadcrumb.vue";
 import ConfirmDialog from "primevue/confirmdialog";
 import {setTheme} from "@/Composables/themeSwitcher.js";
 import AppLogo from "@/Components/AppLogo.vue";
+import ThemeSwitchButton from "@/Components/ThemeSwitchButton.vue";
 
 defineProps({
     title: String,
@@ -66,6 +67,8 @@ onMounted(() => {
                                     <NavLink :href="route('register')" class="ms-2" :active="route().current('register')">
                                         Register
                                     </NavLink>
+
+                                    <theme-switch-button/>
                                 </div>
                             </div>
                         </div>

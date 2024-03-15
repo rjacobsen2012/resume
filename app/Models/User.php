@@ -174,7 +174,25 @@ class User extends Authenticatable
 
     public function getGravatarAttribute(): string
     {
-        return 'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=112';
+        return $this->validateGravatar($this->email) ?
+            'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=112' : '';
+    }
+
+    protected function validateGravatar($email): bool
+    {
+        // Craft a potential url and test its headers
+        $hash = md5(strtolower(trim($email)));
+
+        $uri = 'https://www.gravatar.com/avatar/' . $hash . '?d=404';
+        $headers = @get_headers($uri);
+
+        if (! str_contains($headers[0], "200")) {
+            $has_valid_avatar = false;
+        } else {
+            $has_valid_avatar = true;
+        }
+
+        return $has_valid_avatar;
     }
 
     public function resume(): HasOne
