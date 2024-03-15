@@ -73,10 +73,19 @@ const getDate = (item) => {
 <template>
     <ResumeViewLayout :resume="resume" :title="`${resume.user.name}'s Resume`">
         <div class="container-fluid theme-text">
-            <div class="ps-0 py-2 pt-0 text-3xl font-extrabold sm:hidden">{{ resume.name }}</div>
+            <div class="ps-0 py-2 pt-0 text-4xl font-extrabold">{{ resume.name }}</div>
             <div class="divider"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">PROFILE</div></div>
+            <div class="flex flex-row justify-start items-center gap-4 mt-4">
+                <div class="">
+                    <img v-if="resume.user.gravatar" :src="resume.user.gravatar" class=""/>
+                </div>
+                <div class="">
+                    <div class="text-2xl font-bold text-gray-400 dark:text-gray-300">{{ resume.title }}</div>
+                    <div class="text-lg font-thin">{{ resume.city }}, {{ resume.state }}, {{ resume.country }}</div>
+                </div>
+            </div>
             <div class="ps-0 pt-3 font-thin text-sm">
-                <ul class="list-disc ms-4">
+                <ul>
                     <li>
                         <a-link :href="`mailto:${resume.email}`" title="Email" target="_blank">
                             <i class="fa fa-envelope"/>{{ resume.email }}
@@ -111,12 +120,12 @@ const getDate = (item) => {
 
             </div>
             <div class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">SKILLS</div></div>
-            <div class="px-1 py-1 text-xs">
-                <div v-for="skill in resume.skills" :key="skill.id" class="inline-block rounded-full px-1.5 font-semibold me-2 mb-2 bg-gray-300 dark:bg-gray-700 shadow-sm">{{ skill.name }}</div>
+            <div class="py-1 text-xs">
+                <div v-for="skill in resume.skills" :key="skill.id" class="inline-block rounded-full px-1.5 font-semibold me-2 mb-2 bg-gray-200 dark:bg-gray-700 shadow-sm">{{ skill.name }}</div>
             </div>
             <div class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">WEBSITE EXAMPLES</div></div>
             <div class="ps-0 font-thin text-sm">
-                <ul class="list-disc ms-4">
+                <ul>
                     <li v-for="example in resume.examples" :key="example.id">
                         <a-link :href="example.url" :title="example.title" target="_blank">
                             {{ example.title }}<i class="fa fa-external-link-alt"/>
@@ -166,7 +175,7 @@ const getDate = (item) => {
                         {{ getDate(experience) }}
                     </span>
                     <div v-if="isExperienceVisible(experience.id)" class="bg-gray-200 dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-600 mt-3">
-                        <ul v-html="getDescription(experience)" class="list-disc font-thin text-sm text-gray-500 pt-1 pb-2 ms-4"></ul>
+                        <ul v-html="getDescription(experience)" class="list-disc font-thin text-sm text-gray-600 dark:text-gray-400 pt-1 pb-2 ms-4"></ul>
                     </div>
                     <div v-if="! isExperienceVisible(experience.id) && index < (resume.experiences.length - 1)" class="bg-gray-900 border-t-2 border-gray-300 dark:border-gray-600 mt-3"></div>
                 </div>

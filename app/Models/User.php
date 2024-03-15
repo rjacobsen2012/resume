@@ -174,7 +174,7 @@ class User extends Authenticatable
 
     public function getGravatarAttribute(): string
     {
-        return 'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=56';
+        return 'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=112';
     }
 
     public function resume(): HasOne

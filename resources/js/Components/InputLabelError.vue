@@ -1,0 +1,32 @@
+<script setup>
+
+import TextInput from "@/Components/TextInput.vue";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+
+const props = defineProps({
+    field: String,
+    modelValue: String,
+    error: [String, null],
+});
+
+defineEmits(['update:modelValue']);
+</script>
+
+<template>
+    <InputLabel :for="field" :value="field" class="capitalize" />
+    <TextInput
+        :id="field"
+        :value="modelValue"
+        type="text"
+        class="mt-1 block w-full"
+        required
+        :autocomplete="field"
+        @input="$emit('update:modelValue', $event.target.value)"
+    />
+    <InputError :message="error" class="mt-2" />
+</template>
+
+<style scoped>
+
+</style>

@@ -16,7 +16,11 @@ return new class extends Migration
                 $table->id();
                 $table->foreignId('user_id')->constrained();
                 $table->string('name');
+                $table->string('title');
                 $table->string('email');
+                $table->string('city');
+                $table->string('state');
+                $table->string('country');
                 $table->text('profile');
                 $table->text('linked_in_profile');
                 $table->text('github_profile');

@@ -29,6 +29,18 @@ class ResumeRequest extends FormRequest
             'profile' => [
                 'string',
             ],
+            'title' => [
+                'string',
+            ],
+            'city' => [
+                'string',
+            ],
+            'state' => [
+                'string',
+            ],
+            'country' => [
+                'string',
+            ],
             'linked_in_profile' => [
                 'string',
             ],

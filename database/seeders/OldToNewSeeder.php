@@ -40,7 +40,11 @@ class OldToNewSeeder extends Seeder
             $resume = Resume::create(app(ResumeEncryptor::class)->encrypt([
                 'user_id' => $user->id,
                 'name' => $oldResume->name,
+                'title' => $oldResume->title ?? 'Senior Software Engineer',
                 'email' => $oldResume->email,
+                'city' => $oldResume->city ?? 'New Albany',
+                'state' => $oldResume->state ?? 'Indiana',
+                'country' => $oldResume->country ?? 'United States',
                 'profile' => $oldResume->profile,
                 'linked_in_profile' => $oldResume->linked_in_profile,
                 'github_profile' => $oldResume->github_profile,

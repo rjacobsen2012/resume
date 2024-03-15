@@ -62,6 +62,14 @@ use Illuminate\Support\Carbon;
  * @property string|null $pdf_resume
  * @method static Builder|Resume wherePdfResume($value)
  * @method static Builder|Resume whereWordResume($value)
+ * @property string $title
+ * @property string $city
+ * @property string $state
+ * @property string $country
+ * @method static Builder|Resume whereCity($value)
+ * @method static Builder|Resume whereCountry($value)
+ * @method static Builder|Resume whereState($value)
+ * @method static Builder|Resume whereTitle($value)
  * @mixin Eloquent
  */
 class Resume extends Model

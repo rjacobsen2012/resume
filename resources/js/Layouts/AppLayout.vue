@@ -10,6 +10,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import ConfirmDialog from "primevue/confirmdialog";
 import {setTheme} from "@/Composables/themeSwitcher.js";
+import AppLogo from "@/Components/AppLogo.vue";
 
 defineProps({
     title: String,
@@ -41,16 +42,17 @@ onMounted(() => {
 
         <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
             <nav class="dark:bg-gray-900 border-b border-gray-100 dark:border-gray-700 shadow">
+
                 <!-- Primary Navigation Menu -->
                 <div v-if="! $page.props.auth.user" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-row justify-between align-items-center h-16">
                         <div class="flex">
                             <!-- Logo -->
-                            <div class="shrink-0 flex items-center">
+                            <a class="navbar-brand flex flex-row justify-start items-center" href="">
                                 <Link :href="route('home.index')">
-                                    <ApplicationMark class="block h-9 w-auto" />
+                                    <app-logo/>
                                 </Link>
-                            </div>
+                            </a>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-3">
@@ -101,10 +103,12 @@ onMounted(() => {
                     <div class="flex flex-row justify-between align-items-center h-16">
                         <div class="flex">
                             <!-- Logo -->
-                            <div class="shrink-0 flex items-center">
-                                <Link :href="route('home.index')">
-                                    <ApplicationMark class="block h-9 w-auto" />
-                                </Link>
+                            <div class="ps-3 sm:ps-4 pe-2 sm:pe-4">
+                                <a class="navbar-brand flex flex-row justify-start items-center" href="">
+                                    <Link :href="route('home.index')">
+                                        <app-logo/>
+                                    </Link>
+                                </a>
                             </div>
 
                             <!-- Navigation Links -->

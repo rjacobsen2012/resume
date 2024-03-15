@@ -2,6 +2,11 @@
     border-radius: 0;
 }
 
+.logo-colors {
+    background-color: #f3e30c;
+    color: black;
+}
+
 .theme-bg {
     @apply
     min-h-screen
@@ -11,7 +16,7 @@
 
 .nav-bg {
     @apply
-    bg-gray-50
+    bg-gray-100
     dark:bg-gray-900;
 }
 
@@ -59,7 +64,9 @@
 
     .divider-block {
         @apply
+            text-gray-400
+            dark:text-gray-500
             dark:bg-gray-800
-            bg-gray-50;
+            bg-gray-100;
     }
 }

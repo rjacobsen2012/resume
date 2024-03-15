@@ -14,7 +14,7 @@ const props = defineProps({
     resume: [Array, Object],
 });
 
-const title = props.resume.name + "'s Resume"
+const title = props.resume.name + "'s 𝓡𝓮𝓼𝓾𝓶𝓮"
 
 const pageLinks = [
     { name: title, active: true },
