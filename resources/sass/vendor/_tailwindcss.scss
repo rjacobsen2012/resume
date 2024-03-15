@@ -1,3 +1,65 @@
 .p-paginator {
     border-radius: 0;
 }
+
+.theme-bg {
+    @apply
+    min-h-screen
+    bg-gray-100
+    dark:bg-gray-800;
+}
+
+.nav-bg {
+    @apply
+    bg-gray-50
+    dark:bg-gray-900;
+}
+
+.theme-text {
+    @apply
+    text-gray-600
+    dark:text-gray-400;
+}
+
+.link-text {
+    @apply
+    px-2
+    py-1
+    rounded
+    bg-gray-200
+    dark:bg-gray-800
+    hover:bg-gray-900
+    focus:ring-gray-700
+    dark:hover:bg-gray-700
+    dark:focus:ring-gray-700
+    dark:border-gray-800;
+}
+
+.link-icon {
+    @apply
+    py-3
+    pt-1.5
+    px-2
+    rounded
+    bg-gray-200
+    dark:bg-gray-800
+    hover:bg-gray-900
+    focus:ring-gray-700
+    dark:hover:bg-gray-700
+    dark:focus:ring-gray-700
+    dark:border-gray-800;
+}
+
+.divider {
+    @apply
+        flex
+        justify-start
+        dark:bg-gray-700
+        bg-gray-200;
+
+    .divider-block {
+        @apply
+            dark:bg-gray-800
+            bg-gray-50;
+    }
+}

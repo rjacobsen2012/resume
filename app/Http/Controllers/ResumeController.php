@@ -125,6 +125,13 @@ class ResumeController extends Controller
     {
         $this->authorize('view', [Resume::class, $resume]);
 
-        return Storage::download($type === 'pdf' ? $resume->pdf : $resume->word, $resume->name);
+        $resumeFile = $type === 'pdf' ? $resume->pdf_resume : $resume->word_resume;
+        $file = "storage/user/$resume->user_id/$resumeFile";
+
+        if (! file_exists(public_path($file))) {
+            return back()->with('status', 'File does not exist');
+        }
+
+        return redirect(url($file));
     }
 }
