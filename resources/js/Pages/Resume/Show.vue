@@ -151,7 +151,7 @@ const getDate = (item) => {
                         </span>{{ getDate(education) }}
                     </span>
                     <div v-if="isEducationVisible(education.id)" class="bg-gray-200 dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-600 mt-1">
-                        <ul v-html="getDescription(education)" class="list-disc font-thin text-sm text-gray-500 pt-2 pb-2 ms-4"></ul>
+                        <ul v-html="getDescription(education)" class="list-disc font-thin text-sm text-gray-600 dark:text-gray-400 pt-2 pb-2 ms-4"></ul>
                     </div>
                     <div v-if="! isEducationVisible(education.id) && index < (resume.educations.length - 1)" class="bg-gray-900 border-t-2 border-gray-300 dark:border-gray-600 mt-1"></div>
                 </div>

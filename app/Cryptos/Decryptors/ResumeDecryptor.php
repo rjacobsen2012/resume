@@ -17,6 +17,7 @@ class ResumeDecryptor extends BaseDecrypt
 
     public function decrypt(Resume $resume): Resume|Model
     {
+        $resume->load(['skills']);
         /** @var Resume $resume */
         $resume = $this->baseDecrypt(ResumeEncryptedFields::all(), $resume);
         $resume->examples = $this->exampleDecryptor->decryptAll($resume->examples);

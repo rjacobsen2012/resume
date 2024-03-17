@@ -6,6 +6,7 @@ use App\Cryptos\Decryptors\ResumeDecryptor;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -36,6 +37,8 @@ class AuthUserLoading
                 'status' => session('status'),
                 'dark_theme' => $user->dark_theme,
             ]);
+
+            View::share('primevueTheme', $user->dark_theme ? 'aura-dark-blue' : 'aura-light-blue');
         }
 
         return $next($request);

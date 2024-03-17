@@ -88,10 +88,6 @@ class Resume extends Model
 
     protected $with = [
         'user',
-        'skills',
-        'experiences',
-        'educations',
-        'examples',
     ];
 
     protected $casts = [

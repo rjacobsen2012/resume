@@ -174,8 +174,7 @@ class User extends Authenticatable
 
     public function getGravatarAttribute(): string
     {
-        return $this->validateGravatar($this->email) ?
-            'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=112' : '';
+        return 'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=112';
     }
 
     protected function validateGravatar($email): bool

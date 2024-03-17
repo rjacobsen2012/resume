@@ -17,7 +17,12 @@ import ToastPlugin from "vue-toast-notification";
 import 'vue-toast-notification/dist/theme-bootstrap.css';
 import PrimeVue from "primevue/config";
 import ConfirmationService from "primevue/confirmationservice";
-import 'primevue/resources/themes/aura-light-green/theme.css';
+// import {usePrimeVue} from "primevue/config";
+
+// import 'primevue/resources/themes/aura-light-green/theme.css';
+// import 'primevue/resources/themes/arya-blue/theme.css';
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -32,6 +37,8 @@ createInertiaApp({
             .use(ToastPlugin)
             .use(PrimeVue)
             .use(ConfirmationService)
+            .component('DataTable', DataTable)
+            .component('Column', Column)
             .mount(el);
     },
     progress: {

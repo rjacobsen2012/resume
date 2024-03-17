@@ -7,8 +7,10 @@ import CustomButton from "@/Components/CustomButton.vue";
 import {useConfirm} from "primevue/useconfirm";
 import {useToast} from "vue-toast-notification";
 
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
+// import DataTable from "primevue/datatable";
+// import Column from "primevue/column";
+
+import { usePrimeVue } from "primevue/config";
 
 const ApiUrl = import.meta.env.VITE_APP_API_URL
 

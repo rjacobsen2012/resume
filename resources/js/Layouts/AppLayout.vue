@@ -9,7 +9,6 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import ConfirmDialog from "primevue/confirmdialog";
-import {setTheme} from "@/Composables/themeSwitcher.js";
 import AppLogo from "@/Components/AppLogo.vue";
 import ThemeSwitchButton from "@/Components/ThemeSwitchButton.vue";
 
@@ -21,18 +20,11 @@ defineProps({
     },
 });
 
-const option = ref(usePage().props.dark_theme ? 'dark' : 'light');
 const showingNavigationDropdown = ref(false);
 
 const logout = () => {
     router.post(route('logout'));
 };
-
-watch(option, setTheme);
-
-onMounted(() => {
-    setTheme(option.value);
-});
 </script>
 
 <template>
@@ -68,7 +60,7 @@ onMounted(() => {
                                         Register
                                     </NavLink>
 
-                                    <theme-switch-button/>
+                                    <theme-switch-button class="ms-4"/>
                                 </div>
                             </div>
                         </div>
@@ -151,7 +143,6 @@ onMounted(() => {
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                                                 </svg>
                                             </button>
-                                            <span class="ms-2"><img :src="$page.props.auth.user.gravatar" :alt="$page.props.auth.user.name" width="35" class="rounded-full"/></span>
                                         </span>
                                     </template>
 
@@ -214,6 +205,10 @@ onMounted(() => {
                                     </template>
                                 </Dropdown>
                             </div>
+
+                            <div class="ms-2"><img :src="$page.props.auth.user.gravatar" :alt="$page.props.auth.user.name" width="35" class="rounded-full"/></div>
+
+                            <ThemeSwitchButton custom-class="ms-4"/>
                         </div>
 
                         <!-- Hamburger -->

@@ -5,6 +5,8 @@
 .logo-colors {
     background-color: #f3e30c;
     color: black;
+    font-size: 1em;
+    font-weight: bolder;
 }
 
 .theme-bg {
@@ -46,6 +48,7 @@
     pt-1.5
     px-2
     rounded
+    shadow-md
     bg-gray-200
     dark:bg-gray-800
     hover:bg-gray-300

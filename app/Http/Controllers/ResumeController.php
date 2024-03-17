@@ -56,7 +56,12 @@ class ResumeController extends Controller
         $this->authorize('update', $resume);
 
         return Inertia::render('Resume/Edit', [
-            'resume' => $decryptor->decrypt($resume->fresh()),
+            'resume' => $decryptor->decrypt($resume->load([
+                'skills',
+                'examples',
+                'experiences',
+                'educations',
+            ])),
         ]);
     }
 
