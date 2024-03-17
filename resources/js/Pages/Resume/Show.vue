@@ -80,44 +80,45 @@ const getDate = (item) => {
                     <img v-if="resume.user.gravatar" :src="resume.user.gravatar" class=""/>
                 </div>
                 <div class="">
-                    <div class="text-2xl font-bold text-gray-400 dark:text-gray-300">{{ resume.title }}</div>
-                    <div class="text-lg font-thin">{{ resume.city }}, {{ resume.state }}, {{ resume.country }}</div>
+                    <div class="text-lg sm:text-2xl font-bold text-gray-400 dark:text-gray-300">{{ resume.title }}</div>
+                    <div class="text-sm sm:text-lg font-thin">{{ resume.city }}, {{ resume.state }}, {{ resume.country }}</div>
                 </div>
             </div>
             <div class="ps-0 pt-3 font-thin text-sm">
-                <ul>
-                    <li>
-                        <a-link :href="`mailto:${resume.email}`" title="Email" target="_blank">
-                            <i class="fa fa-envelope"/>{{ resume.email }}
-                        </a-link>
-                    </li>
-                    <li class="pt-2">
-                        <a-link :href="`tel:${resume.phone}`" title="Phone" target="_blank">
-                            <i class="fa fa-phone-square"/>{{ resume.phone }}
-                        </a-link>
-                    </li>
-                    <li class="pt-2">
-                        <a-link :href="route('resume.download', [resume.id, 'pdf'])" title="Download PDF Resume" target="_blank">
-                            <i class="fa fa-file-pdf"/>PDF Resume
-                        </a-link>
-                    </li>
-                    <li class="pt-2">
-                        <a-link :href="route('resume.download', [resume.id, 'word'])" title="Download Word Resume" target="_blank">
-                            <i class="fa fa-file-word"/>Microsoft Word Resume
-                        </a-link>
-                    </li>
-                    <li class="pt-2">
-                        <a-link :href="resume.github_profile" title="Github Profile" target="_blank">
-                            <i class="fa-brands fa-github"/>Github Profile
-                        </a-link>
-                    </li>
-                    <li class="pt-2">
-                        <a-link :href="resume.linked_in_profile" title="LinkedIn Profile" target="_blank">
-                            <i class="fa-brands fa-linkedin"/>LinkedIn Profile:
-                        </a-link>
-                    </li>
-                </ul>
-
+                <div>
+                    <ul class="w-72">
+                        <li>
+                            <a-link :href="`mailto:${resume.email}`" title="Email" target="_blank">
+                                <i class="fa fa-envelope"/>{{ resume.email }}
+                            </a-link>
+                        </li>
+                        <li class="pt-2">
+                            <a-link :href="`tel:${resume.phone}`" title="Phone" target="_blank">
+                                <i class="fa fa-phone-square"/>{{ resume.phone }}
+                            </a-link>
+                        </li>
+                        <li class="pt-2">
+                            <a-link :href="route('resume.download', [resume.id, 'pdf'])" title="Download PDF Resume" target="_blank">
+                                <i class="fa fa-file-pdf"/>PDF Resume
+                            </a-link>
+                        </li>
+                        <li class="pt-2">
+                            <a-link :href="route('resume.download', [resume.id, 'word'])" title="Download Word Resume" target="_blank">
+                                <i class="fa fa-file-word"/>Microsoft Word Resume
+                            </a-link>
+                        </li>
+                        <li class="pt-2">
+                            <a-link :href="resume.github_profile" title="Github Profile" target="_blank">
+                                <i class="fa-brands fa-github"/>Github Profile
+                            </a-link>
+                        </li>
+                        <li class="pt-2">
+                            <a-link :href="resume.linked_in_profile" title="LinkedIn Profile" target="_blank">
+                                <i class="fa-brands fa-linkedin"/>LinkedIn Profile:
+                            </a-link>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">SKILLS</div></div>
             <div class="py-1 text-xs">

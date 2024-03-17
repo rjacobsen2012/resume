@@ -90,6 +90,8 @@ const logout = () => {
                                     />
                                 </svg>
                             </button>
+
+                            <theme-switch-button class="ms-2"/>
                         </div>
                     </div>
                 </div>

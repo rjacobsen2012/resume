@@ -1,0 +1,1 @@
+import{o,e as r,r as s}from"./app-D5AEVfJp.js";const n=["type"],c={__name:"CustomButton",props:{type:{type:String}},setup(t){return(e,p)=>(o(),r("button",{type:t.type},[s(e.$slots,"default")],8,n))}};export{c as _};
