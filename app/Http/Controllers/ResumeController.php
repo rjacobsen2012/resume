@@ -40,7 +40,12 @@ class ResumeController extends Controller
         }
 
         $resume = Resume::byValue($value)->first();
-        $this->authorize('view', [Resume::class, $resume]);
+
+        if (! $resume->accessible()) {
+            return redirect()
+                ->route('home.index')
+                ->with('error', 'The resume was not found or is not public.');
+        }
 
         return Inertia::render('Resume/Show', [
             'canLogin' => Route::has('login'),

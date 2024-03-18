@@ -99,12 +99,11 @@ return [
 
             'plans' => [
                 [
-                    'name' => 'Standard',
-                    'short_description' => 'Create your resume, and make it public',
+                    'name' => 'Resume Hosting',
+                    'short_description' => 'Host your created resume on this site.',
                     'monthly_id' => env('SPARK_STANDARD_MONTHLY_PLAN'),
-//                    'yearly_id' => env('SPARK_STANDARD_YEARLY_PLAN', 'prod_PiLIWdLWl9Yd6c'),
                     'features' => [
-                        'Public resume for all to see',
+                        'Makes resume public for employers to view',
                     ],
                     'archived' => false,
                 ],

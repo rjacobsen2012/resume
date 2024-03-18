@@ -70,6 +70,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Resume whereCountry($value)
  * @method static Builder|Resume whereState($value)
  * @method static Builder|Resume whereTitle($value)
+ * @method static Builder|Resume userSubscribed()
  * @mixin Eloquent
  */
 class Resume extends Model
@@ -160,13 +161,26 @@ class Resume extends Model
         $query->where('is_hidden', '=', false);
     }
 
-    public function accessible(?User $user): bool
+    public function accessible(?User $user = null): bool
     {
-        return $user?->id === $this->user->id || ! $this->is_hidden;
+        $user = $user ?: auth()->user();
+
+        if ($user?->id === $this->user->id) {
+            return true;
+        }
+
+        return ! $this->is_hidden && $this->user->is_subscribed;
     }
 
     public function getBgColorAttribute(): string
     {
         return TailwindCustom::randomBgColor();
+    }
+
+    public function scopeUserSubscribed(Builder $query): void
+    {
+        $query->whereHas('user', function (Builder $query) {
+            $query->has('subscriptions');
+        });
     }
 }

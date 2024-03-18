@@ -301,6 +301,10 @@ const logout = () => {
                                 API Tokens
                             </ResponsiveNavLink>
 
+                            <ResponsiveNavLink :href="route('spark.portal')">
+                                Billing
+                            </ResponsiveNavLink>
+
                             <!-- Authentication -->
                             <form method="POST" @submit.prevent="logout">
                                 <ResponsiveNavLink as="button">
@@ -336,6 +340,13 @@ const logout = () => {
                     </div>
                 </div>
             </nav>
+
+            <!-- Page Heading -->
+            <header v-if="$page.props.auth?.user?.is_on_trial" class="dark:bg-gray-800 bg-gray-200 shadow">
+                <div class="py-3 bg-indigo-100 text-indigo-700 text-sm border-b border-indigo-200 text-center">
+                    In order for your resume to become public for employers to view, you must <a href="/billing" class="font-semibold underline">subscribe</a>..
+                </div>
+            </header>
 
             <!-- Page Heading -->
             <header v-if="links.length > 0" class="dark:bg-gray-800 bg-gray-200 shadow">

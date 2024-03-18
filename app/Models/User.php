@@ -23,7 +23,7 @@ use Spark\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $first_name
@@ -106,6 +106,9 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User whereVatId($value)
  * @property bool $dark_theme
  * @method static Builder|User whereDarkTheme($value)
+ * @property-read bool $is_on_trial
+ * @property-read bool $is_subscribed
+ * @method static Builder|User hasSubscription()
  * @mixin Eloquent
  */
 class User extends Authenticatable
@@ -165,6 +168,8 @@ class User extends Authenticatable
         'name',
         'gravatar',
         'is_admin',
+        'is_on_trial',
+        'is_subscribed',
     ];
 
     public function getNameAttribute(): string
@@ -202,5 +207,20 @@ class User extends Authenticatable
     public function getIsAdminAttribute(): bool
     {
         return $this->hasRole(Roles::ADMINISTRATOR);
+    }
+
+    public function getIsOnTrialAttribute(): bool
+    {
+        return $this->onTrial();
+    }
+
+    public function getIsSubscribedAttribute(): bool
+    {
+        return $this->subscribed();
+    }
+
+    public function scopeHasSubscription(Builder $query): void
+    {
+        $query->has('subscriptions');
     }
 }

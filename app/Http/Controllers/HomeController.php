@@ -11,7 +11,11 @@ class HomeController extends Controller
     public function index(ResumeDecryptor $decryptor)
     {
         return Inertia::render('Home', [
-            'resumes' => $decryptor->decryptAll(Resume::notHidden()->orderBy('name')->get()),
+            'resumes' => $decryptor->decryptAll(Resume::notHidden()
+                ->userSubscribed()
+                ->orderBy('name')
+                ->get()
+            ),
         ]);
     }
 }

@@ -169,6 +169,12 @@ const deleteResume = () => {
                     <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Hide Resume <span class="text-xs text-gray-500 italic">(If this is checked, the resume will be hidden from the public)</span></span>
                 </label>
             </div>
+
+            <div v-if="! $page.props.auth?.user?.is_subscribed" class="col-span-6 sm:col-span-4">
+                <label class="flex items-center">
+                    <span class="ms-2 text-sm text-indigo-700 dark:text-indigo-400">*NOTE: In order for your resume to become public for employers to view, you must <a href="/billing" class="font-semibold underline">subscribe</a>.</span>
+                </label>
+            </div>
         </template>
 
         <template #actions>
