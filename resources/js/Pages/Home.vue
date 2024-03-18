@@ -39,29 +39,12 @@ const styles = ref({
 
 <template>
     <AppLayout title="Home">
-        <div class="flex flex-row justify-content-center flex-wrap gap-4 p-5">
+        <div class="flex flex-row justify-start flex-wrap gap-4 mt-4 mx-4">
             <ResumeTileCard v-for="(resume, index) in resumes"
                             :key="resume.id"
                             :resume="resume"
                             v-bind:class="getBgColor()"
             />
-<!--            <div v-for="resume in resumes" :key="resume.id">-->
-<!--                <ResumeTileCard :resume="resume"></ResumeTileCard>-->
-<!--            </div>-->
         </div>
-
-<!--        <template #header>-->
-<!--            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">-->
-<!--                Dashboard-->
-<!--            </h2>-->
-<!--        </template>-->
-
-<!--        <div class="py-12">-->
-<!--            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">-->
-<!--                <div class="bg-dark dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">-->
-<!--                    <Welcome />-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
     </AppLayout>
 </template>
