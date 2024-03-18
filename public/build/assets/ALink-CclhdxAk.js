@@ -1,1 +1,0 @@
-import{o as l,e as r,r as s}from"./app-ZUYzwkD6.js";const a=["href","title"],n={key:1},c={__name:"ALink",props:{href:[String,null],title:String,active:Boolean},setup(e){return(t,o)=>e.active?(l(),r("span",n,[s(t.$slots,"default")])):(l(),r("a",{key:0,href:e.href,title:e.title,class:"flex flex-row items-center gap-2"},[s(t.$slots,"default")],8,a))}};export{c as _};
