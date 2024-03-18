@@ -101,7 +101,7 @@ class Resume extends Model
 
     public function educations(): HasMany
     {
-        return $this->hasMany(Education::class);
+        return $this->hasMany(Education::class)->orderBy('started_at', 'desc');
     }
 
     public function examples(): HasMany
@@ -111,7 +111,7 @@ class Resume extends Model
 
     public function experiences(): HasMany
     {
-        return $this->hasMany(Experience::class);
+        return $this->hasMany(Experience::class)->orderBy('started_at', 'desc');
     }
 
     public function skills(): HasMany

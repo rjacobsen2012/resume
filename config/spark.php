@@ -100,13 +100,11 @@ return [
             'plans' => [
                 [
                     'name' => 'Standard',
-                    'short_description' => 'This is a short, human friendly description of the plan.',
-                    'monthly_id' => env('SPARK_STANDARD_MONTHLY_PLAN', 'price_1Osuc9CvfFGssygPx31SyzN9'),
+                    'short_description' => 'Create your resume, and make it public',
+                    'monthly_id' => env('SPARK_STANDARD_MONTHLY_PLAN'),
 //                    'yearly_id' => env('SPARK_STANDARD_YEARLY_PLAN', 'prod_PiLIWdLWl9Yd6c'),
                     'features' => [
-                        'Feature 1',
-                        'Feature 2',
-                        'Feature 3',
+                        'Public resume for all to see',
                     ],
                     'archived' => false,
                 ],
