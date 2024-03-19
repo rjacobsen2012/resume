@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+//use Spark\Features;
 
 return [
 
@@ -112,4 +113,8 @@ return [
         ],
 
     ],
+
+//    'features' => [
+//        Features::invoiceEmails(),
+//    ],
 ];

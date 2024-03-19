@@ -23,7 +23,7 @@ use Spark\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $first_name
@@ -156,6 +156,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'dark_theme' => 'boolean',
+        'trial_ends_at' => 'datetime',
     ];
 
     /**
