@@ -1,8 +1,8 @@
 <script setup>
-import ResumeViewLayout from "@/Layouts/ResumeViewLayout.vue";
 import ALink from "@/Components/ALink.vue";
 import moment from "moment";
 import {ref} from "vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
     resume: [Array, Object],
@@ -71,7 +71,7 @@ const getDate = (item) => {
 </script>
 
 <template>
-    <ResumeViewLayout :resume="resume" :title="`${resume.user.name}'s Resume`">
+    <AppLayout :resume="resume" :title="`${resume.user.name}'s Resume`" :use-simple="true">
         <div class="container-fluid theme-text">
             <div class="ps-0 py-2 pt-0 text-4xl font-extrabold">{{ resume.name }}</div>
             <div class="divider"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">PROFILE</div></div>
@@ -151,10 +151,10 @@ const getDate = (item) => {
                             <i class="fa fa-calendar-minus"/>
                         </span>{{ getDate(education) }}
                     </span>
-                    <div v-if="isEducationVisible(education.id)" class="bg-gray-200 dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-600 mt-1">
-                        <ul v-html="getDescription(education)" class="list-disc font-thin text-sm text-gray-600 dark:text-gray-400 pt-2 pb-2 ms-4"></ul>
+                    <div v-if="isEducationVisible(education.id)" class="bg-gray-200 dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-600 mt-3">
+                        <ul v-html="getDescription(education)" class="list-disc font-thin text-sm text-gray-600 dark:text-gray-400 pt-1 pb-2 ms-4"></ul>
                     </div>
-                    <div v-if="! isEducationVisible(education.id) && index < (resume.educations.length - 1)" class="bg-gray-900 border-t-2 border-gray-300 dark:border-gray-600 mt-1"></div>
+                    <div v-if="! isEducationVisible(education.id) && index < (resume.educations.length - 1)" class="bg-gray-900 border-t-2 border-gray-300 dark:border-gray-600 mt-3"></div>
                 </div>
             </div>
             <div class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">EXPERIENCE</div></div>
@@ -182,7 +182,7 @@ const getDate = (item) => {
                 </div>
             </div>
         </div>
-    </ResumeViewLayout>
+    </AppLayout>
 </template>
 
 <style scoped>

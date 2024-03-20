@@ -9,7 +9,7 @@ import InputText from "primevue/inputtext";
 import InputIcon from "primevue/inputicon";
 import { FilterMatchMode, FilterOperator } from "primevue/api";
 import CustomButton from "@/Components/CustomButton.vue";
-import {Link} from "@inertiajs/vue3";
+import {Link, router} from "@inertiajs/vue3";
 
 const props = defineProps({
     resumes: [Array, Object]
@@ -78,6 +78,10 @@ const getResumes = async () => {
     loading.value = false;
 };
 
+const viewResume = (id) => {
+    router.get(route('resume.show', [id]))
+}
+
 onMounted(() => {
     getResumes();
 });
@@ -86,7 +90,7 @@ onMounted(() => {
 
 <template>
     <AppLayout title="Home">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
             <div class="bg-gray-400 dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
                 <DataTable :value="rows"
                            stripedRows
@@ -97,15 +101,16 @@ onMounted(() => {
                            showGridlines
                            dataKey="id"
                            responsive-layout="stack"
+                           table-class="text-xs"
                            filterDisplay="menu" :loading="loading" :globalFilterFields="['name', 'title', 'email', 'city', 'state', 'country']">
                     <template #header>
                         <div class="flex justify-content-between">
-                            <Button type="button" class="btn-light" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
+                            <Button type="button" class="btn-light text-xs" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
                             <IconField iconPosition="left">
                                 <InputIcon>
                                     <i class="pi pi-search" />
                                 </InputIcon>
-                                <InputText class="form-control" v-model="filterResumes.global.value" placeholder="Keyword Search" />
+                                <InputText class="form-control text-xs" v-model="filterResumes.global.value" placeholder="Keyword Search" />
                             </IconField>
                         </div>
                     </template>
@@ -127,7 +132,9 @@ onMounted(() => {
                     <Column>
                         <template #body="{ data }">
                             <div class="flex items-center justify-end gap-2">
-                                <Link :href="route('resume.show', [data.id])" as="button" class="btn-primary">View Resume</Link>
+                                <Link :href="route('resume.show', [data.id])" as="button" class="btn-light text-nowrap rounded-full">
+                                    <i class="fa fa-external-link-alt"/>
+                                </Link>
                             </div>
                         </template>
                     </Column>
