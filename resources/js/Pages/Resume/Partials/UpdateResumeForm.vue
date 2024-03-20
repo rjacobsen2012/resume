@@ -14,6 +14,7 @@ import CustomButton from "@/Components/CustomButton.vue";
 import {useConfirm} from "primevue/useconfirm";
 import {ref} from "vue";
 import InputLabelError from "@/Components/InputLabelError.vue";
+import config from "tailwindcss/defaultConfig.js";
 
 const props = defineProps({
     user: Object,
@@ -170,7 +171,7 @@ const deleteResume = () => {
                 </label>
             </div>
 
-            <div v-if="! $page.props.auth?.user?.is_subscribed" class="col-span-6 sm:col-span-4">
+            <div v-if="$page.props.spark_enabled && ! $page.props.auth?.user?.is_subscribed" class="col-span-6 sm:col-span-4">
                 <label class="flex items-center">
                     <span class="ms-2 text-sm text-indigo-700 dark:text-indigo-400">*NOTE: In order for your resume to become public for employers to view, you must <a href="/billing" class="font-semibold underline">subscribe</a>.</span>
                 </label>

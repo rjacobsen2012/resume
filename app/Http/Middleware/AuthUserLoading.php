@@ -41,6 +41,10 @@ class AuthUserLoading
             View::share('primevueTheme', $user->dark_theme ? 'aura-dark-blue' : 'aura-light-blue');
         }
 
+        Inertia::share([
+            'spark_enabled' => config('spark.enabled'),
+        ]);
+
         return $next($request);
     }
 }

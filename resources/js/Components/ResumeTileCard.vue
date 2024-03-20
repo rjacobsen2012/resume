@@ -28,7 +28,7 @@ const props = defineProps({
             </div>
             <div class="flex flex-row justify-between pt-2">
                 <div class="flex flex-row justify-center ms-1 me-2">
-                    <resume-tile-profile :resume="resume"/>
+<!--                    <resume-tile-profile :resume="resume"/>-->
                 </div>
                 <div class="flex flex-row justify-end">
                     <a-link :href="route('resume.show', [resume.id])"

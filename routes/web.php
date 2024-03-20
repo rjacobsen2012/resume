@@ -36,6 +36,8 @@ Route::resource('resume', ResumeController::class)
 
 Route::resource('home', HomeController::class)->only('index');
 
+Route::get('resumes', [ResumeController::class, 'data'])->name('resume.data');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

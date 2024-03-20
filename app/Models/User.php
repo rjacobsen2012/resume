@@ -23,7 +23,7 @@ use Spark\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $first_name

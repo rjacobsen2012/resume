@@ -7,7 +7,9 @@ use App\Cryptos\Encryptors\ResumeEncryptor;
 use App\Http\Requests\ResumeRequest;
 use App\Models\Resume;
 use App\Rules\ResumeSearch;
+use App\Support\DataTable\ResumesDatatable;
 use App\Support\ResumeFilesTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -143,5 +145,10 @@ class ResumeController extends Controller
         }
 
         return redirect(url($file));
+    }
+
+    public function data(Request $request, ResumesDatatable $datatable): JsonResponse
+    {
+        return $datatable->getDataTable($request);
     }
 }

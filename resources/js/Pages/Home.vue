@@ -1,7 +1,15 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import ResumeTileCard from "@/Components/ResumeTileCard.vue";
-import {ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import IconField from "primevue/iconfield";
+import Button from "primevue/button";
+import InputText from "primevue/inputtext";
+import InputIcon from "primevue/inputicon";
+import { FilterMatchMode, FilterOperator } from "primevue/api";
+import CustomButton from "@/Components/CustomButton.vue";
+import {Link} from "@inertiajs/vue3";
 
 const props = defineProps({
     resumes: [Array, Object]
@@ -35,16 +43,96 @@ const styles = ref({
     purple: 'bg-purple-300',
 });
 
+const ApiUrl = import.meta.env.VITE_APP_API_URL;
+const loading = ref(true);
+const total_rows = ref(0);
+const filterResumes = ref({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+})
+const params = reactive({
+    current_page: 1,
+    pagesize: 10,
+    sort_column: 'name',
+    sort_direction: 'asc',
+});
+
+const rows = ref(null);
+
+const clearFilter = () => {
+    filterResumes.global.value = null;
+};
+
+const getResumes = async () => {
+    try {
+        loading.value = true;
+
+        const response = await fetch(`${ApiUrl}/resumes?${new URLSearchParams(params)}`);
+
+        const data = await response.json();
+
+        rows.value = data?.data;
+        total_rows.value = data?.recordsTotal;
+    } catch {
+    }
+
+    loading.value = false;
+};
+
+onMounted(() => {
+    getResumes();
+});
+
 </script>
 
 <template>
     <AppLayout title="Home">
-        <div class="flex flex-row justify-start flex-wrap gap-4 mt-4 mx-4">
-            <ResumeTileCard v-for="(resume, index) in resumes"
-                            :key="resume.id"
-                            :resume="resume"
-                            v-bind:class="getBgColor()"
-            />
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-gray-400 dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
+                <DataTable :value="rows"
+                           stripedRows
+                           paginator
+                           :rows="10"
+                           :rows-per-page-options="[10, 20, 50]"
+                           v-model:filters="filterResumes"
+                           showGridlines
+                           dataKey="id"
+                           responsive-layout="stack"
+                           filterDisplay="menu" :loading="loading" :globalFilterFields="['name', 'title', 'email', 'city', 'state', 'country']">
+                    <template #header>
+                        <div class="flex justify-content-between">
+                            <Button type="button" class="btn-light" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
+                            <IconField iconPosition="left">
+                                <InputIcon>
+                                    <i class="pi pi-search" />
+                                </InputIcon>
+                                <InputText class="form-control" v-model="filterResumes.global.value" placeholder="Keyword Search" />
+                            </IconField>
+                        </div>
+                    </template>
+                    <template #empty> No resumes found. </template>
+                    <template #loading> Loading resumes data. Please wait. </template>
+                    <Column field="name" sortable header="Name">
+                        <template #body="{ data }">
+                            <div class="flex align-items-center gap-2">
+                                <img :alt="data.gravatar" :src="data.gravatar" style="width: 32px" class="rounded-full" />
+                                <span>{{ data.name }}</span>
+                            </div>
+                        </template>
+                    </Column>
+                    <Column field="email" sortable header="Email"/>
+                    <Column field="title" sortable header="Title"/>
+                    <Column field="city" sortable header="City"/>
+                    <Column field="state" sortable header="State"/>
+                    <Column field="country" sortable header="Country"/>
+                    <Column>
+                        <template #body="{ data }">
+                            <div class="flex items-center justify-end gap-2">
+                                <Link :href="route('resume.show', [data.id])" as="button" class="btn-primary">View Resume</Link>
+                            </div>
+                        </template>
+                    </Column>
+                </DataTable>
+            </div>
         </div>
     </AppLayout>
 </template>

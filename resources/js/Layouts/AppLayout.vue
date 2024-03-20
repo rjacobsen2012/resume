@@ -1,7 +1,6 @@
 <script setup>
-import {onMounted, ref, watch} from 'vue';
-import {Head, Link, router, usePage} from '@inertiajs/vue3';
-import ApplicationMark from '@/Components/ApplicationMark.vue';
+import {onMounted, ref} from 'vue';
+import {Head, Link, router, usePage, useForm} from '@inertiajs/vue3';
 import Banner from '@/Components/Banner.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -10,6 +9,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import ConfirmDialog from "primevue/confirmdialog";
 import AppLogo from "@/Components/AppLogo.vue";
+import { usePrimeVue } from "primevue/config";
 import ThemeSwitchButton from "@/Components/ThemeSwitchButton.vue";
 
 defineProps({
@@ -20,11 +20,102 @@ defineProps({
     },
 });
 
+const themes = ref({
+    light: 'aura-light-blue',
+    dark: 'aura-dark-blue',
+});
+
+const currentTheme = ref('aura-dark-blue');
+
+const PrimeVue = usePrimeVue();
+
+const setUserTheme = ref(usePage().props?.dark_theme !== null ? usePage().props?.dark_theme : null);
+const storageTheme = ref(localStorage.getItem('option'));
+const userTheme = ref(setUserTheme.value !== null ? (setUserTheme.value === true ? 'dark' : 'light') : (storageTheme.value !== null ? storageTheme.value : 'dark'))
+const option = ref(userTheme.value);
+
+const form = useForm({
+    _method: 'PUT',
+    dark_theme: option.value === 'dark',
+});
+
+const updateThemeInformation = (form, user) => {
+    if (user) {
+        form.post(route('user-theme.update', [user.id]), {
+            errorBag: 'updateThemeInformation',
+            preserveScroll: true,
+        });
+    }
+};
+
+const setTheme = () => {
+    option.value === 'dark' ? setDarkTheme() : setLightTheme();
+};
+
+const toggleDarkClass = (className) => {
+    if (className === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+};
+
+const setDarkTheme = () => {
+    let theme = 'dark';
+    toggleDarkClass(theme);
+    togglePrimeVueTheme(theme);
+}
+
+const setLightTheme = () => {
+    let theme = 'light';
+    toggleDarkClass(theme);
+    togglePrimeVueTheme(theme);
+}
+
+const togglePrimeVueTheme = (theme) => {
+    let from;
+    let to;
+
+    if (theme === 'light') {
+        if (currentTheme.value !== themes.value.dark) {
+            currentTheme.value = themes.value.dark;
+        }
+
+        from = themes.value.dark;
+        to = themes.value.light;
+    } else {
+        if (currentTheme.value !== themes.value.light) {
+            currentTheme.value = themes.value.light;
+        }
+
+        from = themes.value.light;
+        to = themes.value.dark;
+    }
+
+    // console.log('from: ' + from + ', to: ' + to);
+    PrimeVue.changeTheme(from, to, 'theme-link', () => {});
+
+    // So current theme now:
+    currentTheme.value = to;
+}
+
+const setOption = (selectedOption) => {
+    localStorage.setItem('option', selectedOption);
+    option.value = selectedOption;
+    form.dark_theme = option.value === 'dark';
+    setTheme();
+    updateThemeInformation(form, usePage().props.auth?.user);
+}
+
 const showingNavigationDropdown = ref(false);
 
 const logout = () => {
     router.post(route('logout'));
 };
+
+onMounted(() => {
+    setTheme();
+});
 </script>
 
 <template>
@@ -60,7 +151,7 @@ const logout = () => {
                                         Register
                                     </NavLink>
 
-                                    <theme-switch-button class="ms-4"/>
+                                    <theme-switch-button custom-class="ms-4" v-model="option" @set-option="setOption"/>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +182,7 @@ const logout = () => {
                                 </svg>
                             </button>
 
-                            <theme-switch-button class="ms-2"/>
+                            <theme-switch-button custom-class="ms-2" v-model="option" @set-option="setOption"/>
                         </div>
                     </div>
                 </div>
@@ -210,7 +301,7 @@ const logout = () => {
 
                             <div class="ms-2"><img :src="$page.props.auth.user.gravatar" :alt="$page.props.auth.user.name" width="35" class="rounded-full"/></div>
 
-                            <ThemeSwitchButton custom-class="ms-4"/>
+                            <theme-switch-button custom-class="ms-4" v-model="option" @set-option="setOption"/>
                         </div>
 
                         <!-- Hamburger -->
@@ -342,7 +433,7 @@ const logout = () => {
             </nav>
 
             <!-- Page Heading -->
-            <header v-if="$page.props.auth?.user?.is_on_trial" class="dark:bg-gray-800 bg-gray-200 shadow">
+            <header v-if="$page.props.spark_enabled && $page.props.auth?.user?.is_on_trial" class="dark:bg-gray-800 bg-gray-200 shadow">
                 <div class="py-3 bg-indigo-100 text-indigo-700 text-sm border-b border-indigo-200 text-center">
                     In order for your resume to become public for employers to view, you must <a href="/billing" class="font-semibold underline">subscribe</a>..
                 </div>

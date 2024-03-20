@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Cryptos\Decryptors\ResumeDecryptor;
 use App\Models\Resume;
 use Inertia\Inertia;
+use Matrix\Builder;
 
 class HomeController extends Controller
 {
@@ -14,8 +15,7 @@ class HomeController extends Controller
             'resumes' => $decryptor->decryptAll(Resume::notHidden()
                 ->userSubscribed()
                 ->orderBy('name')
-                ->get()
-            ),
+                ->get()),
         ]);
     }
 }

@@ -58,7 +58,7 @@ const props = defineProps({
             </nav>
 
             <!-- Page Heading -->
-            <header v-if="$page.props.auth?.user?.is_on_trial" class="dark:bg-gray-800 bg-gray-200 shadow">
+            <header v-if="$page.props.spark_enabled && $page.props.auth?.user?.is_on_trial" class="dark:bg-gray-800 bg-gray-200 shadow">
                 <div class="py-3 bg-indigo-100 text-indigo-700 text-sm border-b border-indigo-200 text-center">
                     In order for your resume to become public for employers to view, you must <a href="/billing" class="font-semibold underline">subscribe</a>..
                 </div>

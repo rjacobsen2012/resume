@@ -71,6 +71,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Resume whereState($value)
  * @method static Builder|Resume whereTitle($value)
  * @method static Builder|Resume userSubscribed()
+ * @property-read string|null $gravatar
  * @mixin Eloquent
  */
 class Resume extends Model
@@ -85,6 +86,7 @@ class Resume extends Model
         'pdf_link',
         'word_link',
         'bg_color',
+        'gravatar',
     ];
 
     protected $with = [
@@ -169,7 +171,7 @@ class Resume extends Model
             return true;
         }
 
-        return ! $this->is_hidden && $this->user->is_subscribed;
+        return ! $this->is_hidden && (! config('spark.enabled') || $this->user->is_subscribed);
     }
 
     public function getBgColorAttribute(): string
@@ -179,8 +181,15 @@ class Resume extends Model
 
     public function scopeUserSubscribed(Builder $query): void
     {
-        $query->whereHas('user', function (Builder $query) {
-            $query->has('subscriptions');
+        $query->when(config('spark.enabled'), function (Builder $query) {
+            $query->whereHas('user', function (Builder $query) {
+                $query->has('subscriptions');
+            });
         });
+    }
+
+    public function getGravatarAttribute(): ?string
+    {
+        return $this->user->gravatar;
     }
 }

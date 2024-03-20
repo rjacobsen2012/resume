@@ -5,6 +5,8 @@ use App\Models\User;
 
 return [
 
+    'enabled' => env('STRIPE_ENABLED', false),
+
     /*
     |--------------------------------------------------------------------------
     | Spark Path
