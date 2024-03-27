@@ -12,8 +12,6 @@ import {useToast} from "vue-toast-notification";
 
 import { usePrimeVue } from "primevue/config";
 
-const ApiUrl = import.meta.env.VITE_APP_API_URL
-
 const props = defineProps({
     status: {
         type: String,
@@ -39,7 +37,7 @@ const getRoles = async () => {
     try {
         loading.value = true;
 
-        const response = await fetch(`${ApiUrl}/roles?${new URLSearchParams(params)}`);
+        const response = await fetch(`/roles?${new URLSearchParams(params)}`);
 
         const data = await response.json();
 

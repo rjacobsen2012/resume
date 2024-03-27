@@ -9,7 +9,7 @@ import InputText from "primevue/inputtext";
 import InputIcon from "primevue/inputicon";
 import { FilterMatchMode, FilterOperator } from "primevue/api";
 // import CustomButton from "@/Components/CustomButton.vue";
-import {Link, router} from "@inertiajs/vue3";
+import {Link, router, usePage} from "@inertiajs/vue3";
 
 // const props = defineProps({
 //     resumes: [Array, Object]
@@ -43,7 +43,6 @@ import {Link, router} from "@inertiajs/vue3";
 //     purple: 'bg-purple-300',
 // });
 
-const ApiUrl = import.meta.env.VITE_APP_API_URL;
 const loading = ref(true);
 const total_rows = ref(0);
 const filterResumes = ref({
@@ -66,7 +65,7 @@ const getResumes = async () => {
     try {
         loading.value = true;
 
-        const response = await fetch(`${ApiUrl}/resume/data?${new URLSearchParams(params)}`);
+        const response = await fetch(`/resume/data?${new URLSearchParams(params)}`);
 
         const data = await response.json();
 
