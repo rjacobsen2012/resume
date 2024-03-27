@@ -160,7 +160,13 @@ class Resume extends Model
 
     public function scopeNotHidden(Builder $query): void
     {
-        $query->where('is_hidden', '=', false);
+        $user = auth()->user();
+        $query->where('is_hidden', '=', false)
+            ->orWhere(function (Builder $query) use ($user) {
+                $query->when($user, function (Builder $query) use ($user) {
+                    $query->where('user_id', $user->id);
+                });
+            });
     }
 
     public function accessible(?User $user = null): bool
