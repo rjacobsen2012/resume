@@ -31,12 +31,12 @@ Route::get('/', function () {
     return redirect()->route('home.index');
 });
 
+Route::get('resume/data', [ResumeController::class, 'data'])->name('resume.data');
+
 Route::resource('resume', ResumeController::class)
     ->only(['index', 'show']);
 
 Route::resource('home', HomeController::class)->only('index');
-
-Route::get('resumes', [ResumeController::class, 'data'])->name('resume.data');
 
 Route::middleware([
     'auth:sanctum',

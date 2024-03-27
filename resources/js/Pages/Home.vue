@@ -8,40 +8,40 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import InputIcon from "primevue/inputicon";
 import { FilterMatchMode, FilterOperator } from "primevue/api";
-import CustomButton from "@/Components/CustomButton.vue";
+// import CustomButton from "@/Components/CustomButton.vue";
 import {Link, router} from "@inertiajs/vue3";
 
-const props = defineProps({
-    resumes: [Array, Object]
-});
+// const props = defineProps({
+//     resumes: [Array, Object]
+// });
 
-const classes = ref([]);
+// const classes = ref([]);
+//
+// for (let i = 0; i < props.resumes.length; i++) {
+//     classes.value.push(getBgColor)
+// }
 
-for (let i = 0; i < props.resumes.length; i++) {
-    classes.value.push(getBgColor)
-}
+// const randomStyle = (numbers) => {
+//     return Object.entries(numbers)[Math.floor(Math.random()*Object.entries(numbers).length)][1]
+// }
 
-const randomStyle = (numbers) => {
-    return Object.entries(numbers)[Math.floor(Math.random()*Object.entries(numbers).length)][1]
-}
+// function getBgColor() {
+//     return randomStyle(styles.value);
+// }
 
-function getBgColor() {
-    return randomStyle(styles.value);
-}
-
-const styles = ref({
-    blue: 'bg-blue-300',
-    amber: 'bg-amber-300',
-    cyan: 'bg-cyan-300',
-    emerald: 'bg-emerald-300',
-    fuchsia: 'bg-fuchsia-300',
-    green: 'bg-green-300',
-    indigo: 'bg-indigo-300',
-    lime: 'bg-lime-300',
-    orange: 'bg-orange-300',
-    pink: 'bg-pink-300',
-    purple: 'bg-purple-300',
-});
+// const styles = ref({
+//     blue: 'bg-blue-300',
+//     amber: 'bg-amber-300',
+//     cyan: 'bg-cyan-300',
+//     emerald: 'bg-emerald-300',
+//     fuchsia: 'bg-fuchsia-300',
+//     green: 'bg-green-300',
+//     indigo: 'bg-indigo-300',
+//     lime: 'bg-lime-300',
+//     orange: 'bg-orange-300',
+//     pink: 'bg-pink-300',
+//     purple: 'bg-purple-300',
+// });
 
 const ApiUrl = import.meta.env.VITE_APP_API_URL;
 const loading = ref(true);
@@ -66,7 +66,7 @@ const getResumes = async () => {
     try {
         loading.value = true;
 
-        const response = await fetch(`${ApiUrl}/resumes?${new URLSearchParams(params)}`);
+        const response = await fetch(`${ApiUrl}/resume/data?${new URLSearchParams(params)}`);
 
         const data = await response.json();
 

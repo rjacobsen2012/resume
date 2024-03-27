@@ -12,22 +12,12 @@ use App\Support\ResumeFilesTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class ResumeController extends Controller
 {
     use ResumeFilesTrait;
-
-    public function index()
-    {
-        $this->authorize('viewAny', Resume::class);
-
-        return Inertia::render('Resume/Index', [
-            'resumes' => Resume::notHidden()->pluck('name', 'id'),
-        ]);
-    }
 
     public function show(string $value, ResumeDecryptor $decryptor)
     {
