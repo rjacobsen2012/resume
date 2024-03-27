@@ -92,7 +92,9 @@ onMounted(() => {
     <AppLayout title="Home">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
             <div class="bg-gray-400 dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
-                <DataTable :value="rows"
+                <span v-if="! rows.length">No resumes have been added yet.</span>
+                <DataTable v-else
+                           :value="rows"
                            stripedRows
                            paginator
                            :rows="10"

@@ -28,7 +28,7 @@ class ResumesDatatable
 
     public function getDataTable(Request $request): JsonResponse
     {
-        $query = Resume::query();
+        $query = Resume::notHidden();
 
         if ($search = Arr::get($request->all(), 'search.value')) {
             $query = $query->where('name', 'like', "%$search%")
