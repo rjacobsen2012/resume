@@ -97,12 +97,12 @@ const getDate = (item) => {
                                 <i class="fa fa-phone-square"/>{{ resume.phone }}
                             </a-link>
                         </li>
-                        <li class="pt-2">
+                        <li v-if="resume.pdf_resume" class="pt-2">
                             <a-link :href="route('resume.download', [resume.id, 'pdf'])" title="Download PDF Resume" target="_blank">
                                 <i class="fa fa-file-pdf"/>PDF Resume
                             </a-link>
                         </li>
-                        <li class="pt-2">
+                        <li v-if="resume.word_resume" class="pt-2">
                             <a-link :href="route('resume.download', [resume.id, 'word'])" title="Download Word Resume" target="_blank">
                                 <i class="fa fa-file-word"/>Microsoft Word Resume
                             </a-link>

@@ -12,6 +12,7 @@ use App\Support\ResumeFilesTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -128,13 +129,13 @@ class ResumeController extends Controller
         $this->authorize('view', [Resume::class, $resume]);
 
         $resumeFile = $type === 'pdf' ? $resume->pdf_resume : $resume->word_resume;
-        $file = "storage/user/$resume->user_id/$resumeFile";
+        $file = "user/$resume->user_id/$resumeFile";
 
-        if (! file_exists(public_path($file))) {
+        if (! file_exists(public_path('storage/' . $file))) {
             return back()->with('status', 'File does not exist');
         }
 
-        return redirect(url($file));
+        return Storage::disk('public')->download($file);
     }
 
     public function data(Request $request, ResumesDatatable $datatable): JsonResponse
