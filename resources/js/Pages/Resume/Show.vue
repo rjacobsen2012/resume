@@ -122,7 +122,7 @@ const getDate = (item) => {
             </div>
             <div class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">SKILLS</div></div>
             <div class="py-1 text-xs">
-                <div v-for="skill in resume.skills" :key="skill.id" class="inline-block rounded-full px-1.5 font-semibold me-2 mb-2 bg-gray-200 dark:bg-gray-700 shadow-sm">{{ skill.name }}</div>
+                <div v-for="skill in resume.skills" :key="skill.id" class="inline-block rounded-full px-1.5 font-semibold me-2 mb-2 bg-gray-200 dark:bg-gray-700 shadow-sm">{{ skill.display }}</div>
             </div>
             <div class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">WEBSITE EXAMPLES</div></div>
             <div class="ps-0 font-thin text-sm">
