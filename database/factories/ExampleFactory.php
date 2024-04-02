@@ -21,7 +21,7 @@ class ExampleFactory extends Factory
     public function definition(): array
     {
         return app(ExampleEncryptor::class)->encrypt([
-            'resume_id' => fn() => Resume::factory(),
+            'resume_id' => fn () => Resume::factory(),
             'url' => $this->faker->url(),
             'title' => $this->faker->name(),
             'created_at' => Carbon::now(),

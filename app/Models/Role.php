@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $guard_name
@@ -19,6 +17,7 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $permissions_count
  * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
+ *
  * @method static Builder|Role newModelQuery()
  * @method static Builder|Role newQuery()
  * @method static Builder|Role permission($permissions, $without = false)
@@ -29,7 +28,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Role whereName($value)
  * @method static Builder|Role whereUpdatedAt($value)
  * @method static Builder|Role withoutPermission($permissions)
+ *
  * @property-read bool $has_users
+ *
  * @mixin Eloquent
  */
 class Role extends \Spatie\Permission\Models\Role

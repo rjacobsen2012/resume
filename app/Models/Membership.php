@@ -8,14 +8,13 @@ use Illuminate\Support\Carbon;
 use Laravel\Jetstream\Membership as JetstreamMembership;
 
 /**
- * 
- *
  * @property int $id
  * @property int $team_id
  * @property int $user_id
  * @property string|null $role
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ *
  * @method static Builder|Membership newModelQuery()
  * @method static Builder|Membership newQuery()
  * @method static Builder|Membership query()
@@ -25,6 +24,7 @@ use Laravel\Jetstream\Membership as JetstreamMembership;
  * @method static Builder|Membership whereTeamId($value)
  * @method static Builder|Membership whereUpdatedAt($value)
  * @method static Builder|Membership whereUserId($value)
+ *
  * @mixin Eloquent
  */
 class Membership extends JetstreamMembership

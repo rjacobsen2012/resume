@@ -22,7 +22,7 @@ class ResumeFactory extends Factory
     public function definition(): array
     {
         return app(ResumeEncryptor::class)->encrypt([
-            'user_id' => fn() => User::factory(),
+            'user_id' => fn () => User::factory(),
             'name' => $this->faker->name(),
             'email' => $this->faker->safeEmail(),
             'title' => $this->faker->word(),

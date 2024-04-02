@@ -21,11 +21,7 @@ class AuthUserLoading
     {
         /** @var User $user */
         $user = $request->user();
-        $resume = null;
-
-        if ($user) {
-            $resume = $user->resume;
-        }
+        $resume = $user?->resume;
 
         if ($resume) {
             $resume = app(ResumeDecryptor::class)->decrypt($resume);

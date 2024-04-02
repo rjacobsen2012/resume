@@ -17,8 +17,8 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    use WithFaker;
     use ResumeFilesTrait;
+    use WithFaker;
 
     /**
      * Display a listing of the resource.
@@ -38,7 +38,7 @@ class UserController extends Controller
         $this->authorize('create', User::class);
 
         $this->setUpFaker();
-        $password = $this->faker->password;
+        $password = $this->faker->password();
 
         User::create(array_merge($request->validated(), [
             'password' => bcrypt($password),

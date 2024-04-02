@@ -23,8 +23,6 @@ use Spark\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * 
- *
  * @property int $id
  * @property string $first_name
  * @property string $last_name
@@ -46,6 +44,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read Resume|null $resume
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ *
  * @method static UserFactory factory($count = null, $state = [])
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
@@ -63,14 +62,17 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User whereTwoFactorRecoveryCodes($value)
  * @method static Builder|User whereTwoFactorSecret($value)
  * @method static Builder|User whereUpdatedAt($value)
+ *
  * @property-read Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
  * @property-read Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
+ *
  * @method static Builder|User permission($permissions, $without = false)
  * @method static Builder|User role($roles, $guard = null, $without = false)
  * @method static Builder|User withoutPermission($permissions)
  * @method static Builder|User withoutRole($roles, $guard = null)
+ *
  * @property-read bool $is_admin
  * @property string|null $stripe_id
  * @property string|null $pm_type
@@ -88,6 +90,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $billing_country
  * @property-read Collection<int, Subscription> $subscriptions
  * @property-read int|null $subscriptions_count
+ *
  * @method static Builder|User hasExpiredGenericTrial()
  * @method static Builder|User onGenericTrial()
  * @method static Builder|User whereBillingAddress($value)
@@ -109,6 +112,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read bool $is_on_trial
  * @property-read bool $is_subscribed
  * @method static Builder|User hasSubscription()
+ *
  * @mixin Eloquent
  */
 class User extends Authenticatable
@@ -117,9 +121,9 @@ class User extends Authenticatable
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
+    use HasRoles;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -149,17 +153,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'dark_theme' => 'boolean',
-        'trial_ends_at' => 'datetime',
-    ];
-
-    /**
      * The accessors to append to the model's array form.
      *
      * @var array<int, string>
@@ -172,6 +165,20 @@ class User extends Authenticatable
         'is_on_trial',
         'is_subscribed',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'dark_theme' => 'boolean',
+            'trial_ends_at' => 'datetime',
+        ];
+    }
 
     public function getNameAttribute(): string
     {

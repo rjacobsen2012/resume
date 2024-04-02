@@ -21,8 +21,8 @@ class SkillFactory extends Factory
     public function definition(): array
     {
         return [
-            'resume_id' => fn() => Resume::factory(),
-            'resume_skill_id' => fn() => ResumeSkill::factory(),
+            'resume_id' => fn () => Resume::factory(),
+            'resume_skill_id' => fn () => ResumeSkill::factory(),
             'years' => 4,
             'months' => 2,
             'created_at' => Carbon::now(),

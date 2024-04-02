@@ -35,6 +35,7 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Skill> $skills
  * @property-read int|null $skills_count
  * @property-read User $user
+ *
  * @method static ResumeFactory factory($count = null, $state = [])
  * @method static Builder|Resume newModelQuery()
  * @method static Builder|Resume newQuery()
@@ -49,17 +50,23 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Resume whereProfile($value)
  * @method static Builder|Resume whereUpdatedAt($value)
  * @method static Builder|Resume whereUserId($value)
+ *
  * @property-read string|null $pdf
  * @property-read string|null $pdf_link
  * @property-read string|null $word
  * @property-read string|null $word_link
+ *
  * @method static Builder|Resume byValue(string $value)
+ *
  * @property int $is_hidden
+ *
  * @method static Builder|Resume whereIsHidden($value)
  * @method static Builder|Resume notHidden()
+ *
  * @property-read string $bg_color
  * @property string|null $word_resume
  * @property string|null $pdf_resume
+ *
  * @method static Builder|Resume wherePdfResume($value)
  * @method static Builder|Resume whereWordResume($value)
  * @property string $title
@@ -93,9 +100,12 @@ class Resume extends Model
         'user',
     ];
 
-    protected $casts = [
-        'is_hidden' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'is_hidden' => 'boolean',
+        ];
+    }
 
     public function user(): BelongsTo
     {
@@ -139,6 +149,7 @@ class Resume extends Model
         }
 
         $resume = asset("storage/user/$this->user_id/$fileName") ?? null;
+
         return $resume && file_exists(public_path($resume)) ? $resume : null;
     }
 

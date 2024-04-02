@@ -12,22 +12,22 @@ trait ResumeFilesTrait
     {
         if ($file = $request->file('pdf_resume')) {
             $fileName = $file->getClientOriginalName();
-            $resumeName = 'user/' . $request->user()->id . '/' . $fileName;
+            $resumeName = 'user/'.$request->user()->id.'/'.$fileName;
             Storage::disk('public')->put($resumeName, file_get_contents($file));
             $resume->pdf_resume = $fileName;
         } else {
-            $resumeName = 'user/' . $request->user()->id . '/' . $resume->pdf_resume;
+            $resumeName = 'user/'.$request->user()->id.'/'.$resume->pdf_resume;
             Storage::disk('public')->delete($resumeName);
             $resume->pdf_resume = null;
         }
 
         if ($file = $request->file('word_resume')) {
             $fileName = $file->getClientOriginalName();
-            $resumeName = 'user/' . $request->user()->id . '/' . $fileName;
+            $resumeName = 'user/'.$request->user()->id.'/'.$fileName;
             Storage::disk('public')->put($resumeName, file_get_contents($file));
             $resume->word_resume = $fileName;
         } else {
-            $resumeName = 'user/' . $request->user()->id . '/' . $resume->word_resume;
+            $resumeName = 'user/'.$request->user()->id.'/'.$resume->word_resume;
             Storage::disk('public')->delete($resumeName);
             $resume->word_resume = null;
         }
@@ -38,12 +38,12 @@ trait ResumeFilesTrait
     protected function deleteResumeFiles(Resume $resume): void
     {
         if ($resume->pdf_resume) {
-            $resumeName = 'user/' . $resume->user->id . '/' . $resume->pdf_resume;
+            $resumeName = 'user/'.$resume->user->id.'/'.$resume->pdf_resume;
             Storage::disk('public')->delete($resumeName);
         }
 
         if ($resume->word_resume) {
-            $resumeName = 'user/' . $resume->user->id . '/' . $resume->word_resume;
+            $resumeName = 'user/'.$resume->user->id.'/'.$resume->word_resume;
             Storage::disk('public')->delete($resumeName);
         }
     }

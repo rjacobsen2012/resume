@@ -7,7 +7,6 @@ use App\Constant\Roles;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AdminUserSeeder extends Seeder
@@ -39,7 +38,7 @@ class AdminUserSeeder extends Seeder
                 'first_name' => $firstName,
                 'last_name' => $lastName,
                 'email' => $email,
-                'password' => bcrypt($password)
+                'password' => bcrypt($password),
             ]);
 
             $adminUser->assignRole('Administrator');

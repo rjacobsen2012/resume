@@ -21,14 +21,14 @@ class ExperienceFactory extends Factory
     public function definition(): array
     {
         return app(ExperienceEncryptor::class)->encrypt([
-            'resume_id' => fn() => Resume::factory(),
+            'resume_id' => fn () => Resume::factory(),
             'company_name' => $this->faker->company(),
             'title' => $this->faker->title(),
             'city' => 'Louisville',
             'state' => 'KY',
             'started_at' => $start = Carbon::now()->subYears(4),
             'ended_at' => $start->clone()->addYears(4),
-            'description' => $this->faker->sentence,
+            'description' => $this->faker->sentence(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
