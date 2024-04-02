@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Cryptos\Encryptors\EducationEncryptor;
 use App\Http\Requests\StoreEducationRequest;
 use App\Http\Requests\UpdateEducationRequest;
 use App\Models\Education;
@@ -15,12 +14,11 @@ class EducationController extends Controller
      */
     public function store(
         StoreEducationRequest $request,
-        Resume $resume,
-        EducationEncryptor $encryptor
+        Resume $resume
     ) {
         $this->authorize('create', [Education::class, $resume]);
 
-        $resume->educations()->create($encryptor->encrypt($request->validated()));
+        $resume->educations()->create($request->validated());
 
         return redirect()
             ->route('resume.edit', [$resume->id])
@@ -33,12 +31,11 @@ class EducationController extends Controller
     public function update(
         UpdateEducationRequest $request,
         Resume $resume,
-        Education $education,
-        EducationEncryptor $encryptor
+        Education $education
     ) {
         $this->authorize('update', [Education::class, $resume, $education]);
 
-        $education->update($encryptor->encrypt($request->validated()));
+        $education->update($request->validated());
 
         return redirect()
             ->route('resume.edit', [$resume->id])

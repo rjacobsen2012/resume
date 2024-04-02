@@ -2,10 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Cryptos\Encryptors\EducationEncryptor;
-use App\Cryptos\Encryptors\ExampleEncryptor;
-use App\Cryptos\Encryptors\ExperienceEncryptor;
-use App\Cryptos\Encryptors\ResumeEncryptor;
 use App\Models\Education;
 use App\Models\Example;
 use App\Models\Experience;
@@ -27,7 +23,7 @@ class OldToNewSeeder extends Seeder
 
         /** @var ResumeSkill $skill */
         foreach (DB::connection('old_mysql')->table('resume_skills')->get() as $skill) {
-            ResumeSkill::create([
+            ResumeSkill::firstOrCreate([
                 'name' => $skill->name,
             ]);
         }
@@ -37,7 +33,7 @@ class OldToNewSeeder extends Seeder
             $email = $oldResume->email;
             $user = User::whereEmail($email)->first();
 
-            $resume = Resume::create(app(ResumeEncryptor::class)->encrypt([
+            $resume = Resume::create([
                 'user_id' => $user->id,
                 'name' => $oldResume->name,
                 'title' => $oldResume->title ?? 'Senior Software Engineer',
@@ -49,11 +45,11 @@ class OldToNewSeeder extends Seeder
                 'linked_in_profile' => $oldResume->linked_in_profile,
                 'github_profile' => $oldResume->github_profile,
                 'phone' => $oldResume->phone,
-            ]));
+            ]);
 
             /** @var Education $education */
             foreach (DB::connection('old_mysql')->table('resume_educations')->get() as $education) {
-                Education::create(app(EducationEncryptor::class)->encrypt([
+                Education::create([
                     'resume_id' => $resume->id,
                     'school' => $education->school,
                     'city' => $education->city,
@@ -62,12 +58,12 @@ class OldToNewSeeder extends Seeder
                     'started_at' => $education->started_at,
                     'ended_at' => $education->ended_at,
                     'description' => $education->description,
-                ]));
+                ]);
             }
 
             /** @var Experience $experience */
             foreach (DB::connection('old_mysql')->table('resume_experiences')->get() as $experience) {
-                Experience::create(app(ExperienceEncryptor::class)->encrypt([
+                Experience::create([
                     'resume_id' => $resume->id,
                     'company_name' => $experience->company_name,
                     'title' => $experience->title,
@@ -78,16 +74,16 @@ class OldToNewSeeder extends Seeder
                     'present' => $experience->present,
                     'description' => $experience->description,
                     'is_hidden' => $experience->hidden,
-                ]));
+                ]);
             }
 
             /** @var Example $example */
             foreach (DB::connection('old_mysql')->table('resume_work_examples')->get() as $example) {
-                Example::create(app(ExampleEncryptor::class)->encrypt([
+                Example::create([
                     'resume_id' => $resume->id,
                     'url' => $example->url,
                     'title' => $example->title,
-                ]));
+                ]);
             }
 
             /** @var Skill $oldSkill */

@@ -3,18 +3,10 @@
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\ExperienceController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResumeController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SkillController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserThemeController;
-use App\Http\Middleware\AuthUserLoading;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,31 +19,20 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('home.index');
-});
-
-Route::get('resume/data', [ResumeController::class, 'data'])->name('resume.data');
-
-Route::resource('resume', ResumeController::class)
-    ->only(['index', 'show']);
-
-Route::resource('home', HomeController::class)->only('index');
+Route::get('/', [ResumeController::class, 'index'])->name('resume.index');
+Route::get('resume/{resume}/download/{type?}', [ResumeController::class, 'download'])->name('resume.download');
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-
     Route::put('user/{user}/theme', [UserThemeController::class, 'update'])->name('user-theme.update');
 
-    Route::get('resume/{resume}/download/{type?}', [ResumeController::class, 'download'])->name('resume.download');
-
-    Route::resource('resume', ResumeController::class)
-        ->only(['edit', 'create', 'store', 'update', 'destroy']);
+    Route::get('resume/edit', [ResumeController::class, 'edit'])->name('resume.edit');
+    Route::get('resume/create', [ResumeController::class, 'create'])->name('resume.create');
+    Route::put('resume/update', [ResumeController::class, 'update'])->name('resume.update');
+    Route::post('resume/store', [ResumeController::class, 'store'])->name('resume.store');
 
     Route::resource('resume.skill', SkillController::class)
         ->only(['store', 'update', 'destroy']);
@@ -64,16 +45,4 @@ Route::middleware([
 
     Route::resource('resume.example', ExampleController::class)
         ->only(['store', 'update', 'destroy']);
-
-    Route::get('users', [UserController::class, 'data'])->name('user.data');
-    Route::put('user/{user}/update-roles', [UserController::class, 'updateUserRoles'])->name('user.update-roles');
-    Route::resource('user', UserController::class)->only([
-        'index', 'store', 'create', 'update', 'edit', 'destroy',
-    ]);
-
-    Route::get('roles', [RoleController::class, 'data'])->name('role.data');
-    Route::resource('role', RoleController::class);
-
-    Route::get('permissions', [PermissionController::class, 'data'])->name('permission.data');
-    Route::resource('permission', PermissionController::class);
 });

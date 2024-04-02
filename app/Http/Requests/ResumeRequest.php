@@ -23,8 +23,6 @@ class ResumeRequest extends FormRequest
             'email' => [
                 'string',
                 'email',
-                Rule::unique(Resume::class)
-                    ->ignore($this->route('resume')),
             ],
             'profile' => [
                 'string',

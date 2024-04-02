@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Cryptos\Encryptors\ExperienceEncryptor;
 use App\Models\Experience;
 use App\Models\Resume;
 use Carbon\Carbon;
@@ -20,7 +19,7 @@ class ExperienceFactory extends Factory
      */
     public function definition(): array
     {
-        return app(ExperienceEncryptor::class)->encrypt([
+        return [
             'resume_id' => fn () => Resume::factory(),
             'company_name' => $this->faker->company(),
             'title' => $this->faker->title(),
@@ -31,6 +30,6 @@ class ExperienceFactory extends Factory
             'description' => $this->faker->sentence(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-        ]);
+        ];
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -33,8 +36,18 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        /** @var User $user */
+        $user = $request->user() ?? User::first();
+
+        View::share([
+            'primevueTheme' => $user?->dark_theme ? 'aura-dark-blue' : 'aura-light-blue',
+        ]);
+
         return array_merge(parent::share($request), [
-            //
+            'resume' => $user?->resume,
+            'user' => UserResource::make($user),
+            'status' => session('status'),
+            'dark_theme' => $user->dark_theme,
         ]);
     }
 }

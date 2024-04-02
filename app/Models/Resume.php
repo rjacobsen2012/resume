@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Constant\TailwindCustom;
 use Database\Factories\ResumeFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -35,7 +34,6 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Skill> $skills
  * @property-read int|null $skills_count
  * @property-read User $user
- *
  * @method static ResumeFactory factory($count = null, $state = [])
  * @method static Builder|Resume newModelQuery()
  * @method static Builder|Resume newQuery()
@@ -50,23 +48,16 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Resume whereProfile($value)
  * @method static Builder|Resume whereUpdatedAt($value)
  * @method static Builder|Resume whereUserId($value)
- *
  * @property-read string|null $pdf
  * @property-read string|null $pdf_link
  * @property-read string|null $word
  * @property-read string|null $word_link
- *
  * @method static Builder|Resume byValue(string $value)
- *
  * @property int $is_hidden
- *
  * @method static Builder|Resume whereIsHidden($value)
  * @method static Builder|Resume notHidden()
- *
- * @property-read string $bg_color
  * @property string|null $word_resume
  * @property string|null $pdf_resume
- *
  * @method static Builder|Resume wherePdfResume($value)
  * @method static Builder|Resume whereWordResume($value)
  * @property string $title
@@ -92,7 +83,6 @@ class Resume extends Model
         'word',
         'pdf_link',
         'word_link',
-        'bg_color',
         'gravatar',
     ];
 
@@ -188,21 +178,7 @@ class Resume extends Model
             return true;
         }
 
-        return ! $this->is_hidden && (! config('spark.enabled') || $this->user->is_subscribed);
-    }
-
-    public function getBgColorAttribute(): string
-    {
-        return TailwindCustom::randomBgColor();
-    }
-
-    public function scopeUserSubscribed(Builder $query): void
-    {
-        $query->when(config('spark.enabled'), function (Builder $query) {
-            $query->whereHas('user', function (Builder $query) {
-                $query->has('subscriptions');
-            });
-        });
+        return ! $this->is_hidden;
     }
 
     public function getGravatarAttribute(): ?string

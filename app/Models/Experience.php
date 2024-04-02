@@ -27,7 +27,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Resume $resume
- *
  * @method static ExperienceFactory factory($count = null, $state = [])
  * @method static Builder|Experience newModelQuery()
  * @method static Builder|Experience newQuery()
@@ -45,7 +44,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Experience whereState($value)
  * @method static Builder|Experience whereTitle($value)
  * @method static Builder|Experience whereUpdatedAt($value)
- *
  * @mixin Eloquent
  */
 class Experience extends Model

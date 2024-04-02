@@ -18,27 +18,28 @@ import config from "tailwindcss/defaultConfig.js";
 
 const props = defineProps({
     user: Object,
+    resume: [Array, Object],
 });
 
 const form = useForm({
     _method: 'PUT',
-    name: usePage().props.user.resume.name,
-    email: usePage().props.user.resume.email,
-    profile: usePage().props.user.resume.profile,
-    title: usePage().props.user.resume.title,
-    city: usePage().props.user.resume.city,
-    state: usePage().props.user.resume.state,
-    country: usePage().props.user.resume.country,
-    linked_in_profile: usePage().props.user.resume.linked_in_profile,
-    github_profile: usePage().props.user.resume.github_profile,
-    phone: usePage().props.user.resume.phone,
-    pdf_file: usePage().props.user.resume.pdf_resume ?? 'Click to add pdf resume',
-    word_file: usePage().props.user.resume.word_resume ?? 'Click to add word resume',
+    name: usePage().props.resume.name,
+    email: usePage().props.resume.email,
+    profile: usePage().props.resume.profile,
+    title: usePage().props.resume.title,
+    city: usePage().props.resume.city,
+    state: usePage().props.resume.state,
+    country: usePage().props.resume.country,
+    linked_in_profile: usePage().props.resume.linked_in_profile,
+    github_profile: usePage().props.resume.github_profile,
+    phone: usePage().props.resume.phone,
+    pdf_file: usePage().props.resume.pdf_resume ?? 'Click to add pdf resume',
+    word_file: usePage().props.resume.word_resume ?? 'Click to add word resume',
     pdf_resume: null,
     word_resume: null,
-    is_hidden: usePage().props.user.resume.is_hidden,
-    has_word_resume: usePage().props.user.resume.pdf_resume !== null,
-    has_pdf_resume: usePage().props.user.resume.word_resume !== null,
+    is_hidden: usePage().props.resume.is_hidden,
+    has_word_resume: usePage().props.resume.pdf_resume !== null,
+    has_pdf_resume: usePage().props.resume.word_resume !== null,
 });
 
 const fields = ref({
@@ -57,7 +58,7 @@ const fields = ref({
 });
 
 const update = () => {
-    form.post(route('resume.update', [usePage().props.user.resume.id]), {
+    form.post(route('resume.update'), {
         errorBag: 'updateResume',
         preserveScroll: true,
         onSuccess: (response) => flashSuccess(response.props.status),
@@ -162,19 +163,6 @@ const deleteResume = () => {
                     :empty-check="! form.has_word_resume"
                 />
                 <InputError :message="form.errors.word_file" class="mt-2" />
-            </div>
-
-            <div class="col-span-6 sm:col-span-4">
-                <label class="flex items-center">
-                    <Checkbox v-model:checked="form.is_hidden" name="is_hidden" />
-                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Hide Resume <span class="text-xs text-gray-500 italic">(If this is checked, the resume will be hidden from the public)</span></span>
-                </label>
-            </div>
-
-            <div v-if="$page.props.spark_enabled && ! $page.props.auth?.user?.is_subscribed" class="col-span-6 sm:col-span-4">
-                <label class="flex items-center">
-                    <span class="ms-2 text-sm text-indigo-700 dark:text-indigo-400">*NOTE: In order for your resume to become public for employers to view, you must <a href="/billing" class="font-semibold underline">subscribe</a>.</span>
-                </label>
             </div>
         </template>
 

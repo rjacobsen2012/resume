@@ -17,7 +17,7 @@ const props = defineProps({
         <div class="theme-bg theme-text">
             <nav class="top-nav navbar navbar-expand ps-3 sm:ps-4 pe-2 sm:pe-4 shadow-md nav-bg pb-1 pt-1">
                 <a class="navbar-brand flex flex-row justify-start items-center" href="">
-                    <Link :href="route('home.index')">
+                    <Link :href="route('resume.index')">
                         <app-logo :small="true"/>
                     </Link>
                 </a>
@@ -31,7 +31,7 @@ const props = defineProps({
                     </li>
 
                     <li class="nav-item">
-                        <a-link :href="route('home.index')" title="Home" class="link-icon ms-2 py-2">
+                        <a-link :href="route('resume.index')" title="Home" class="link-icon ms-2 py-2">
                             <i class="fa fa-home"/>
                         </a-link>
                     </li>

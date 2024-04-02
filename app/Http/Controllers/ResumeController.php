@@ -2,64 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\Cryptos\Decryptors\ResumeDecryptor;
-use App\Cryptos\Encryptors\ResumeEncryptor;
 use App\Http\Requests\ResumeRequest;
 use App\Models\Resume;
-use App\Rules\ResumeSearch;
-use App\Support\DataTable\ResumesDatatable;
+use App\Models\User;
 use App\Support\ResumeFilesTrait;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class ResumeController extends Controller
 {
     use ResumeFilesTrait;
 
-    public function show(string $value, ResumeDecryptor $decryptor)
+    public function index()
     {
-        $validator = Validator::make([
-            'value' => $value,
-        ], [
-            'value' => [new ResumeSearch],
-        ]);
-
-        if (! $validator->passes()) {
-            return redirect()->to('/resume');
-        }
-
-        $resume = Resume::byValue($value)->first();
-
-        if (! $resume->accessible()) {
-            return redirect()
-                ->route('home.index')
-                ->with('error', 'The resume was not found or is not public.');
-        }
+        /** @var User $user */
+        $user = auth()->user() ?? User::first();
 
         return Inertia::render('Resume/Show', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
-            'resume' => $decryptor->decrypt($resume),
-        ]);
-    }
-
-    public function edit(
-        Resume $resume,
-        ResumeDecryptor $decryptor,
-    ) {
-        $this->authorize('update', $resume);
-
-        return Inertia::render('Resume/Edit', [
-            'resume' => $decryptor->decrypt($resume->load([
+            'resume' => $user->resume->load([
                 'skills',
                 'examples',
                 'experiences',
                 'educations',
-            ])),
+            ]),
+        ]);
+    }
+
+    public function edit()
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        $resume = $user?->resume;
+        $this->authorize('update', $resume);
+
+        return Inertia::render('Resume/Edit', [
+            'resume' => $resume->load([
+                'skills',
+                'examples',
+                'experiences',
+                'educations',
+            ]),
         ]);
     }
 
@@ -72,11 +57,11 @@ class ResumeController extends Controller
         ]);
     }
 
-    public function update(
-        ResumeRequest $request,
-        Resume $resume,
-        ResumeEncryptor $encryptor
-    ) {
+    public function update(ResumeRequest $request)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        $resume = $user?->resume;
         $this->authorize('update', $resume);
 
         $this->saveResumeFiles($request, $resume);
@@ -84,7 +69,7 @@ class ResumeController extends Controller
         $validated = $request->validated();
         $validated['is_hidden'] = (bool) $validated['is_hidden'];
 
-        $resume->fill($encryptor->encrypt($validated));
+        $resume->fill($validated);
         $resume->save();
 
         return redirect()
@@ -92,16 +77,18 @@ class ResumeController extends Controller
             ->with('status', 'Resume updated successfully');
     }
 
-    public function store(ResumeRequest $request, ResumeEncryptor $encryptor)
+    public function store(ResumeRequest $request)
     {
+        /** @var User $user */
+        $user = auth()->user();
         $this->authorize('create', Resume::class);
 
         $validated = $request->validated();
         $validated['is_hidden'] = (bool) $validated['is_hidden'];
 
         /** @var Resume $resume */
-        $resume = auth()->user()->resume()
-            ->create($encryptor->encrypt($validated));
+        $resume = $user->resume()
+            ->create($validated);
 
         $this->saveResumeFiles($request, $resume);
 
@@ -110,24 +97,8 @@ class ResumeController extends Controller
             ->with('status', 'Resume created successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Resume $resume)
-    {
-        $this->authorize('delete', [Resume::class, $resume]);
-
-        $this->deleteResume($resume);
-
-        return redirect()
-            ->route('home.index')
-            ->with('status', 'Resume deleted successfully');
-    }
-
     public function download(Resume $resume, string $type = 'pdf')
     {
-        $this->authorize('view', [Resume::class, $resume]);
-
         $resumeFile = $type === 'pdf' ? $resume->pdf_resume : $resume->word_resume;
         $file = "user/$resume->user_id/$resumeFile";
 
@@ -136,10 +107,5 @@ class ResumeController extends Controller
         }
 
         return Storage::disk('public')->download($file);
-    }
-
-    public function data(Request $request, ResumesDatatable $datatable): JsonResponse
-    {
-        return $datatable->getDataTable($request);
     }
 }

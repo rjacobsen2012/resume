@@ -14,12 +14,10 @@ use Illuminate\Support\Carbon;
  * App\Models\Education
  *
  * @property-read Resume|null $resume
- *
  * @method static EducationFactory factory($count = null, $state = [])
  * @method static Builder|Education newModelQuery()
  * @method static Builder|Education newQuery()
  * @method static Builder|Education query()
- *
  * @property int $id
  * @property int $resume_id
  * @property string $school
@@ -31,7 +29,6 @@ use Illuminate\Support\Carbon;
  * @property string $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @method static Builder|Education whereCity($value)
  * @method static Builder|Education whereCreatedAt($value)
  * @method static Builder|Education whereDegree($value)
@@ -43,7 +40,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Education whereStartedAt($value)
  * @method static Builder|Education whereState($value)
  * @method static Builder|Education whereUpdatedAt($value)
- *
  * @mixin Eloquent
  */
 class Education extends Model

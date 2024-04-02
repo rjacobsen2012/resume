@@ -141,7 +141,7 @@ const updated = (data) => {
     <AppLayout :title="title" :links="pageLinks">
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <UpdateResumeForm :user="$page.props.auth.user"/>
+                <UpdateResumeForm :user="$page.props.auth.user" :resume="resume"/>
 
                 <SectionBorder />
             </div>

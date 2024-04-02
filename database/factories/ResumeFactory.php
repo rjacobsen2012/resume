@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Cryptos\Encryptors\ResumeEncryptor;
 use App\Models\Resume;
 use App\Models\User;
 use Carbon\Carbon;
@@ -21,7 +20,7 @@ class ResumeFactory extends Factory
      */
     public function definition(): array
     {
-        return app(ResumeEncryptor::class)->encrypt([
+        return [
             'user_id' => fn () => User::factory(),
             'name' => $this->faker->name(),
             'email' => $this->faker->safeEmail(),
@@ -35,6 +34,6 @@ class ResumeFactory extends Factory
             'phone' => $this->faker->phoneNumber(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-        ]);
+        ];
     }
 }

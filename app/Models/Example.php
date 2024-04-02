@@ -20,7 +20,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Resume $resume
- *
  * @method static ExampleFactory factory($count = null, $state = [])
  * @method static Builder|Example newModelQuery()
  * @method static Builder|Example newQuery()
@@ -31,7 +30,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Example whereTitle($value)
  * @method static Builder|Example whereUpdatedAt($value)
  * @method static Builder|Example whereUrl($value)
- *
  * @mixin Eloquent
  */
 class Example extends Model

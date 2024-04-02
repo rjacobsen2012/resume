@@ -7,7 +7,6 @@ use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withProviders([
-        \App\Providers\SparkServiceProvider::class,
         \App\Providers\FortifyServiceProvider::class,
         \App\Providers\JetstreamServiceProvider::class,
     ])
@@ -25,7 +24,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web([
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
-            \App\Http\Middleware\AuthUserLoading::class,
         ]);
 
         $middleware->throttleApi();

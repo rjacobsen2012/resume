@@ -17,7 +17,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read int|null $resume_users_count
- *
  * @method static Builder|ResumeSkill newModelQuery()
  * @method static Builder|ResumeSkill newQuery()
  * @method static Builder|ResumeSkill query()
@@ -26,7 +25,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ResumeSkill whereName($value)
  * @method static Builder|ResumeSkill whereUpdatedAt($value)
  * @method static ResumeSkillFactory factory($count = null, $state = [])
- *
  * @mixin Eloquent
  */
 class ResumeSkill extends Model

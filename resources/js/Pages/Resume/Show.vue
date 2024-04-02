@@ -71,7 +71,7 @@ const getDate = (item) => {
 </script>
 
 <template>
-    <AppLayout :resume="resume" :title="`${resume.user.name}'s Resume`" :use-simple="true">
+    <AppLayout :resume="resume" :title="`${resume.user.name}'s Resume`">
         <div class="container-fluid theme-text">
             <div class="ps-0 py-2 pt-0 text-4xl font-extrabold">{{ resume.name }}</div>
             <div class="divider"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">PROFILE</div></div>

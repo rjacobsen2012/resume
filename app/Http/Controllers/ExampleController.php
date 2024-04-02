@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Cryptos\Encryptors\ExampleEncryptor;
 use App\Http\Requests\StoreExampleRequest;
 use App\Http\Requests\UpdateExampleRequest;
 use App\Models\Example;
@@ -15,12 +14,11 @@ class ExampleController extends Controller
      */
     public function store(
         StoreExampleRequest $request,
-        Resume $resume,
-        ExampleEncryptor $encryptor
+        Resume $resume
     ) {
         $this->authorize('create', [Example::class, $resume]);
 
-        $resume->examples()->create($encryptor->encrypt($request->validated()));
+        $resume->examples()->create($request->validated());
 
         return redirect()
             ->route('resume.edit', [$resume->id])
@@ -33,12 +31,11 @@ class ExampleController extends Controller
     public function update(
         UpdateExampleRequest $request,
         Resume $resume,
-        Example $example,
-        ExampleEncryptor $encryptor
+        Example $example
     ) {
         $this->authorize('update', [Example::class, $resume, $example]);
 
-        $example->update($encryptor->encrypt($request->validated()));
+        $example->update($request->validated());
 
         return redirect()
             ->route('resume.edit', [$resume->id])

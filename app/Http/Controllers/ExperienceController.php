@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Cryptos\Encryptors\ExperienceEncryptor;
 use App\Http\Requests\StoreExperienceRequest;
 use App\Http\Requests\UpdateExperienceRequest;
 use App\Models\Experience;
@@ -15,8 +14,7 @@ class ExperienceController extends Controller
      */
     public function store(
         StoreExperienceRequest $request,
-        Resume $resume,
-        ExperienceEncryptor $encryptor,
+        Resume $resume
     ) {
         $this->authorize('create', [Experience::class, $resume]);
 
@@ -24,7 +22,7 @@ class ExperienceController extends Controller
         $validated['is_hidden'] = (bool) $validated['is_hidden'];
         $validated['present'] = (bool) $validated['present'];
 
-        $resume->experiences()->create($encryptor->encrypt($validated));
+        $resume->experiences()->create($validated);
 
         return redirect()
             ->route('resume.edit', [$resume->id])
@@ -37,8 +35,7 @@ class ExperienceController extends Controller
     public function update(
         UpdateExperienceRequest $request,
         Resume $resume,
-        Experience $experience,
-        ExperienceEncryptor $encryptor
+        Experience $experience
     ) {
         $this->authorize('update', [Experience::class, $resume, $experience]);
 
@@ -46,7 +43,7 @@ class ExperienceController extends Controller
         $validated['is_hidden'] = (bool) $validated['is_hidden'];
         $validated['present'] = (bool) $validated['present'];
 
-        $experience->update($encryptor->encrypt($validated));
+        $experience->update($validated);
 
         return redirect()
             ->route('resume.edit', [$resume->id])
