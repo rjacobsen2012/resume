@@ -9,9 +9,21 @@ use Illuminate\Support\Collection;
 
 class ResumeDecryptor extends BaseDecrypt
 {
+    public function __construct(
+        protected ExampleDecryptor $exampleDecryptor,
+        protected ExperienceDecryptor $experienceDecryptor,
+        protected EducationDecryptor $educationDecryptor,
+    ) {}
+
     public function decrypt(Resume $resume): Resume|Model
     {
-        return $this->baseDecrypt(ResumeEncryptedFields::all(), $resume);
+        $resume->load(['skills']);
+        /** @var Resume $resume */
+        $resume = $this->baseDecrypt(ResumeEncryptedFields::all(), $resume);
+        $resume->examples = $this->exampleDecryptor->decryptAll($resume->examples);
+        $resume->experiences = $this->experienceDecryptor->decryptAll($resume->experiences);
+        $resume->educations = $this->educationDecryptor->decryptAll($resume->educations);
+        return $resume;
     }
 
     /**

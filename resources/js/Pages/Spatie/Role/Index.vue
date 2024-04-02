@@ -7,10 +7,10 @@ import CustomButton from "@/Components/CustomButton.vue";
 import {useConfirm} from "primevue/useconfirm";
 import {useToast} from "vue-toast-notification";
 
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
+// import DataTable from "primevue/datatable";
+// import Column from "primevue/column";
 
-const ApiUrl = import.meta.env.VITE_APP_API_URL
+import { usePrimeVue } from "primevue/config";
 
 const props = defineProps({
     status: {
@@ -37,7 +37,7 @@ const getRoles = async () => {
     try {
         loading.value = true;
 
-        const response = await fetch(`${ApiUrl}/roles?${new URLSearchParams(params)}`);
+        const response = await fetch(`/roles?${new URLSearchParams(params)}`);
 
         const data = await response.json();
 
@@ -109,7 +109,8 @@ const pageLinks = [
                                paginator
                                :rows="10"
                                :rows-per-page-options="[10, 20, 50]"
-                               table-style="min-width: 50rem">
+                               responsive-layout="stack"
+                    >
                         <Column field="id" sortable header="Id"/>
                         <Column field="name" sortable header="Name"/>
                         <Column field="guard_name" sortable header="Guard"/>

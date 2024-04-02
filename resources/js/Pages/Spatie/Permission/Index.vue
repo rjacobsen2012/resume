@@ -10,8 +10,6 @@ import {useToast} from "vue-toast-notification";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 
-const ApiUrl = import.meta.env.VITE_APP_API_URL
-
 const props = defineProps({
     status: {
         type: String,
@@ -37,7 +35,7 @@ const getPermissions = async () => {
     try {
         loading.value = true;
 
-        const response = await fetch(`${ApiUrl}/permissions?${new URLSearchParams(params)}`);
+        const response = await fetch(`/permissions?${new URLSearchParams(params)}`);
 
         const data = await response.json();
 

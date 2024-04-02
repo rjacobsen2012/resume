@@ -20,9 +20,15 @@ class ExperienceController extends Controller
     ) {
         $this->authorize('create', [Experience::class, $resume]);
 
-        $resume->experiences()->create($encryptor->encrypt($request->validated()));
+        $validated = $request->validated();
+        $validated['is_hidden'] = (bool) $validated['is_hidden'];
+        $validated['present'] = (bool) $validated['present'];
 
-        return back()->with('status', 'Experience added successfully');
+        $resume->experiences()->create($encryptor->encrypt($validated));
+
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Experience added successfully');
     }
 
     /**
@@ -36,9 +42,15 @@ class ExperienceController extends Controller
     ) {
         $this->authorize('update', [Experience::class, $resume, $experience]);
 
-        $experience->update($encryptor->encrypt($request->validated()));
+        $validated = $request->validated();
+        $validated['is_hidden'] = (bool) $validated['is_hidden'];
+        $validated['present'] = (bool) $validated['present'];
 
-        return back()->with('status', 'Experience updated successfully');
+        $experience->update($encryptor->encrypt($validated));
+
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Experience updated successfully');
     }
 
     /**
@@ -50,6 +62,8 @@ class ExperienceController extends Controller
 
         $experience->delete();
 
-        return back()->with('status', 'Experience deleted successfully');
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Experience deleted successfully');
     }
 }

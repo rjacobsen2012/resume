@@ -1,0 +1,88 @@
+.p-paginator {
+    border-radius: 0;
+}
+
+.logo-colors {
+    background-color: #f3e30c;
+    color: black;
+    font-size: 1em;
+    font-weight: bolder;
+}
+
+.theme-bg {
+    @apply
+    min-h-screen
+    bg-gray-100
+    dark:bg-gray-800;
+}
+
+.nav-bg {
+    @apply
+    bg-gray-100
+    dark:bg-gray-900;
+}
+
+.theme-text {
+    @apply
+    text-gray-600
+    dark:text-gray-400;
+}
+
+.link-text {
+    @apply
+    px-2
+    py-1
+    rounded
+    bg-gray-200
+    dark:bg-gray-800
+    hover:bg-gray-300
+    focus:ring-gray-700
+    dark:hover:bg-gray-700
+    dark:focus:ring-gray-700
+    dark:border-gray-800;
+}
+
+.link-icon {
+    @apply
+    py-3
+    pt-1.5
+    px-2
+    rounded
+    shadow-md
+    bg-gray-200
+    dark:bg-gray-800
+    hover:bg-gray-300
+    focus:ring-gray-700
+    dark:hover:bg-gray-700
+    dark:focus:ring-gray-700
+    dark:border-gray-800;
+}
+
+.divider {
+    @apply
+        flex
+        justify-start
+        dark:bg-gray-700
+        bg-gray-200;
+
+    .divider-block {
+        @apply
+            text-gray-400
+            dark:text-gray-500
+            dark:bg-gray-800
+            bg-gray-100;
+    }
+}
+
+.resume-link {
+    @apply
+        bg-blue-300
+        border-2
+        border-blue-200
+        hover:bg-blue-400
+        text-black;
+}
+
+.resume-card-tile {
+    width: 450px;
+}

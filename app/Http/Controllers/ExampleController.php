@@ -22,7 +22,9 @@ class ExampleController extends Controller
 
         $resume->examples()->create($encryptor->encrypt($request->validated()));
 
-        return back()->with('status', 'Education added successfully');
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Education added successfully');
     }
 
     /**
@@ -38,7 +40,9 @@ class ExampleController extends Controller
 
         $example->update($encryptor->encrypt($request->validated()));
 
-        return back()->with('status', 'Example updated successfully');
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Example updated successfully');
     }
 
     /**
@@ -50,6 +54,8 @@ class ExampleController extends Controller
 
         $example->delete();
 
-        return back()->with('status', 'Example deleted successfully');
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Example deleted successfully');
     }
 }

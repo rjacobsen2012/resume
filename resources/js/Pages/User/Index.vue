@@ -10,8 +10,6 @@ import {useToast} from "vue-toast-notification";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 
-const ApiUrl = import.meta.env.VITE_APP_API_URL
-
 const props = defineProps({
     status: {
         type: String,
@@ -37,7 +35,7 @@ const getUsers = async () => {
     try {
         loading.value = true;
 
-        const response = await fetch(`${ApiUrl}/users?${new URLSearchParams(params)}`);
+        const response = await fetch(`/users?${new URLSearchParams(params)}`);
 
         const data = await response.json();
 
@@ -95,7 +93,7 @@ const pageLinks = [
     <AppLayout title="Users" :links="pageLinks">
         <template #right-links>
             <CustomButton type="button"
-                          class="btn btn-success"
+                          class="btn btn-light"
                           @click="newUser">
                 Add User
             </CustomButton>
@@ -118,7 +116,7 @@ const pageLinks = [
                         <Column field="user_id">
                             <template #body="{ data }">
                                 <div class="flex items-center justify-end gap-2">
-                                    <CustomButton type="button" class="btn btn-primary" @click="editUser(data.id)">Edit</CustomButton>
+                                    <CustomButton type="button" class="btn btn-light" @click="editUser(data.id)">Edit</CustomButton>
                                     <CustomButton type="button" class="btn btn-danger" @click="confirmDelete(data.id)">Delete</CustomButton>
                                 </div>
                             </template>

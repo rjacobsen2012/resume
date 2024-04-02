@@ -4,10 +4,10 @@ namespace Database\Seeders;
 
 use App\Constant\Permissions;
 use App\Constant\Roles;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class AdminUserSeeder extends Seeder
 {
@@ -24,16 +24,23 @@ class AdminUserSeeder extends Seeder
         if (! $email) {
             $this->command->error('Please add your admin user and password to the .env');
         } else {
-            $adminRole = Role::create(['name' => Roles::ADMINISTRATOR]);
-            $permission = Permission::create(['name' => Permissions::MANAGE_SITE]);
+            $adminRole = Role::firstOrCreate(['name' => Roles::ADMINISTRATOR]);
+            $permission = Permission::firstOrCreate(['name' => Permissions::MANAGE_SITE]);
             $permission->assignRole($adminRole);
 
-            $adminUser = User::factory()->create([
+            $adminUser = User::where([
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => $email,
+            ])->first();
+
+            $adminUser = $adminUser ?: User::factory()->create([
                 'first_name' => $firstName,
                 'last_name' => $lastName,
                 'email' => $email,
                 'password' => bcrypt($password),
             ]);
+
             $adminUser->assignRole('Administrator');
         }
     }

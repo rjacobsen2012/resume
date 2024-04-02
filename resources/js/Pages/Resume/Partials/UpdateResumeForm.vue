@@ -5,7 +5,6 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import ActionMessage from "@/Components/ActionMessage.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
-import TextInput from "@/Components/TextInput.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import InputGroupButton from "@/Components/InputGroupButton.vue";
 import {usePage} from "@inertiajs/vue3";
@@ -13,6 +12,9 @@ import {flashSuccess} from "@/Composables/flash.js";
 import {flashError} from "@/Composables/flash.js";
 import CustomButton from "@/Components/CustomButton.vue";
 import {useConfirm} from "primevue/useconfirm";
+import {ref} from "vue";
+import InputLabelError from "@/Components/InputLabelError.vue";
+import config from "tailwindcss/defaultConfig.js";
 
 const props = defineProps({
     user: Object,
@@ -23,6 +25,10 @@ const form = useForm({
     name: usePage().props.user.resume.name,
     email: usePage().props.user.resume.email,
     profile: usePage().props.user.resume.profile,
+    title: usePage().props.user.resume.title,
+    city: usePage().props.user.resume.city,
+    state: usePage().props.user.resume.state,
+    country: usePage().props.user.resume.country,
     linked_in_profile: usePage().props.user.resume.linked_in_profile,
     github_profile: usePage().props.user.resume.github_profile,
     phone: usePage().props.user.resume.phone,
@@ -33,6 +39,21 @@ const form = useForm({
     is_hidden: usePage().props.user.resume.is_hidden,
     has_word_resume: usePage().props.user.resume.pdf_resume !== null,
     has_pdf_resume: usePage().props.user.resume.word_resume !== null,
+});
+
+const fields = ref({
+    text: [
+        'name',
+        'email',
+        'profile',
+        'title',
+        'city',
+        'state',
+        'country',
+        'linked_in_profile',
+        'github_profile',
+        'phone',
+    ],
 });
 
 const update = () => {
@@ -95,82 +116,8 @@ const deleteResume = () => {
         </template>
 
         <template #form>
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Full Name" />
-                <TextInput
-                    id="name"
-                    v-model="form.name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="name"
-                />
-                <InputError :message="form.errors.name" class="mt-2" />
-            </div>
-
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="email"
-                />
-                <InputError :message="form.errors.email" class="mt-2" />
-            </div>
-
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="profile" value="Profile Url" />
-                <TextInput
-                    id="profile"
-                    v-model="form.profile"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="profile"
-                />
-                <InputError :message="form.errors.profile" class="mt-2" />
-            </div>
-
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="phone" value="Phone Number" />
-                <TextInput
-                    id="phone"
-                    v-model="form.phone"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="phone"
-                />
-                <InputError :message="form.errors.phone" class="mt-2" />
-            </div>
-
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="linked_in_profile" value="LinkedIn Profile" />
-                <TextInput
-                    id="linked_in_profile"
-                    v-model="form.linked_in_profile"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="linked_in_profile"
-                />
-                <InputError :message="form.errors.linked_in_profile" class="mt-2" />
-            </div>
-
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="github_profile" value="Github Profile" />
-                <TextInput
-                    id="github_profile"
-                    v-model="form.github_profile"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="github_profile"
-                />
-                <InputError :message="form.errors.github_profile" class="mt-2" />
+            <div v-for="(field, index) in fields.text" :key="index" class="col-span-6 sm:col-span-4">
+                <InputLabelError :field="field" v-model="form[field]" :error="form.errors[field]"/>
             </div>
 
             <div class="col-span-6 sm:col-span-4">
@@ -221,6 +168,12 @@ const deleteResume = () => {
                 <label class="flex items-center">
                     <Checkbox v-model:checked="form.is_hidden" name="is_hidden" />
                     <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Hide Resume <span class="text-xs text-gray-500 italic">(If this is checked, the resume will be hidden from the public)</span></span>
+                </label>
+            </div>
+
+            <div v-if="$page.props.spark_enabled && ! $page.props.auth?.user?.is_subscribed" class="col-span-6 sm:col-span-4">
+                <label class="flex items-center">
+                    <span class="ms-2 text-sm text-indigo-700 dark:text-indigo-400">*NOTE: In order for your resume to become public for employers to view, you must <a href="/billing" class="font-semibold underline">subscribe</a>.</span>
                 </label>
             </div>
         </template>

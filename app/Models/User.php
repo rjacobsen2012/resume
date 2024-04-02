@@ -14,6 +14,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Laravel\Cashier\Subscription;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -87,7 +88,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $vat_id
  * @property array $invoice_emails
  * @property string|null $billing_country
- * @property-read Collection<int, \Laravel\Cashier\Subscription> $subscriptions
+ * @property-read Collection<int, Subscription> $subscriptions
  * @property-read int|null $subscriptions_count
  *
  * @method static Builder|User hasExpiredGenericTrial()
@@ -106,6 +107,11 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User whereStripeId($value)
  * @method static Builder|User whereTrialEndsAt($value)
  * @method static Builder|User whereVatId($value)
+ * @property bool $dark_theme
+ * @method static Builder|User whereDarkTheme($value)
+ * @property-read bool $is_on_trial
+ * @property-read bool $is_subscribed
+ * @method static Builder|User hasSubscription()
  *
  * @mixin Eloquent
  */
@@ -129,6 +135,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'dark_theme',
     ];
 
     /**
@@ -155,6 +162,8 @@ class User extends Authenticatable
         'name',
         'gravatar',
         'is_admin',
+        'is_on_trial',
+        'is_subscribed',
     ];
 
     /**
@@ -166,17 +175,36 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'dark_theme' => 'boolean',
+            'trial_ends_at' => 'datetime',
         ];
     }
 
     public function getNameAttribute(): string
     {
-        return $this->first_name.' '.$this->last_name;
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     public function getGravatarAttribute(): string
     {
-        return 'https://secure.gravatar.com/avatar/'.md5($this->email).'?size=56';
+        return 'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=112';
+    }
+
+    protected function validateGravatar($email): bool
+    {
+        // Craft a potential url and test its headers
+        $hash = md5(strtolower(trim($email)));
+
+        $uri = 'https://www.gravatar.com/avatar/' . $hash . '?d=404';
+        $headers = @get_headers($uri);
+
+        if (! str_contains($headers[0], "200")) {
+            $has_valid_avatar = false;
+        } else {
+            $has_valid_avatar = true;
+        }
+
+        return $has_valid_avatar;
     }
 
     public function resume(): HasOne
@@ -187,5 +215,20 @@ class User extends Authenticatable
     public function getIsAdminAttribute(): bool
     {
         return $this->hasRole(Roles::ADMINISTRATOR);
+    }
+
+    public function getIsOnTrialAttribute(): bool
+    {
+        return $this->onTrial();
+    }
+
+    public function getIsSubscribedAttribute(): bool
+    {
+        return $this->subscribed();
+    }
+
+    public function scopeHasSubscription(Builder $query): void
+    {
+        $query->has('subscriptions');
     }
 }

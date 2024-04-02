@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Cryptos\Encryptors\ExampleEncryptor;
 use App\Models\Example;
 use App\Models\Resume;
 use Carbon\Carbon;
@@ -19,12 +20,12 @@ class ExampleFactory extends Factory
      */
     public function definition(): array
     {
-        return [
+        return app(ExampleEncryptor::class)->encrypt([
             'resume_id' => fn () => Resume::factory(),
             'url' => $this->faker->url(),
             'title' => $this->faker->name(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-        ];
+        ]);
     }
 }

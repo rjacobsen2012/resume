@@ -26,11 +26,11 @@ use Illuminate\Support\Carbon;
  * @property string $phone
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Collection<int, Education> $educations
+ * @property Collection<int, Education> $educations
  * @property-read int|null $educations_count
- * @property-read Collection<int, Example> $examples
+ * @property Collection<int, Example> $examples
  * @property-read int|null $examples_count
- * @property-read Collection<int, Experience> $experiences
+ * @property Collection<int, Experience> $experiences
  * @property-read int|null $experiences_count
  * @property-read Collection<int, Skill> $skills
  * @property-read int|null $skills_count
@@ -69,7 +69,16 @@ use Illuminate\Support\Carbon;
  *
  * @method static Builder|Resume wherePdfResume($value)
  * @method static Builder|Resume whereWordResume($value)
- *
+ * @property string $title
+ * @property string $city
+ * @property string $state
+ * @property string $country
+ * @method static Builder|Resume whereCity($value)
+ * @method static Builder|Resume whereCountry($value)
+ * @method static Builder|Resume whereState($value)
+ * @method static Builder|Resume whereTitle($value)
+ * @method static Builder|Resume userSubscribed()
+ * @property-read string|null $gravatar
  * @mixin Eloquent
  */
 class Resume extends Model
@@ -84,14 +93,11 @@ class Resume extends Model
         'pdf_link',
         'word_link',
         'bg_color',
+        'gravatar',
     ];
 
     protected $with = [
         'user',
-        'skills',
-        'experiences',
-        'educations',
-        'examples',
     ];
 
     protected function casts(): array
@@ -108,7 +114,7 @@ class Resume extends Model
 
     public function educations(): HasMany
     {
-        return $this->hasMany(Education::class);
+        return $this->hasMany(Education::class)->orderBy('started_at', 'desc');
     }
 
     public function examples(): HasMany
@@ -118,7 +124,7 @@ class Resume extends Model
 
     public function experiences(): HasMany
     {
-        return $this->hasMany(Experience::class);
+        return $this->hasMany(Experience::class)->orderBy('started_at', 'desc');
     }
 
     public function skills(): HasMany
@@ -165,16 +171,42 @@ class Resume extends Model
 
     public function scopeNotHidden(Builder $query): void
     {
-        $query->where('is_hidden', '=', false);
+        $user = auth()->user();
+        $query->where('is_hidden', '=', false)
+            ->orWhere(function (Builder $query) use ($user) {
+                $query->when($user, function (Builder $query) use ($user) {
+                    $query->where('user_id', $user->id);
+                });
+            });
     }
 
-    public function accessible(User $user): bool
+    public function accessible(?User $user = null): bool
     {
-        return $this->user->id === $user->id || ! $this->is_hidden;
+        $user = $user ?: auth()->user();
+
+        if ($user?->id === $this->user->id) {
+            return true;
+        }
+
+        return ! $this->is_hidden && (! config('spark.enabled') || $this->user->is_subscribed);
     }
 
     public function getBgColorAttribute(): string
     {
         return TailwindCustom::randomBgColor();
+    }
+
+    public function scopeUserSubscribed(Builder $query): void
+    {
+        $query->when(config('spark.enabled'), function (Builder $query) {
+            $query->whereHas('user', function (Builder $query) {
+                $query->has('subscriptions');
+            });
+        });
+    }
+
+    public function getGravatarAttribute(): ?string
+    {
+        return $this->user->gravatar;
     }
 }

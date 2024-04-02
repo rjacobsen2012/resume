@@ -18,7 +18,6 @@ abstract class BaseDecrypt
                 $value = decrypt($value);
                 $model->$field = $value;
             } catch (DecryptException $exception) {
-
             }
         }
 

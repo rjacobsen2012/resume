@@ -15,8 +15,8 @@ return new class extends Migration
             Schema::create('examples', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('resume_id')->constrained();
-                $table->string('url');
-                $table->string('title');
+                $table->text('url');
+                $table->text('title');
                 $table->timestamps();
             });
         }

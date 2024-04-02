@@ -23,6 +23,7 @@ use Illuminate\Support\Carbon;
  * @property-read mixed $name
  * @property-read Resume $resume
  * @property-read ResumeSkill $resumeSkill
+ * @property-read string $display
  *
  * @method static SkillFactory factory($count = null, $state = [])
  * @method static Builder|Skill newModelQuery()
@@ -46,6 +47,7 @@ class Skill extends Model
 
     protected $appends = [
         'name',
+        'display',
     ];
 
     public function resume(): BelongsTo
@@ -61,5 +63,26 @@ class Skill extends Model
     public function getNameAttribute(): string
     {
         return $this->resumeSkill->name;
+    }
+
+    public function getDisplayAttribute()
+    {
+        $display = $this->name;
+        $years = '';
+        $months = '';
+
+        if ($this->years) {
+            $years = (' ' . $this->years . 'y');
+        }
+
+        if ($this->months) {
+            $months = (' ' . $this->months . 'm');
+        }
+
+        if ($months || $years) {
+            $display .= (': ' . $years . $months);
+        }
+
+        return $display;
     }
 }

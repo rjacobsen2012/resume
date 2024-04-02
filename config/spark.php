@@ -1,8 +1,11 @@
 <?php
 
 use App\Models\User;
+//use Spark\Features;
 
 return [
+
+    'enabled' => env('STRIPE_ENABLED', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -99,14 +102,11 @@ return [
 
             'plans' => [
                 [
-                    'name' => 'Standard',
-                    'short_description' => 'This is a short, human friendly description of the plan.',
-                    'monthly_id' => env('SPARK_STANDARD_MONTHLY_PLAN', 'price_1Osuc9CvfFGssygPx31SyzN9'),
-                    //                    'yearly_id' => env('SPARK_STANDARD_YEARLY_PLAN', 'prod_PiLIWdLWl9Yd6c'),
+                    'name' => 'Resume Hosting',
+                    'short_description' => 'Host your created resume on this site.',
+                    'monthly_id' => env('SPARK_STANDARD_MONTHLY_PLAN'),
                     'features' => [
-                        'Feature 1',
-                        'Feature 2',
-                        'Feature 3',
+                        'Makes resume public for employers to view',
                     ],
                     'archived' => false,
                 ],
@@ -115,4 +115,8 @@ return [
         ],
 
     ],
+
+//    'features' => [
+//        Features::invoiceEmails(),
+//    ],
 ];

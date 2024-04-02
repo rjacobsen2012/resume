@@ -46,12 +46,15 @@ class SkillController extends Controller
 
         $years = $request->input('years') ?? 0;
         $months = $request->input('months') ?? 0;
+
         $skill->update([
             'years' => $years,
             'months' => $months,
         ]);
 
-        return back()->with('status', 'Skill updated successfully');
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Skill updated successfully');
     }
 
     /**
@@ -65,6 +68,8 @@ class SkillController extends Controller
 
         $skill->delete();
 
-        return back()->with('status', 'Skill deleted successfully');
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Skill deleted successfully');
     }
 }

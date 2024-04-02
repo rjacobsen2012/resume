@@ -81,6 +81,9 @@ class UserController extends Controller
     {
         $this->authorize('update', [User::class, $user]);
 
+        $validated = $request->validated();
+        $validated['dark_theme'] = (bool) $validated['dark_theme'];
+
         $user->fill($request->validated());
         $user->save();
 
