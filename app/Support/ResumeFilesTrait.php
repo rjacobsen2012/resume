@@ -15,7 +15,7 @@ trait ResumeFilesTrait
             $resumeName = 'user/'.$request->user()->id.'/'.$fileName;
             Storage::disk('public')->put($resumeName, file_get_contents($file));
             $resume->pdf_resume = $fileName;
-        } else {
+        } elseif ($request->input('delete_pdf')) {
             $resumeName = 'user/'.$request->user()->id.'/'.$resume->pdf_resume;
             Storage::disk('public')->delete($resumeName);
             $resume->pdf_resume = null;
@@ -26,7 +26,7 @@ trait ResumeFilesTrait
             $resumeName = 'user/'.$request->user()->id.'/'.$fileName;
             Storage::disk('public')->put($resumeName, file_get_contents($file));
             $resume->word_resume = $fileName;
-        } else {
+        } elseif ($request->input('delete_word')) {
             $resumeName = 'user/'.$request->user()->id.'/'.$resume->word_resume;
             Storage::disk('public')->delete($resumeName);
             $resume->word_resume = null;

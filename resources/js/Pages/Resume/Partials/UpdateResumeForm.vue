@@ -40,6 +40,8 @@ const form = useForm({
     is_hidden: usePage().props.resume.is_hidden,
     has_word_resume: usePage().props.resume.pdf_resume !== null,
     has_pdf_resume: usePage().props.resume.word_resume !== null,
+    delete_pdf: false,
+    delete_word: false,
 });
 
 const fields = ref({
