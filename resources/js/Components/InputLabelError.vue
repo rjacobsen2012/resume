@@ -8,6 +8,10 @@ const props = defineProps({
     field: String,
     modelValue: String,
     error: [String, null],
+    notRequired: {
+        type: Array,
+        default: [],
+    },
 });
 
 defineEmits(['update:modelValue']);
@@ -16,6 +20,16 @@ defineEmits(['update:modelValue']);
 <template>
     <InputLabel :for="field" :value="field" class="capitalize" />
     <TextInput
+        v-if="notRequired.includes(field)"
+        :id="field"
+        :value="modelValue"
+        type="text"
+        class="mt-1 block w-full"
+        :autocomplete="field"
+        @input="$emit('update:modelValue', $event.target.value)"
+    />
+    <TextInput
+        v-else
         :id="field"
         :value="modelValue"
         type="text"

@@ -57,6 +57,10 @@ const fields = ref({
     ],
 });
 
+const notRequiredFields = ref([
+    'phone',
+]);
+
 const update = () => {
     form.post(route('resume.update'), {
         errorBag: 'updateResume',
@@ -118,7 +122,11 @@ const deleteResume = () => {
 
         <template #form>
             <div v-for="(field, index) in fields.text" :key="index" class="col-span-6 sm:col-span-4">
-                <InputLabelError :field="field" v-model="form[field]" :error="form.errors[field]"/>
+                <InputLabelError
+                    :field="field"
+                    v-model="form[field]"
+                    :error="form.errors[field]"
+                    :not-required="notRequiredFields"/>
             </div>
 
             <div class="col-span-6 sm:col-span-4">
