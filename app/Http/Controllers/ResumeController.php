@@ -6,6 +6,7 @@ use App\Http\Requests\ResumeRequest;
 use App\Models\Resume;
 use App\Models\User;
 use App\Support\ResumeFilesTrait;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -69,7 +70,7 @@ class ResumeController extends Controller
         $validated = $request->validated();
         $validated['is_hidden'] = (bool) $validated['is_hidden'];
 
-        $resume->fill($validated);
+        $resume->fill(Arr::except($validated, ['pdf_resume', 'word_resume']));
         $resume->save();
 
         return redirect()
@@ -88,7 +89,7 @@ class ResumeController extends Controller
 
         /** @var Resume $resume */
         $resume = $user->resume()
-            ->create($validated);
+            ->create(Arr::except($validated, ['pdf_resume', 'word_resume']));
 
         $this->saveResumeFiles($request, $resume);
 
