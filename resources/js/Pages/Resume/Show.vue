@@ -92,7 +92,7 @@ const getDate = (item) => {
                                 <i class="fa fa-envelope"/>{{ resume.email }}
                             </a-link>
                         </li>
-                        <li class="pt-2">
+                        <li v-if="resume.phone" class="pt-2">
                             <a-link :href="`tel:${resume.phone}`" title="Phone" target="_blank">
                                 <i class="fa fa-phone-square"/>{{ resume.phone }}
                             </a-link>

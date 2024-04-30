@@ -47,6 +47,7 @@ class ResumeRequest extends FormRequest
             ],
             'phone' => [
                 'string',
+                'nullable',
             ],
             'new_skill.name' => [
                 'string',
