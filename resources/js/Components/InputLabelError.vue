@@ -3,24 +3,22 @@
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
+import {isRequired} from "@/Composables/resumeShared.js";
 
 const props = defineProps({
     field: String,
+    label: String,
     modelValue: String,
     error: [String, null],
-    notRequired: {
-        type: Array,
-        default: [],
-    },
 });
 
 defineEmits(['update:modelValue']);
 </script>
 
 <template>
-    <InputLabel :for="field" :value="field" class="capitalize" />
+    <InputLabel :for="field" :value="label" class="capitalize" :required="isRequired(field)" />
     <TextInput
-        v-if="notRequired.includes(field)"
+        v-if="! isRequired(field)"
         :id="field"
         :value="modelValue"
         type="text"
