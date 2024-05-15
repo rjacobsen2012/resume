@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ResumeRequest;
+use App\Http\Requests\StoreResumeRequest;
+use App\Http\Requests\UpdateResumeRequest;
 use App\Models\Resume;
 use App\Models\User;
 use App\Support\ResumeFilesTrait;
@@ -17,7 +18,13 @@ class ResumeController extends Controller
     public function index()
     {
         /** @var User $user */
-        $user = auth()->user() ?? User::first();
+        if (! $user = auth()->user()) {
+            return Inertia::render('Welcome');
+        }
+
+        if (! $user->resume) {
+            return Inertia::render('Welcome');
+        }
 
         return Inertia::render('Resume/Show', [
             'canLogin' => Route::has('login'),
@@ -57,7 +64,7 @@ class ResumeController extends Controller
         ]);
     }
 
-    public function update(ResumeRequest $request)
+    public function update(UpdateResumeRequest $request)
     {
         /** @var User $user */
         $user = auth()->user();
@@ -77,7 +84,7 @@ class ResumeController extends Controller
             ->with('status', 'Resume updated successfully');
     }
 
-    public function store(ResumeRequest $request)
+    public function store(StoreResumeRequest $request)
     {
         /** @var User $user */
         $user = auth()->user();

@@ -2,12 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Resume;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class ResumeRequest extends FormRequest
+class StoreResumeRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -18,32 +16,41 @@ class ResumeRequest extends FormRequest
     {
         return [
             'name' => [
+                'required',
                 'string',
             ],
             'email' => [
+                'required',
                 'string',
                 'email',
             ],
             'profile' => [
                 'string',
+                'nullable',
             ],
             'title' => [
                 'string',
+                'nullable',
             ],
             'city' => [
                 'string',
+                'nullable',
             ],
             'state' => [
                 'string',
+                'nullable',
             ],
             'country' => [
                 'string',
+                'nullable',
             ],
             'linked_in_profile' => [
                 'string',
+                'nullable',
             ],
             'github_profile' => [
                 'string',
+                'nullable',
             ],
             'phone' => [
                 'string',
@@ -52,6 +59,7 @@ class ResumeRequest extends FormRequest
             'new_skill.name' => [
                 'string',
                 'unique:resume_skills,name',
+                'nullable',
             ],
             'is_hidden' => [
                 'boolean',

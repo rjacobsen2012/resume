@@ -121,8 +121,14 @@ onMounted(() => {
             <nav class="top-nav navbar navbar-expand ps-3 sm:ps-4 pe-2 sm:pe-4 shadow-md nav-bg pb-1 pt-1">
                 <ul class="navbar-nav ms-auto notifications pr-2 flex items-center">
 
-                    <li v-if="$page.props.auth.user && ! route().current('resume.edit')" class="nav-item">
+                    <li v-if="resume && $page.props.auth.user && ! route().current('resume.edit')" class="nav-item">
                         <a-link :href="route('resume.edit')" title="Edit Resume" class="link-icon ms-2 sm:ms-10 py-2">
+                            <i class="fa fa-pencil"/>
+                        </a-link>
+                    </li>
+
+                    <li v-if="! resume && $page.props.auth.user && ! route().current('resume.create')" class="nav-item">
+                        <a-link :href="route('resume.create')" title="Create Resume" class="link-icon ms-2 sm:ms-10 py-2">
                             <i class="fa fa-pencil"/>
                         </a-link>
                     </li>

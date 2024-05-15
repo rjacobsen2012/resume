@@ -10,18 +10,23 @@ import Checkbox from "@/Components/Checkbox.vue";
 import InputGroupButton from "@/Components/InputGroupButton.vue";
 import {flashSuccess} from "@/Composables/flash.js";
 import {flashError} from "@/Composables/flash.js";
+import {labels} from "@/Composables/resumeShared.js";
 
 const props = defineProps({
     user: Object,
 });
 
 const form = useForm({
+    title: props.user.title,
     name: props.user.name,
     email: props.user.email,
     profile: null,
     linked_in_profile: null,
     github_profile: null,
     phone: null,
+    city: null,
+    state: null,
+    country: null,
     pdf_file: 'Click to add pdf resume',
     word_file: 'Click to add word resume',
     pdf_resume: null,
@@ -70,7 +75,19 @@ const clearResume = (type) => {
 
         <template #form>
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Full Name" />
+                <InputLabel for="title" :value="labels.title"/>
+                <TextInput
+                    id="title"
+                    v-model="form.title"
+                    type="text"
+                    class="mt-1 block w-full"
+                    autocomplete="title"
+                />
+                <InputError :message="form.errors.title" class="mt-2" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+                <InputLabel for="name" :value="labels.name"/>
                 <TextInput
                     id="name"
                     v-model="form.name"
@@ -83,7 +100,7 @@ const clearResume = (type) => {
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" :value="labels.email"/>
                 <TextInput
                     id="email"
                     v-model="form.email"
@@ -96,69 +113,88 @@ const clearResume = (type) => {
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="profile" value="Profile Url" />
+                <InputLabel for="profile" :value="labels.profile" />
                 <TextInput
                     id="profile"
                     v-model="form.profile"
                     type="text"
                     class="mt-1 block w-full"
-                    required
                     autocomplete="profile"
                 />
                 <InputError :message="form.errors.profile" class="mt-2" />
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="phone" value="Phone Number" />
+                <InputLabel for="phone" :value="labels.phone" />
                 <TextInput
                     id="phone"
                     v-model="form.phone"
                     type="text"
                     class="mt-1 block w-full"
-                    required
                     autocomplete="phone"
                 />
                 <InputError :message="form.errors.phone" class="mt-2" />
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="linked_in_profile" value="LinkedIn Profile" />
+                <InputLabel for="city" :value="labels.city" />
+                <TextInput
+                    id="city"
+                    v-model="form.city"
+                    type="text"
+                    class="mt-1 block w-full"
+                    autocomplete="city"
+                />
+                <InputError :message="form.errors.city" class="mt-2" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+                <InputLabel for="state" :value="labels.state" />
+                <TextInput
+                    id="state"
+                    v-model="form.state"
+                    type="text"
+                    class="mt-1 block w-full"
+                    autocomplete="state"
+                />
+                <InputError :message="form.errors.state" class="mt-2" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+                <InputLabel for="country" :value="labels.country" />
+                <TextInput
+                    id="country"
+                    v-model="form.country"
+                    type="text"
+                    class="mt-1 block w-full"
+                    autocomplete="country"
+                />
+                <InputError :message="form.errors.country" class="mt-2" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+                <InputLabel for="linked_in_profile" :value="labels.linked_in_profile" />
                 <TextInput
                     id="linked_in_profile"
                     v-model="form.linked_in_profile"
                     type="text"
                     class="mt-1 block w-full"
-                    required
                     autocomplete="linked_in_profile"
                 />
                 <InputError :message="form.errors.linked_in_profile" class="mt-2" />
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="github_profile" value="Github Profile" />
+                <InputLabel for="github_profile" :value="labels.github_profile" />
                 <TextInput
                     id="github_profile"
                     v-model="form.github_profile"
                     type="text"
                     class="mt-1 block w-full"
-                    required
                     autocomplete="github_profile"
                 />
                 <InputError :message="form.errors.github_profile" class="mt-2" />
             </div>
-
-<!--            <div class="col-span-6 sm:col-span-4">-->
-<!--                <InputLabel for="pdf_resume" value="Pdf Resume" />-->
-<!--                <input-->
-<!--                    id="pdf"-->
-<!--                    ref="form.pdf_resume"-->
-<!--                    type="file"-->
-<!--                    v-on:input="form.pdf_resume = $event.target.files[0]"-->
-<!--                    class="mt-1 block w-full font-medium text-sm text-gray-700 dark:text-gray-300"-->
-<!--                    accept="application/pdf"-->
-<!--                />-->
-<!--                <InputError :message="form.errors.pdf_resume" class="mt-2" />-->
-<!--            </div>-->
 
             <div class="col-span-6 sm:col-span-4">
                 <input class="d-none"
@@ -181,19 +217,6 @@ const clearResume = (type) => {
                 />
                 <InputError :message="form.errors.pdf_file" class="mt-2" />
             </div>
-
-<!--            <div class="col-span-6 sm:col-span-4">-->
-<!--                <InputLabel for="word_resume" value="Word Resume" />-->
-<!--                <input-->
-<!--                    id="pdf"-->
-<!--                    ref="form.word_resume"-->
-<!--                    type="file"-->
-<!--                    v-on:input="form.word_resume = $event.target.files[0]"-->
-<!--                    class="mt-1 block w-full font-medium text-sm text-gray-700 dark:text-gray-300"-->
-<!--                    accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document"-->
-<!--                />-->
-<!--                <InputError :message="form.errors.word_resume" class="mt-2" />-->
-<!--            </div>-->
 
             <div class="col-span-6 sm:col-span-4">
                 <input class="d-none"

@@ -5,7 +5,6 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import ActionMessage from "@/Components/ActionMessage.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
-import Checkbox from "@/Components/Checkbox.vue";
 import InputGroupButton from "@/Components/InputGroupButton.vue";
 import {usePage} from "@inertiajs/vue3";
 import {flashSuccess} from "@/Composables/flash.js";
@@ -14,7 +13,7 @@ import CustomButton from "@/Components/CustomButton.vue";
 import {useConfirm} from "primevue/useconfirm";
 import {ref} from "vue";
 import InputLabelError from "@/Components/InputLabelError.vue";
-import config from "tailwindcss/defaultConfig.js";
+import {labels} from "@/Composables/resumeShared.js";
 
 const props = defineProps({
     user: Object,
@@ -58,10 +57,6 @@ const fields = ref({
         'phone',
     ],
 });
-
-const notRequiredFields = ref([
-    'phone',
-]);
 
 const update = () => {
     form.post(route('resume.update'), {
@@ -126,9 +121,9 @@ const deleteResume = () => {
             <div v-for="(field, index) in fields.text" :key="index" class="col-span-6 sm:col-span-4">
                 <InputLabelError
                     :field="field"
+                    :label="labels[field]"
                     v-model="form[field]"
-                    :error="form.errors[field]"
-                    :not-required="notRequiredFields"/>
+                    :error="form.errors[field]"/>
             </div>
 
             <div class="col-span-6 sm:col-span-4">

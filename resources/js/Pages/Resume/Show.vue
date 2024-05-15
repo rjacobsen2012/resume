@@ -76,12 +76,20 @@ const getDate = (item) => {
             <div class="ps-0 py-2 pt-0 text-4xl font-extrabold">{{ resume.name }}</div>
             <div class="divider"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">PROFILE</div></div>
             <div class="flex flex-row justify-start items-center gap-4 mt-4">
-                <div class="">
-                    <img v-if="resume.user.gravatar" :src="resume.user.gravatar" class=""/>
+                <div>
+                    <img v-if="resume.user.gravatar" :src="resume.user.gravatar"/>
                 </div>
-                <div class="">
-                    <div class="text-lg sm:text-2xl font-bold text-gray-400 dark:text-gray-300">{{ resume.title }}</div>
-                    <div class="text-sm sm:text-lg font-thin">{{ resume.city }}, {{ resume.state }}, {{ resume.country }}</div>
+                <div>
+                    <div v-if="resume.title" class="text-lg sm:text-2xl font-bold text-gray-400 dark:text-gray-300">{{ resume.title }}</div>
+                    <div class="text-sm sm:text-lg font-thin">
+                        <span v-if="resume.city">{{ resume.city }}</span>
+                        <span v-if="resume.state">
+                            <span v-if="resume.city">, </span>{{ resume.state }}
+                        </span>
+                        <span v-if="resume.country">
+                            <span v-if="resume.city || resume.state">, </span>{{ resume.country }}
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="ps-0 pt-3 font-thin text-sm">
@@ -107,25 +115,25 @@ const getDate = (item) => {
                                 <i class="fa fa-file-word"/>Microsoft Word Resume
                             </a-link>
                         </li>
-                        <li class="pt-2">
+                        <li v-if="resume.github_profile" class="pt-2">
                             <a-link :href="resume.github_profile" title="Github Profile" target="_blank">
                                 <i class="fa-brands fa-github"/>Github Profile
                             </a-link>
                         </li>
-                        <li class="pt-2">
+                        <li v-if="resume.linked_in_profile" class="pt-2">
                             <a-link :href="resume.linked_in_profile" title="LinkedIn Profile" target="_blank">
-                                <i class="fa-brands fa-linkedin"/>LinkedIn Profile:
+                                <i class="fa-brands fa-linkedin"/>LinkedIn Profile
                             </a-link>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">SKILLS</div></div>
-            <div class="py-1 text-xs">
+            <div v-if="resume.skills.length > 0" class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">SKILLS</div></div>
+            <div v-if="resume.skills.length > 0" class="py-1 text-xs">
                 <div v-for="skill in resume.skills" :key="skill.id" class="inline-block rounded-full px-1.5 font-semibold me-2 mb-2 bg-gray-200 dark:bg-gray-700 shadow-sm">{{ skill.display }}</div>
             </div>
-            <div class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">WEBSITE EXAMPLES</div></div>
-            <div class="ps-0 font-thin text-sm">
+            <div v-if="resume.examples.length > 0" class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">WEBSITE EXAMPLES</div></div>
+            <div v-if="resume.examples.length > 0" class="ps-0 font-thin text-sm">
                 <ul>
                     <li v-for="example in resume.examples" :key="example.id">
                         <a-link :href="example.url" :title="example.title" target="_blank">
@@ -134,8 +142,8 @@ const getDate = (item) => {
                     </li>
                 </ul>
             </div>
-            <div class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">EDUCATION</div></div>
-            <div class="ps-0 font-thin text-sm">
+            <div v-if="resume.educations.length > 0" class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">EDUCATION</div></div>
+            <div v-if="resume.educations.length > 0" class="ps-0 font-thin text-sm">
                 <div v-for="(education, index) in resume.educations" :key="education.id" class="education pt-2">
                     <span @click="toggleEducation(education.id)" class="cursor-pointer pb-2 font-extrabold text-md">
                         <span class="pe-2">
@@ -157,8 +165,8 @@ const getDate = (item) => {
                     <div v-if="! isEducationVisible(education.id) && index < (resume.educations.length - 1)" class="bg-gray-900 border-t-2 border-gray-300 dark:border-gray-600 mt-3"></div>
                 </div>
             </div>
-            <div class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">EXPERIENCE</div></div>
-            <div class="ps-0 font-thin text-sm">
+            <div v-if="resume.experiences.length > 0" class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-sm">EXPERIENCE</div></div>
+            <div v-if="resume.experiences.length > 0" class="ps-0 font-thin text-sm">
                 <div v-for="(experience, index) in resume.experiences" :key="experience.id" class="experience pt-2">
                     <span @click="toggleExperience(experience.id)" class="cursor-pointer pb-2 font-extrabold text-md">
                         <span class="pe-2">
