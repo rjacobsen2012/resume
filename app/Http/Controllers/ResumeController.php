@@ -18,7 +18,9 @@ class ResumeController extends Controller
     public function index()
     {
         /** @var User $user */
-        $user = auth()->user() ?? User::first();
+        if (! $user = auth()->user()) {
+            return Inertia::render('Welcome');
+        }
 
         if (! $user->resume) {
             return Inertia::render('Welcome');

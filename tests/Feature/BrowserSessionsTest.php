@@ -12,10 +12,12 @@ class BrowserSessionsTest extends TestCase
 
     public function test_other_browser_sessions_can_be_logged_out(): void
     {
-        $this->actingAs($user = User::factory()->create());
+        $this->actingAs($user = User::factory()->create([
+            'password' => bcrypt($password = 'secret'),
+        ]));
 
         $response = $this->delete('/user/other-browser-sessions', [
-            'password' => 'password',
+            'password' => $password,
         ]);
 
         $response->assertSessionHasNoErrors();

@@ -12,7 +12,7 @@ class PasswordConfirmationTest extends TestCase
 
     public function test_confirm_password_screen_can_be_rendered(): void
     {
-        $user = User::factory()->withPersonalTeam()->create();
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)->get('/user/confirm-password');
 
@@ -21,10 +21,12 @@ class PasswordConfirmationTest extends TestCase
 
     public function test_password_can_be_confirmed(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'password' => bcrypt($password = 'secret'),
+        ]);
 
         $response = $this->actingAs($user)->post('/user/confirm-password', [
-            'password' => 'password',
+            'password' => $password,
         ]);
 
         $response->assertRedirect();
