@@ -36,18 +36,28 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        /** @var User $user */
-        $user = $request->user() ?? User::first();
+        if ($user = $request->user()) {
+            View::share([
+                'primevueTheme' => $user->dark_theme ? 'aura-dark-blue' : 'aura-light-blue',
+            ]);
+
+            return array_merge(parent::share($request), [
+                'resume' => $user->resume,
+                'user' => UserResource::make($user),
+                'status' => session('status'),
+                'dark_theme' => $user->dark_theme,
+            ]);
+        }
 
         View::share([
-            'primevueTheme' => $user?->dark_theme ? 'aura-dark-blue' : 'aura-light-blue',
+            'primevueTheme' => 'aura-light-blue',
         ]);
 
         return array_merge(parent::share($request), [
-            'resume' => $user?->resume,
-            'user' => UserResource::make($user),
+            'resume' => null,
+            'user' => null,
             'status' => session('status'),
-            'dark_theme' => $user->dark_theme,
+            'dark_theme' => 'aura-light-blue',
         ]);
     }
 }
