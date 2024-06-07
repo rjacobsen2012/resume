@@ -74,7 +74,7 @@ const getDate = (item) => {
     <AppLayout :resume="resume" :title="`${resume.user.name}'s Resume`">
         <div class="container-fluid theme-text">
             <div class="ps-0 py-2 pt-0 text-4xl font-extrabold">{{ resume.name }}</div>
-            <div class="divider"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-md">PROFILE</div></div>
+            <div class="divider mt-4"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-md">PROFILE</div></div>
             <div class="flex flex-row justify-start items-center gap-4 mt-4">
                 <div>
                     <img v-if="resume.user.gravatar" :src="resume.user.gravatar"/>
@@ -128,11 +128,11 @@ const getDate = (item) => {
                     </ul>
                 </div>
             </div>
-            <div v-if="resume.skills.length > 0" class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-md">SKILLS</div></div>
+            <div v-if="resume.skills.length > 0" class="divider my-3 mt-4"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-md">SKILLS</div></div>
             <div v-if="resume.skills.length > 0" class="py-1 text-sm">
                 <div v-for="skill in resume.skills" :key="skill.id" class="inline-block rounded-full px-1.5 font-semibold me-2 mb-2 bg-gray-200 dark:bg-gray-700 shadow-sm">{{ skill.display }}</div>
             </div>
-            <div v-if="resume.examples.length > 0" class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-md">WEBSITE EXAMPLES</div></div>
+            <div v-if="resume.examples.length > 0" class="divider my-3 mt-4"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-md">WEBSITE EXAMPLES</div></div>
             <div v-if="resume.examples.length > 0" class="ps-0 font-thin text-sm">
                 <ul>
                     <li v-for="example in resume.examples" :key="example.id">
@@ -142,7 +142,7 @@ const getDate = (item) => {
                     </li>
                 </ul>
             </div>
-            <div v-if="resume.educations.length > 0" class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-md">EDUCATION</div></div>
+            <div v-if="resume.educations.length > 0" class="divider my-3 mt-4"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-md">EDUCATION</div></div>
             <div v-if="resume.educations.length > 0" class="ps-0 font-thin text-lg">
                 <div v-for="(education, index) in resume.educations" :key="education.id" class="education pt-2">
                     <span class="pb-2 font-extrabold text-md">
@@ -160,7 +160,7 @@ const getDate = (item) => {
                     </div>
                 </div>
             </div>
-            <div v-if="resume.experiences.length > 0" class="divider my-3"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-md">EXPERIENCE</div></div>
+            <div v-if="resume.experiences.length > 0" class="divider my-3 mt-4"><div class="divider-block ms-4 ps-3 pe-3 uppercase text-md">EXPERIENCE</div></div>
             <div v-if="resume.experiences.length > 0" class="ps-0 font-thin text-lg">
                 <div v-for="(experience, index) in resume.experiences" :key="experience.id" class="experience pt-2">
                     <span class="pb-2 font-extrabold text-md">
