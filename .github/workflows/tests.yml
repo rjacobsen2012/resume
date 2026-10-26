@@ -7,14 +7,14 @@ on:
     branches: [main]
 
 jobs:
-  php-tests:
-    name: PHP Tests
+  tests:
+    name: Tests
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v5
 
-      # Matches the production target: Hetzner and the home server both run 8.4.27.
+      # Matches the deploy target: Hetzner and the home server both run 8.4.
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -22,8 +22,24 @@ jobs:
           extensions: bcmath, ctype, curl, dom, fileinfo, gd, intl, mbstring, openssl, pdo, pdo_sqlite, sqlite3, tokenizer, xml, zip
           coverage: none
 
+      # Composer MUST come before the frontend build: resources/js/app.js imports
+      # '../../vendor/tightenco/ziggy', which only exists once composer has run.
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      # The frontend build MUST come before the tests: feature tests render Blade
+      # views that call @vite, which fails with "Vite manifest not found" if
+      # public/build/manifest.json is absent.
+      - name: Build frontend
+        run: npm run build
 
       - name: Copy environment file
         run: cp .env.example .env
@@ -56,27 +72,11 @@ jobs:
       - name: PHPStan
         run: ./vendor/bin/phpstan analyse --no-progress
 
+      # Reported, not blocking: both repos still carry pre-existing style
+      # violations in files this modernization never opened.
       - name: Pint (style check only, changes nothing)
         run: ./vendor/bin/pint --test
         continue-on-error: true
-
-  frontend:
-    name: Frontend Build
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v5
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
 
   dependency-audit:
     name: Dependency Audit
