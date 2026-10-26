@@ -1,0 +1,73 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "timezone": "America/New_York",
+
+  "description": [
+    "Dependency automation for resume. Added 2026-10-26, modelled on the budget repo.",
+    "The gate is CI (.github/workflows/tests.yml): PHPUnit on sqlite, phpstan level 5",
+    "with an EMPTY baseline, pint --test, a real npm run build, composer audit and",
+    "npm audit. Auto-merge is kept deliberately narrow: patch-level dev dependencies",
+    "only. Everything that can reach a visitor needs a human."
+  ],
+
+  "schedule": ["before 6am on monday"],
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "labels": ["dependencies"],
+  "rangeStrategy": "bump",
+  "semanticCommits": "enabled",
+
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on the first day of the month"]
+  },
+
+  "vulnerabilityAlerts": {
+    "description": "Security fixes bypass the weekly schedule entirely. Never auto-merged - a human sees every one.",
+    "enabled": true,
+    "schedule": ["at any time"],
+    "labels": ["dependencies", "security"],
+    "automerge": false,
+    "prPriority": 10
+  },
+
+  "packageRules": [
+    {
+      "description": "Dev dependencies, patch only -> auto-merge. Lowest blast radius.",
+      "matchDepTypes": ["devDependencies", "require-dev"],
+      "matchUpdateTypes": ["patch"],
+      "groupName": "dev dependencies (patch)",
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Dev dependencies, minor -> grouped PR, human merges.",
+      "matchDepTypes": ["devDependencies", "require-dev"],
+      "matchUpdateTypes": ["minor"],
+      "groupName": "dev dependencies (minor)",
+      "automerge": false
+    },
+    {
+      "description": "Runtime dependencies -> grouped PR, human merges. These reach visitors.",
+      "matchDepTypes": ["dependencies", "require"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "runtime dependencies (patch + minor)",
+      "automerge": false
+    },
+    {
+      "description": "Every major gets its own PR and a human. Never grouped, never auto-merged.",
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "separateMajorMinor": true,
+      "labels": ["dependencies", "major"]
+    },
+    {
+      "description": "Laravel and PHP itself are pinned by composer.json constraints and are a deliberate, planned upgrade - not a routine bump.",
+      "matchPackageNames": ["laravel/framework", "php"],
+      "automerge": false,
+      "labels": ["dependencies", "framework"]
+    }
+  ]
+}

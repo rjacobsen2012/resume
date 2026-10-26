@@ -19,8 +19,6 @@ use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
 /**
- *
- *
  * @property int $id
  * @property string $first_name
  * @property string $last_name
@@ -57,6 +55,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read Resume|null $resume
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ *
  * @method static UserFactory factory($count = null, $state = [])
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
@@ -89,6 +88,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @method static Builder|User whereTwoFactorSecret($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @method static Builder|User whereVatId($value)
+ *
  * @mixin Eloquent
  */
 class User extends Authenticatable
@@ -106,7 +106,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -118,7 +118,7 @@ class User extends Authenticatable
     /**
      * The accessors to append to the model's array form.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $appends = [
         'profile_photo_url',
@@ -141,12 +141,12 @@ class User extends Authenticatable
 
     public function getNameAttribute(): string
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
 
     public function getGravatarAttribute(): string
     {
-        return 'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=112';
+        return 'https://secure.gravatar.com/avatar/'.md5($this->email).'?size=112';
     }
 
     protected function validateGravatar($email): bool
@@ -154,10 +154,10 @@ class User extends Authenticatable
         // Craft a potential url and test its headers
         $hash = md5(strtolower(trim($email)));
 
-        $uri = 'https://www.gravatar.com/avatar/' . $hash . '?d=404';
+        $uri = 'https://www.gravatar.com/avatar/'.$hash.'?d=404';
         $headers = @get_headers($uri);
 
-        if (! str_contains($headers[0], "200")) {
+        if (! str_contains($headers[0], '200')) {
             $has_valid_avatar = false;
         } else {
             $has_valid_avatar = true;
