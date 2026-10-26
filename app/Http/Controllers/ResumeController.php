@@ -17,10 +17,10 @@ class ResumeController extends Controller
 
     public function index()
     {
-        /** @var User $user */
+        /** @var User|null $user */
         $user = auth()->user() ?? User::first();
 
-        if (! $user->resume) {
+        if (! $user?->resume) {
             return Inertia::render('Welcome');
         }
 
@@ -38,7 +38,7 @@ class ResumeController extends Controller
 
     public function edit()
     {
-        /** @var User $user */
+        /** @var User|null $user */
         $user = auth()->user();
         $resume = $user?->resume;
         $this->authorize('update', $resume);
@@ -64,7 +64,7 @@ class ResumeController extends Controller
 
     public function update(UpdateResumeRequest $request)
     {
-        /** @var User $user */
+        /** @var User|null $user */
         $user = auth()->user();
         $resume = $user?->resume;
         $this->authorize('update', $resume);
@@ -84,7 +84,7 @@ class ResumeController extends Controller
 
     public function store(StoreResumeRequest $request)
     {
-        /** @var User $user */
+        /** @var User|null $user */
         $user = auth()->user();
         $this->authorize('create', Resume::class);
 
@@ -107,7 +107,7 @@ class ResumeController extends Controller
         $resumeFile = $type === 'pdf' ? $resume->pdf_resume : $resume->word_resume;
         $file = "user/$resume->user_id/$resumeFile";
 
-        if (! file_exists(public_path('storage/' . $file))) {
+        if (! file_exists(public_path('storage/'.$file))) {
             return back()->with('status', 'File does not exist');
         }
 

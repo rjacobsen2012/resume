@@ -34,6 +34,7 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Skill> $skills
  * @property-read int|null $skills_count
  * @property-read User $user
+ *
  * @method static ResumeFactory factory($count = null, $state = [])
  * @method static Builder|Resume newModelQuery()
  * @method static Builder|Resume newQuery()
@@ -48,28 +49,38 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Resume whereProfile($value)
  * @method static Builder|Resume whereUpdatedAt($value)
  * @method static Builder|Resume whereUserId($value)
+ *
  * @property-read string|null $pdf
  * @property-read string|null $pdf_link
  * @property-read string|null $word
  * @property-read string|null $word_link
+ *
  * @method static Builder|Resume byValue(string $value)
+ *
  * @property int $is_hidden
+ *
  * @method static Builder|Resume whereIsHidden($value)
  * @method static Builder|Resume notHidden()
+ *
  * @property string|null $word_resume
  * @property string|null $pdf_resume
+ *
  * @method static Builder|Resume wherePdfResume($value)
  * @method static Builder|Resume whereWordResume($value)
+ *
  * @property string $title
  * @property string $city
  * @property string $state
  * @property string $country
+ *
  * @method static Builder|Resume whereCity($value)
  * @method static Builder|Resume whereCountry($value)
  * @method static Builder|Resume whereState($value)
  * @method static Builder|Resume whereTitle($value)
  * @method static Builder|Resume userSubscribed()
+ *
  * @property-read string|null $gravatar
+ *
  * @mixin Eloquent
  */
 class Resume extends Model
@@ -138,7 +149,7 @@ class Resume extends Model
             return null;
         }
 
-        $resume = asset("storage/user/$this->user_id/$fileName") ?? null;
+        $resume = asset("storage/user/$this->user_id/$fileName");
 
         return $resume && file_exists(public_path($resume)) ? $resume : null;
     }
