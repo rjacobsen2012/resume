@@ -1,0 +1,82 @@
+name: Deploy
+
+# Auto-deploy to production after the Tests workflow succeeds on `main`
+# (i.e. right after a PR is merged). Modelled on the budget-easy repo's
+# deploy.yml and running the same atomic release script on the Hetzner VPS,
+# /var/www/deploy-resume.sh.
+#
+# Security notes:
+#  - Native SSH only (no third-party action, so no supply-chain surface).
+#  - The VPS host key is VERIFIED against DEPLOY_KNOWN_HOSTS, so there is no
+#    MITM / deploy-key-capture window.
+#  - A read-only checkout inspects which files changed, so a merge touching
+#    only CI/docs/config skips the no-op deploy.
+#  - Only a passing push (merge) to `main` deploys; PR runs cannot, because
+#    their head branch is not `main`. The script path is static, not injectable.
+on:
+  workflow_run:
+    workflows: ["Tests"]
+    types: [completed]
+    branches: [main]
+
+# Never let two production deploys overlap.
+concurrency:
+  group: production-deploy-resume
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to production
+    runs-on: ubuntu-latest
+    if: >-
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Check out the merged commit
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 2
+
+      - name: Decide whether a deploy is needed
+        id: gate
+        run: |
+          set -euo pipefail
+          changed="$(git diff --name-only HEAD^ HEAD || true)"
+          echo "Changed files:"
+          echo "$changed"
+          non_deploy='^(\.github/|renovate\.json$|\.gitignore$|\.editorconfig$|.*\.md$)'
+          deployable="$(printf '%s\n' "$changed" | grep -vE "$non_deploy" || true)"
+          if [ -n "$changed" ] && [ -z "$deployable" ]; then
+            echo "::notice::Only CI/docs/config files changed, skipping production deploy."
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run the production deploy script over SSH
+        if: steps.gate.outputs.deploy == 'true'
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          set -euo pipefail
+          if [ -z "${DEPLOY_SSH_KEY}" ] || [ -z "${DEPLOY_KNOWN_HOSTS}" ]; then
+            echo "::error::DEPLOY_SSH_KEY and DEPLOY_KNOWN_HOSTS secrets are required." >&2
+            exit 1
+          fi
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "${DEPLOY_SSH_KEY}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "${DEPLOY_KNOWN_HOSTS}" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+          ssh -i ~/.ssh/deploy_key \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile=~/.ssh/known_hosts \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" '/var/www/deploy-resume.sh'
