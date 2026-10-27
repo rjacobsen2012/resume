@@ -20,9 +20,13 @@ class SkillPeriod extends Model
 
     protected function casts(): array
     {
+        // ⚠️ `date:Y-m-d`, not `date`. A plain date cast serialises as
+        // "2003-10-27T00:00:00.000000Z", which an <input type="date"> cannot accept
+        // and which broke the editor's formatter outright. These are calendar days,
+        // not instants, so the time was never meaningful.
         return [
-            'started_on' => 'date',
-            'ended_on' => 'date',
+            'started_on' => 'date:Y-m-d',
+            'ended_on' => 'date:Y-m-d',
         ];
     }
 
