@@ -129,6 +129,97 @@ class SkillPeriodEndpointTest extends TestCase
     }
 
     /**
+     * Correcting a backfilled range in place. The migration's dates are derived from
+     * the old years/months totals, not recorded history, so nearly all of them need
+     * adjusting, and remove-and-re-add would be miserable across 25 skills.
+     */
+    public function test_a_range_can_be_corrected_in_place(): void
+    {
+        $period = SkillPeriod::create([
+            'skill_id' => $this->skill->id,
+            'started_on' => '2003-10-27',
+            'ended_on' => null,
+        ]);
+
+        $this->actingAs($this->user)
+            ->put(route('resume.skill.period.update', [$this->resume->id, $this->skill->id, $period->id]), [
+                'started_on' => '2004-06-01',
+                'ended_on' => '2010-06-01',
+            ])
+            ->assertSessionHasNoErrors();
+
+        $period->refresh();
+
+        $this->assertSame('2004-06-01', $period->started_on->toDateString());
+        $this->assertSame('2010-06-01', $period->ended_on->toDateString());
+    }
+
+    /**
+     * Clearing the end date puts a skill back to still in use.
+     */
+    public function test_clearing_the_end_date_reopens_the_range(): void
+    {
+        $period = SkillPeriod::create([
+            'skill_id' => $this->skill->id,
+            'started_on' => '2004-06-01',
+            'ended_on' => '2010-06-01',
+        ]);
+
+        $this->actingAs($this->user)
+            ->put(route('resume.skill.period.update', [$this->resume->id, $this->skill->id, $period->id]), [
+                'started_on' => '2004-06-01',
+                'ended_on' => '',
+            ])
+            ->assertSessionHasNoErrors();
+
+        $this->assertNull($period->refresh()->ended_on);
+    }
+
+    /**
+     * ⚠️ Same guard as deleting: a period belonging to another skill must not be
+     * editable just because the URL names a skill the caller owns.
+     */
+    public function test_a_period_from_another_skill_cannot_be_edited(): void
+    {
+        $otherSkill = Skill::create([
+            'resume_id' => $this->resume->id,
+            'resume_skill_id' => ResumeSkill::firstOrCreate(['name' => 'mysql'])->id,
+        ]);
+
+        $foreign = SkillPeriod::create([
+            'skill_id' => $otherSkill->id,
+            'started_on' => '2010-01-01',
+            'ended_on' => null,
+        ]);
+
+        $this->actingAs($this->user)
+            ->put(route('resume.skill.period.update', [$this->resume->id, $this->skill->id, $foreign->id]), [
+                'started_on' => '1999-01-01',
+            ])
+            ->assertNotFound();
+
+        $this->assertSame('2010-01-01', $foreign->refresh()->started_on->toDateString());
+    }
+
+    public function test_an_edit_with_an_end_before_the_start_is_rejected(): void
+    {
+        $period = SkillPeriod::create([
+            'skill_id' => $this->skill->id,
+            'started_on' => '2010-01-01',
+            'ended_on' => null,
+        ]);
+
+        $this->actingAs($this->user)
+            ->put(route('resume.skill.period.update', [$this->resume->id, $this->skill->id, $period->id]), [
+                'started_on' => '2016-01-01',
+                'ended_on' => '2010-01-01',
+            ])
+            ->assertSessionHasErrors('ended_on');
+
+        $this->assertSame('2010-01-01', $period->refresh()->started_on->toDateString());
+    }
+
+    /**
      * ⚠️ A skill is created with NO ranges. That is the whole point of the flow.
      */
     public function test_a_new_skill_starts_with_no_ranges(): void

@@ -41,6 +41,8 @@ Route::middleware([
     // The date ranges on a skill. A skill is created with none and gets them here.
     Route::post('resume/{resume}/skill/{skill}/period', [SkillPeriodController::class, 'store'])
         ->name('resume.skill.period.store');
+    Route::put('resume/{resume}/skill/{skill}/period/{period}', [SkillPeriodController::class, 'update'])
+        ->name('resume.skill.period.update');
     Route::delete('resume/{resume}/skill/{skill}/period/{period}', [SkillPeriodController::class, 'destroy'])
         ->name('resume.skill.period.destroy');
 
