@@ -31,7 +31,7 @@ const updated = (data) => {
         </template>
 
         <template #description>
-            Past and present skills.
+            Past and present skills. The total is worked out from the dates below it.
         </template>
 
         <template #content>
@@ -40,8 +40,8 @@ const updated = (data) => {
                     <thead class="text-xs text-white-50 uppercase bg-transparent">
                         <tr>
                             <th scope="col" class="px-2 py-3 columns-1">Skill</th>
-                            <th scope="col" class="px-1 py-3">Years</th>
-                            <th scope="col" class="px-1 py-3">Months</th>
+                            <th scope="col" class="px-1 py-3">Total</th>
+                            <th scope="col" class="px-1 py-3">Dates used</th>
                             <th scope="col" class="px-1 py-3"></th>
                         </tr>
                     </thead>

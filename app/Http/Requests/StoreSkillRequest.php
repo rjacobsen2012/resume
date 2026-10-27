@@ -21,8 +21,6 @@ class StoreSkillRequest extends FormRequest
                 'string',
                 new SkillNotExistsOnResume(),
             ],
-            'years' => ['required', 'numeric'],
-            'months' => ['required', 'numeric'],
         ];
     }
 }

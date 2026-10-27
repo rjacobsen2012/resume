@@ -20,13 +20,12 @@ class SkillController extends Controller
         $this->authorize('create', [Skill::class, $resume]);
 
         $name = $request->input('name');
-        $years = $request->input('years') ?? 0;
-        $months = $request->input('months') ?? 0;
         $resumeSkill = ResumeSkill::firstOrCreate(['name' => strtolower($name)]);
+
+        // A skill is created with NO date ranges. They are added afterwards, which is
+        // what lets one skill have several ("2000 to 2005, then 2010 to 2016").
         $resume->skills()->create([
             'resume_skill_id' => $resumeSkill->id,
-            'years' => $years,
-            'months' => $months,
         ]);
 
         return redirect()
@@ -44,13 +43,15 @@ class SkillController extends Controller
     ) {
         $this->authorize('update', [Skill::class, $resume, $skill]);
 
-        $years = $request->input('years') ?? 0;
-        $months = $request->input('months') ?? 0;
+        // Only the name is editable here now. How long the skill has been used is
+        // derived from its date ranges, not typed in.
+        $name = $request->input('name');
 
-        $skill->update([
-            'years' => $years,
-            'months' => $months,
-        ]);
+        if (filled($name)) {
+            $skill->update([
+                'resume_skill_id' => ResumeSkill::firstOrCreate(['name' => strtolower($name)])->id,
+            ]);
+        }
 
         return redirect()
             ->route('resume.edit', [$resume->id])

@@ -45,7 +45,9 @@ class ResumeController extends Controller
 
         return Inertia::render('Resume/Edit', [
             'resume' => $resume->load([
-                'skills',
+                // the periods come with the skills, so the editor can render and the
+                // pill label can be computed without a query per skill
+                'skills.periods',
                 'examples',
                 'experiences',
                 'educations',
