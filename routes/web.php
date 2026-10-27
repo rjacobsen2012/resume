@@ -5,6 +5,7 @@ use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\SkillPeriodController;
 use App\Http\Controllers\UserThemeController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,12 @@ Route::middleware([
 
     Route::resource('resume.skill', SkillController::class)
         ->only(['store', 'update', 'destroy']);
+
+    // The date ranges on a skill. A skill is created with none and gets them here.
+    Route::post('resume/{resume}/skill/{skill}/period', [SkillPeriodController::class, 'store'])
+        ->name('resume.skill.period.store');
+    Route::delete('resume/{resume}/skill/{skill}/period/{period}', [SkillPeriodController::class, 'destroy'])
+        ->name('resume.skill.period.destroy');
 
     Route::resource('resume.education', EducationController::class)
         ->only(['store', 'update', 'destroy']);

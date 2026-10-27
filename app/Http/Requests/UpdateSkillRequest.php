@@ -14,9 +14,10 @@ class UpdateSkillRequest extends FormRequest
      */
     public function rules(): array
     {
+        // How long a skill has been used is derived from its date ranges now, so
+        // only the name is editable here.
         return [
-            'years' => ['numeric'],
-            'months' => ['numeric'],
+            'name' => ['sometimes', 'string'],
         ];
     }
 }

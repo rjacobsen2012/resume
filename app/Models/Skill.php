@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Support\SkillDuration;
 use Database\Factories\SkillFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -24,6 +26,7 @@ use Illuminate\Support\Carbon;
  * @property-read Resume $resume
  * @property-read ResumeSkill $resumeSkill
  * @property-read string $display
+ *
  * @method static SkillFactory factory($count = null, $state = [])
  * @method static Builder|Skill newModelQuery()
  * @method static Builder|Skill newQuery()
@@ -35,6 +38,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Skill whereResumeSkillId($value)
  * @method static Builder|Skill whereUpdatedAt($value)
  * @method static Builder|Skill whereYears($value)
+ *
  * @mixin Eloquent
  */
 class Skill extends Model
@@ -46,6 +50,7 @@ class Skill extends Model
     protected $appends = [
         'name',
         'display',
+        'totals',
     ];
 
     public function resume(): BelongsTo
@@ -63,24 +68,40 @@ class Skill extends Model
         return $this->resumeSkill->name;
     }
 
-    public function getDisplayAttribute()
+    /**
+     * Every stretch of time this skill was in use. A period with no end date is
+     * still running.
+     *
+     * @return HasMany<SkillPeriod, $this>
+     */
+    public function periods(): HasMany
     {
-        $display = $this->name;
-        $years = '';
-        $months = '';
+        return $this->hasMany(SkillPeriod::class)->orderBy('started_on');
+    }
 
-        if ($this->years) {
-            $years = (' ' . $this->years . 'y');
-        }
+    /**
+     * Total time using this skill, in days, with overlapping periods merged.
+     */
+    /**
+     * @return array{months: int, days: int}
+     */
+    public function getTotalsAttribute(): array
+    {
+        return SkillDuration::totals($this->periods);
+    }
 
-        if ($this->months) {
-            $months = (' ' . $this->months . 'm');
-        }
+    /**
+     * The pill: "php: 23y".
+     *
+     * ⚠️ Derived from the PERIODS now, not from the years/months columns. Those
+     * columns still exist so a bad backfill stays recoverable, but nothing reads
+     * them. A skill with no periods shows just its name, exactly as a skill with
+     * zero years and months always did.
+     */
+    public function getDisplayAttribute(): string
+    {
+        $label = SkillDuration::label($this->totals);
 
-        if ($months || $years) {
-            $display .= (': ' . $years . $months);
-        }
-
-        return $display;
+        return $label === '' ? $this->name : $this->name.': '.$label;
     }
 }
