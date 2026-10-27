@@ -30,9 +30,8 @@ class SkillDuration
         $ranges = [];
 
         foreach ($periods as $period) {
-            $start = $period->started_on instanceof Carbon
-                ? $period->started_on->copy()->startOfDay()
-                : Carbon::parse((string) $period->started_on)->startOfDay();
+            // `started_on` is cast to a date, so it is already a Carbon here.
+            $start = $period->started_on->copy()->startOfDay();
 
             $end = $period->endsOn()->copy()->startOfDay();
 

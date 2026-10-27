@@ -8,6 +8,7 @@ use App\Models\Skill;
 use App\Models\SkillPeriod;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
@@ -73,15 +74,15 @@ class SkillEditorPageTest extends TestCase
             ]);
         }
 
-        \Illuminate\Support\Facades\DB::enableQueryLog();
+        DB::enableQueryLog();
 
         $this->actingAs($user)->get(route('resume.edit'))->assertOk();
 
-        $periodQueries = collect(\Illuminate\Support\Facades\DB::getQueryLog())
+        $periodQueries = collect(DB::getQueryLog())
             ->filter(fn (array $q) => str_contains($q['query'], 'skill_periods'))
             ->count();
 
-        \Illuminate\Support\Facades\DB::disableQueryLog();
+        DB::disableQueryLog();
 
         $this->assertLessThanOrEqual(
             1,

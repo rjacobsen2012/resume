@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use App\Support\SkillDuration;
 use Database\Factories\SkillFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Support\SkillDuration;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -26,6 +26,7 @@ use Illuminate\Support\Carbon;
  * @property-read Resume $resume
  * @property-read ResumeSkill $resumeSkill
  * @property-read string $display
+ *
  * @method static SkillFactory factory($count = null, $state = [])
  * @method static Builder|Skill newModelQuery()
  * @method static Builder|Skill newQuery()
@@ -37,6 +38,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Skill whereResumeSkillId($value)
  * @method static Builder|Skill whereUpdatedAt($value)
  * @method static Builder|Skill whereYears($value)
+ *
  * @mixin Eloquent
  */
 class Skill extends Model
