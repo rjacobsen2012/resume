@@ -38,51 +38,66 @@ const removePeriod = (period) => {
     )
 }
 
-// "2000-01-01" reads as "Jan 1, 2000"
+/**
+ * "2000-01-01" reads as "Jan 1, 2000". An empty end date means still in use.
+ *
+ * ⚠️ Takes the first ten characters rather than trusting the shape. The model
+ * serialises these as plain dates now, but a full ISO timestamp used to arrive here
+ * and rendered as "Invalid Date" across the whole editor, in production. Being
+ * forgiving about the input costs nothing.
+ */
 const pretty = (value) => {
     if (! value) return 'now'
 
-    return new Date(value + 'T00:00:00').toLocaleDateString(undefined, {
+    const [year, month, day] = String(value).slice(0, 10).split('-').map(Number)
+
+    if (! year || ! month || ! day) return String(value)
+
+    return new Date(year, month - 1, day).toLocaleDateString(undefined, {
         year: 'numeric', month: 'short', day: 'numeric',
     })
 }
 
 const inputClass =
-    'bg-gray-50 border-0 border-gray-300 text-gray-900 text-sm rounded-lg px-2 py-1 ' +
-    'dark:bg-gray-700 dark:border-gray-600 dark:text-white'
+    'bg-gray-50 border-0 text-gray-900 text-xs rounded px-1.5 py-0.5 ' +
+    'dark:bg-gray-700 dark:text-white'
 </script>
 
 <template>
-    <div class="space-y-1">
+    <div class="space-y-0.5">
         <div
             v-for="period in skill.periods"
             :key="period.id"
-            class="flex items-center gap-2 text-xs"
+            class="flex items-center gap-2 text-xs leading-5"
         >
-            <span class="whitespace-nowrap">
-                {{ pretty(period.started_on) }} &mdash; {{ pretty(period.ended_on) }}
+            <span class="whitespace-nowrap tabular-nums">
+                {{ pretty(period.started_on) }} &ndash; {{ pretty(period.ended_on) }}
             </span>
             <button
                 type="button"
-                class="text-red-500 hover:text-red-400"
-                :title="'Remove ' + pretty(period.started_on) + ' to ' + pretty(period.ended_on)"
+                class="text-red-400 hover:text-red-300"
+                :aria-label="'Remove ' + pretty(period.started_on) + ' to ' + pretty(period.ended_on)"
                 @click="removePeriod(period)"
             >
-                remove
+                &times;
             </button>
         </div>
 
-        <p v-if="! skill.periods || skill.periods.length === 0" class="text-xs italic">
-            No dates yet.
+        <p v-if="! skill.periods || skill.periods.length === 0" class="text-xs italic opacity-60">
+            No dates yet
         </p>
 
-        <form class="flex items-center gap-2 pt-1" @submit.prevent="addPeriod">
+        <form class="flex items-center gap-1 pt-0.5" @submit.prevent="addPeriod">
             <input v-model="form.started_on" type="date" :class="inputClass" required>
-            <span class="text-xs">to</span>
+            <span class="text-xs opacity-60">to</span>
             <!-- left empty, this means the skill is still in use -->
-            <input v-model="form.ended_on" type="date" :class="inputClass" placeholder="still using">
-            <button type="submit" class="text-xs text-blue-400 hover:text-blue-300" :disabled="form.processing">
-                add dates
+            <input v-model="form.ended_on" type="date" :class="inputClass">
+            <button
+                type="submit"
+                class="text-xs text-blue-400 hover:text-blue-300 whitespace-nowrap"
+                :disabled="form.processing"
+            >
+                add
             </button>
         </form>
     </div>
