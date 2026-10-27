@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSkillPeriodRequest;
+use App\Http\Requests\UpdateSkillPeriodRequest;
 use App\Models\Resume;
 use App\Models\Skill;
 use App\Models\SkillPeriod;
@@ -30,6 +31,30 @@ class SkillPeriodController extends Controller
         return redirect()
             ->route('resume.edit', [$resume->id])
             ->with('status', 'Date range added successfully');
+    }
+
+    /**
+     * Correct an existing range. The backfilled dates are derived from the old
+     * years/months totals, not recorded history, so most of them need adjusting.
+     */
+    public function update(
+        UpdateSkillPeriodRequest $request,
+        Resume $resume,
+        Skill $skill,
+        SkillPeriod $period
+    ): RedirectResponse {
+        $this->authorize('update', [Skill::class, $resume, $skill]);
+
+        abort_unless($period->skill_id === $skill->id, 404);
+
+        $period->update([
+            'started_on' => $request->date('started_on'),
+            'ended_on' => $request->filled('ended_on') ? $request->date('ended_on') : null,
+        ]);
+
+        return redirect()
+            ->route('resume.edit', [$resume->id])
+            ->with('status', 'Date range updated successfully');
     }
 
     public function destroy(
