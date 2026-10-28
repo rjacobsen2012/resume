@@ -60,12 +60,24 @@ const getDescription = (item) => {
     return '<li class="pt-2">' + item.description + '</li>'
 }
 
+/**
+ * ⚠️ moment(null) formats as the literal string "Invalid date", and moment(undefined)
+ * is TODAY. Both dates are nullable in the schema and in the form requests, so a record
+ * with no start date used to render whatever today was, and would now render
+ * "Invalid date". Show what is actually recorded and nothing more.
+ */
+const asMonth = (value) => value ? moment(value).format("MMM YYYY") : null
+
 const getDate = (item) => {
-    if (item.present) {
-        return moment(item.started_at).format("MMM YYYY") + ' - Present'
+    const started = asMonth(item.started_at)
+    const ended = item.present ? 'Present' : asMonth(item.ended_at)
+
+    if (started && ended) {
+        return started + ' - ' + ended
     }
 
-    return moment(item.started_at).format("MMM YYYY") + ' - ' + moment(item.ended_at).format("MMM YYYY")
+    // only one end of the range is known, so show that rather than half a range
+    return started ?? ended ?? ''
 }
 
 </script>

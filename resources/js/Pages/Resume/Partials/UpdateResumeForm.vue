@@ -6,6 +6,7 @@ import ActionMessage from "@/Components/ActionMessage.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import InputGroupButton from "@/Components/InputGroupButton.vue";
+import Checkbox from "@/Components/Checkbox.vue";
 import {usePage} from "@inertiajs/vue3";
 import {flashSuccess} from "@/Composables/flash.js";
 import {flashError} from "@/Composables/flash.js";
@@ -168,6 +169,13 @@ const deleteResume = () => {
                     :empty-check="! form.has_word_resume"
                 />
                 <InputError :message="form.errors.word_file" class="mt-2" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+                <label class="flex items-center">
+                    <Checkbox v-model:checked="form.is_hidden" name="is_hidden" />
+                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Hide Resume <span class="text-xs text-gray-500 italic">(If this is checked, the resume will be hidden from the public)</span></span>
+                </label>
             </div>
         </template>
 

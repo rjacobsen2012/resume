@@ -69,6 +69,10 @@ class Experience extends Model
 
     public function getStartedAtAttribute($value)
     {
+        if (! $value) {
+            return $value;
+        }
+
         if ($value instanceof Carbon) {
             return $value->format('Y-m-d');
         }

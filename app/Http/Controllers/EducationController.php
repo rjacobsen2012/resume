@@ -21,7 +21,7 @@ class EducationController extends Controller
         $resume->educations()->create($request->validated());
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
+            ->route('resume.edit')
             ->with('status', 'Education added successfully');
     }
 
@@ -38,7 +38,7 @@ class EducationController extends Controller
         $education->update($request->validated());
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
+            ->route('resume.edit')
             ->with('status', 'Education updated successfully');
     }
 
@@ -52,7 +52,7 @@ class EducationController extends Controller
         $education->delete();
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
+            ->route('resume.edit')
             ->with('status', 'Education deleted successfully');
     }
 }

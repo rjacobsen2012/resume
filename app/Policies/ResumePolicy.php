@@ -28,7 +28,9 @@ class ResumePolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        // One resume per user. `User::resume()` is a hasOne, so a second row is not a
+        // second resume, it is a row nothing will ever show again.
+        return $user->resume()->doesntExist();
     }
 
     /**
