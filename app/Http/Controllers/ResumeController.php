@@ -41,6 +41,12 @@ class ResumeController extends Controller
         /** @var User|null $user */
         $user = auth()->user();
         $resume = $user?->resume;
+
+        // Nothing to edit yet. A bare 403 here tells the user nothing and offers no way on.
+        if (! $resume) {
+            return redirect()->route('resume.create');
+        }
+
         $this->authorize('update', $resume);
 
         return Inertia::render('Resume/Edit', [
@@ -57,6 +63,12 @@ class ResumeController extends Controller
 
     public function create()
     {
+        // They already have one, and there is only ever one. Take them to it rather than
+        // rendering a form that the policy will refuse on submit.
+        if (auth()->user()?->resume) {
+            return redirect()->route('resume.edit');
+        }
+
         $this->authorize('create', Resume::class);
 
         return Inertia::render('Resume/Create', [
@@ -74,13 +86,13 @@ class ResumeController extends Controller
         $this->saveResumeFiles($request, $resume);
 
         $validated = $request->validated();
-        $validated['is_hidden'] = (bool) $validated['is_hidden'];
+        $validated['is_hidden'] = (bool) ($validated['is_hidden'] ?? false);
 
         $resume->fill($validated);
         $resume->save();
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
+            ->route('resume.edit')
             ->with('status', 'Resume updated successfully');
     }
 
@@ -91,7 +103,7 @@ class ResumeController extends Controller
         $this->authorize('create', Resume::class);
 
         $validated = $request->validated();
-        $validated['is_hidden'] = (bool) $validated['is_hidden'];
+        $validated['is_hidden'] = (bool) ($validated['is_hidden'] ?? false);
 
         /** @var Resume $resume */
         $resume = $user->resume()
@@ -100,7 +112,7 @@ class ResumeController extends Controller
         $this->saveResumeFiles($request, $resume);
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
+            ->route('resume.edit')
             ->with('status', 'Resume created successfully');
     }
 

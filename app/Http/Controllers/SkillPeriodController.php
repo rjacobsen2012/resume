@@ -29,7 +29,7 @@ class SkillPeriodController extends Controller
         ]);
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
+            ->route('resume.edit')
             ->with('status', 'Date range added successfully');
     }
 
@@ -53,7 +53,7 @@ class SkillPeriodController extends Controller
         ]);
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
+            ->route('resume.edit')
             ->with('status', 'Date range updated successfully');
     }
 
@@ -71,7 +71,7 @@ class SkillPeriodController extends Controller
         $period->delete();
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
+            ->route('resume.edit')
             ->with('status', 'Date range removed successfully');
     }
 }

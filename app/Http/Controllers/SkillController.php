@@ -29,7 +29,7 @@ class SkillController extends Controller
         ]);
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
+            ->route('resume.edit')
             ->with('status', 'Skill added successfully');
     }
 
@@ -54,7 +54,7 @@ class SkillController extends Controller
         }
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
+            ->route('resume.edit')
             ->with('status', 'Skill updated successfully');
     }
 
@@ -70,7 +70,7 @@ class SkillController extends Controller
         $skill->delete();
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
+            ->route('resume.edit')
             ->with('status', 'Skill deleted successfully');
     }
 }

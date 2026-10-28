@@ -21,8 +21,8 @@ class ExampleController extends Controller
         $resume->examples()->create($request->validated());
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
-            ->with('status', 'Education added successfully');
+            ->route('resume.edit')
+            ->with('status', 'Example added successfully');
     }
 
     /**
@@ -38,7 +38,7 @@ class ExampleController extends Controller
         $example->update($request->validated());
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
+            ->route('resume.edit')
             ->with('status', 'Example updated successfully');
     }
 
@@ -52,7 +52,7 @@ class ExampleController extends Controller
         $example->delete();
 
         return redirect()
-            ->route('resume.edit', [$resume->id])
+            ->route('resume.edit')
             ->with('status', 'Example deleted successfully');
     }
 }
